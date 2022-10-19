@@ -1,35 +1,44 @@
-import {  IsNotEmpty, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AuthDto{
-    @IsString()
-    @IsNotEmpty()
-    nik : string;
+export class AuthDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  nik: string;
 
-    @IsString()
-    @IsNotEmpty()
-    name : string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    idTelegram : string
-    
-    @IsString()
-    @IsNotEmpty()
-    partner: string
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  idTelegram: string;
 
-    @IsString()
-    @IsNotEmpty()
-    sector : string
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  partner: string;
 
-    @IsString()
-    @IsNotEmpty()
-    witel: string
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  sector: string;
 
-    @IsString()
-    @IsNotEmpty()
-    regional : string
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  witel: string;
 
-    @IsString()
-    @IsNotEmpty()
-    password: string      
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  regional: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  password: string;
 }
