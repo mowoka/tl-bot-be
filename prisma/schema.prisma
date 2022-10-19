@@ -25,3 +25,12 @@ model user {
   regional String
   password String
 }
+
+model teknisi_job{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  name String @unique
+  point Float
+}
