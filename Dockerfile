@@ -4,9 +4,10 @@ FROM node:18
 # Create app directory
 WORKDIR /usr/src/app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
 
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY yarn.lock ./
+COPY package*.json ./
 # Install app dependencies
 RUN yarn install
 
@@ -17,6 +18,7 @@ COPY . .
 RUN yarn prisma generate
 # Creates a "dist" folder with the production build
 RUN yarn run build
-
+# expose port
+EXPOSE 3001
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "dist/main" ]
