@@ -27,13 +27,13 @@ export class AuthService {
       return {
         statusCode: 200,
         message: 'nik already register',
-        status: false,
+        success: false,
       }
     }
     return {
       statusCode: 200,
       message: 'nik not register',
-      status: true
+      success: true
     }
 
   }
@@ -52,6 +52,7 @@ export class AuthService {
         return {
           statusCode: 406,
           message: 'User already exist',
+          status: false,
         };
       }
 
@@ -76,7 +77,12 @@ export class AuthService {
         access_token: generateToken.access_token,
       };
 
-      return responseData;
+      return {
+        statusCode: 200,
+        message: 'Create user success',
+        status: true,
+        data: responseData
+      }
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -103,8 +109,11 @@ export class AuthService {
     const generateToken = await this.signToken(user.id, user.nik);
 
     return {
-      access_token: generateToken.access_token,
-    };
+      statusCode: 200,
+      message: 'Create user success',
+      status: true,
+      data: generateToken
+    }
   }
 
   async signToken(userId: string, nik: string) {
