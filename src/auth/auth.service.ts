@@ -5,6 +5,7 @@ import { AuthDto, LoginDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
+import { ValidateNikDto } from './dto/validateNik.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,30 @@ export class AuthService {
     private prisma: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
-  ) {}
+  ) { }
+
+
+  async validateNik(dto: ValidateNikDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        nik: dto.nik
+      }
+    });
+
+    if (user) {
+      return {
+        statusCode: 200,
+        message: 'nik already register',
+        status: false,
+      }
+    }
+    return {
+      statusCode: 200,
+      message: 'nik not register',
+      status: true
+    }
+
+  }
 
   async signup(dto: AuthDto) {
     const generateHash = await argon.hash(dto.password);
