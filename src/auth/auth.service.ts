@@ -109,7 +109,7 @@ export class AuthService {
 
     return {
       statusCode: 200,
-      message: 'Create user success',
+      message: 'Login success',
       status: true,
       data: generateToken
     }
