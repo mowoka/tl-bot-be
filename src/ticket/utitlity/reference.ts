@@ -1,7 +1,7 @@
 export const regex = new RegExp(/[a-z]*([a-z])[a-z]*\1+[a-z]*/);
 
 
-interface RequestTiketProps {
+export interface RequestTiketProps {
     request_id: string;
     ticket_id: string;
     ticket_name: string;
@@ -10,6 +10,7 @@ interface RequestTiketProps {
     customer_number: string;
     reason: string;
     description: string;
+    requestor: String;
 }
 
 export const REQUEST_TIKET: RequestTiketProps = {
@@ -21,4 +22,5 @@ export const REQUEST_TIKET: RequestTiketProps = {
     customer_number: '',
     reason: '',
     description: '',
+    requestor: '',
 }

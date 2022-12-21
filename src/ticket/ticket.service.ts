@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TIKET, validationRequestTicket } from './utitlity';
-import { uuid } from 'uuidv4';
+import { REQUEST_TIKET, RequestTiketProps, validationRequestTicket } from './utitlity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Update()
 @Injectable()
@@ -31,8 +31,8 @@ export class TicketService {
   async onMessage(ctx: Context) {
     if (ctx.message && 'text' in ctx.message) {
       const message = ctx.message.text;
-      this.placingMessage(message);
-      this.requesting(ctx);
+      await this.placingMessage(message);
+      await this.requesting(ctx);
     } else {
       return ctx.reply('Please input your details');
     }
@@ -46,14 +46,16 @@ export class TicketService {
     REQUEST_TIKET.customer_number = '';
     REQUEST_TIKET.reason = '';
     REQUEST_TIKET.description = '';
+    REQUEST_TIKET.request_id = '';
+    REQUEST_TIKET.requestor = '';
   }
 
   async placingMessage(message: string) {
     if (!REQUEST_TIKET.ticket_name) {
       const res = await this.getTeknisiJobName(message);
       const { data } = res;
-      REQUEST_TIKET.ticket_id = data.id
-      REQUEST_TIKET.ticket_name = data.name
+      REQUEST_TIKET.ticket_id = data.id;
+      REQUEST_TIKET.ticket_name = data.name;
     } else if (!REQUEST_TIKET.in_number) {
       REQUEST_TIKET.in_number = message;
     } else if (!REQUEST_TIKET.speedy_number) {
@@ -68,7 +70,7 @@ export class TicketService {
   }
 
   async requesting(ctx: Context) {
-    if (REQUEST_TIKET.ticket_name === '') {
+    if (!REQUEST_TIKET.ticket_name) {
       const teknisi_job = await this.getTeknisiJob();
       ctx.reply('Silahkan Pilih', {
         parse_mode: "Markdown",
@@ -76,19 +78,26 @@ export class TicketService {
           ...teknisi_job.data.map((i) => { return Markup.button.callback(i.name, i.name) })
         ]),
       })
-    } else if (REQUEST_TIKET.in_number === '') {
-      ctx.reply(`Anda Memilih tiket <b>${REQUEST_TIKET.ticket_name}</b> \nsilahkan masukan IN (exp: INxxx0)`, { parse_mode: "HTML" })
-    } else if (REQUEST_TIKET.speedy_number === '') {
+    } else if (!REQUEST_TIKET.in_number) {
+      ctx.reply(`Anda Memilih tiket <b>${REQUEST_TIKET.ticket_name}</b> \nsilahkan masukan IN (exp: INxxx0)`, { parse_mode: "HTML", ...Markup.keyboard([]) })
+    } else if (!REQUEST_TIKET.speedy_number) {
       ctx.reply('Masukan no speedy')
-    } else if (REQUEST_TIKET.customer_number === '') {
+    } else if (!REQUEST_TIKET.customer_number) {
       ctx.reply('Masukan cp pelanggan');
     } else if (!REQUEST_TIKET.reason) {
       ctx.reply('Masukan penyebab')
     } else if (!REQUEST_TIKET.description) {
       ctx.reply('Masukan keterangan perbaikan')
     } else {
-      const requestId = uuid();
+      const requestId = uuidv4();
       REQUEST_TIKET.request_id = requestId;
+      const requestor = {
+        role: 'Agent Lapangan',
+        nama: ctx.message.from.first_name,
+        username: ctx.message.from.username
+      }
+      REQUEST_TIKET.requestor = JSON.stringify(requestor);
+
       ctx.reply(`Summary \n\n
         ID Order : ${requestId} \n
         No IN: ${REQUEST_TIKET.in_number} \n\n
@@ -113,7 +122,18 @@ export class TicketService {
     if (!valid) {
       ctx.reply('Time out please use /start to start requesting again');
     } else {
-      ctx.reply('request submit to sistem')
+      const res = await this.submitTicket(REQUEST_TIKET);
+      if (res.statusCode === 200) {
+        await this.resetRequest()
+        await ctx.reply('success request ticket to sistem', {
+          parse_mode: 'Markdown',
+          ...Markup.keyboard([
+            '/start', '/help'
+          ])
+        });
+      } else {
+        ctx.reply('failed request ticket to sistem');
+      }
     }
   }
 
@@ -124,7 +144,7 @@ export class TicketService {
       ctx.reply('Time out please use /start to start requesting again');
     } else {
       this.resetRequest();
-      ctx.reply('cancel submit')
+      ctx.reply('cancel submit');
     }
   }
 
@@ -155,6 +175,37 @@ export class TicketService {
 
     } catch (e) {
       throw e;
+    }
+  }
+
+  async submitTicket(dto: RequestTiketProps) {
+    try {
+      const tiket = await this.prisma.ticket.create({
+        data: {
+          in_number: dto.in_number,
+          speedy_number: dto.speedy_number,
+          customer_number: dto.customer_number,
+          reason: dto.reason,
+          description: dto.description,
+          teknisi_job_id: dto.ticket_id,
+          requestor: dto.requestor.toString()
+        }
+      })
+
+      if (tiket) {
+        return {
+          statusCode: 200,
+          message: 'Create ticket success',
+          status: true,
+        }
+      }
+      return {
+        statusCode: 500,
+        message: 'Something Error',
+        status: false,
+      }
+    } catch (error) {
+      throw error;
     }
   }
 }

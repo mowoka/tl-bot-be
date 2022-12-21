@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -11,27 +11,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model user {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  nik String @unique
-  name String
+  nik        String @unique
+  name       String
   idTelegram String
-  partner String
-  sector String
-  witel String
-  regional String
-  password String
+  partner    String
+  sector     String
+  witel      String
+  regional   String
+  password   String
 }
 
-model teknisi_job{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+model teknisi_job {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name String @unique
-  point Float
+  name   String   @unique
+  point  Float
+  ticket ticket[]
+
+  @@map("teknisi_job")
+}
+
+model ticket {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  in_number       String
+  speedy_number   String
+  customer_number String
+  reason          String
+  description     String
+  requestor       String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  @@map("ticket")
 }
