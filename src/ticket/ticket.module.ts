@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { TicketController } from './ticket.controller';
 import { TelegrafModule } from 'nestjs-telegraf';
+import { JwtStrategy } from 'src/auth/strategy';
 
 @Module({
   imports: [
@@ -9,7 +10,7 @@ import { TelegrafModule } from 'nestjs-telegraf';
       token: process.env.TELEGRAM_TOKEN,
     }),
   ],
-  providers: [TicketService],
+  providers: [TicketService, JwtStrategy],
   controllers: [TicketController]
 })
-export class TicketModule {}
+export class TicketModule { }

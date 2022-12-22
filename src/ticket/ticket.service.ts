@@ -188,7 +188,8 @@ export class TicketService {
           reason: dto.reason,
           description: dto.description,
           teknisi_job_id: dto.ticket_id,
-          requestor: dto.requestor.toString()
+          requestor: dto.requestor.toString(),
+          status: 'open',
         }
       })
 
@@ -206,6 +207,30 @@ export class TicketService {
       }
     } catch (error) {
       throw error;
+    }
+  }
+
+  async getTicket() {
+    try {
+      const data = await this.prisma.ticket.findMany()
+
+      if (data) {
+        return {
+          statusCode: 200,
+          message: 'Get ticket successfull',
+          status: true,
+          data: data
+        }
+      }
+
+      return {
+        statusCode: 500,
+        message: 'Internal server error',
+        status: false,
+      }
+
+    } catch (e) {
+      throw e;
     }
   }
 }

@@ -24,6 +24,7 @@ model user {
   witel      String
   regional   String
   password   String
+  role       String
 }
 
 model teknisi_job {
@@ -49,6 +50,7 @@ model ticket {
   reason          String
   description     String
   requestor       String
+  status          String
 
   teknisi_job_id String      @db.ObjectId
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
