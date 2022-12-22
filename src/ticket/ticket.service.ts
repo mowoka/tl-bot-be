@@ -212,7 +212,15 @@ export class TicketService {
 
   async getTicket() {
     try {
-      const data = await this.prisma.ticket.findMany()
+      const data = await this.prisma.ticket.findMany({
+        orderBy: {
+          createAt: 'desc',
+        },
+        include: {
+          job: true
+        }
+      })
+
 
       if (data) {
         return {
