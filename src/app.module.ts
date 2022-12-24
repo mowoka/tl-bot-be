@@ -8,6 +8,7 @@ import { TicketModule } from './ticket/ticket.module';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
 import { TeamLeaderJobModule } from './team-leader-job/team-leader-job.module';
+import { TeknisiUserModule } from './teknisi-user/teknisi-user.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TeamLeaderJobModule } from './team-leader-job/team-leader-job.module';
     TeknisiJobModule,
     TicketModule,
     TeamLeaderJobModule,
+    TeknisiUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
