@@ -11,6 +11,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// team lead user model
 model user {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
@@ -24,9 +25,34 @@ model user {
   witel      String
   regional   String
   password   String
-  role       String
 }
 
+// teknisi user model
+model user_teknisi {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  nik        String @unique
+  name       String
+  idTelegram String
+  partner    String
+  sector     String
+  witel      String
+  regional   String
+}
+
+// team leader job model
+model team_lead_job {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  name  String @unique
+  point Float
+}
+
+// teknisi job model
 model teknisi_job {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
@@ -39,6 +65,7 @@ model teknisi_job {
   @@map("teknisi_job")
 }
 
+// report ticket from telegram bot
 model ticket {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())

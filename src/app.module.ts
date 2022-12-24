@@ -7,6 +7,7 @@ import { TeknisiJobModule } from './teknisi-job/teknisi-job.module';
 import { TicketModule } from './ticket/ticket.module';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
+import { TeamLeaderJobModule } from './team-leader-job/team-leader-job.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AppService } from './app/app.service';
     UserModule,
     TeknisiJobModule,
     TicketModule,
+    TeamLeaderJobModule,
   ],
   controllers: [AppController],
   providers: [AppService],

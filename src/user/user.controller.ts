@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/guards';
 import { GetUser } from 'src/auth/decorator';
-import { user} from '@prisma/client';
+import { user } from '@prisma/client';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')
@@ -11,7 +11,12 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class UserController {
 
     @Get('me')
-    getMe(@GetUser() user: user){
-        return user
+    getMe(@GetUser() user: user) {
+        return {
+            statusCode: 200,
+            status: true,
+            message: 'successfull get profile',
+            data: user
+        }
     }
 }

@@ -65,7 +65,6 @@ export class AuthService {
           witel: dto.witel,
           regional: dto.regional,
           password: generateHash,
-          role: 'Admin'
         },
       });
 
