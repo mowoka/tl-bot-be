@@ -127,8 +127,8 @@ model tutup_odp {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  nama_odp   String
-  alamat_odp String
+  odp_name    String
+  odp_address String
 
   teknisi_job_id String      @db.ObjectId
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
@@ -145,11 +145,11 @@ model ticket_regular {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  inisiden_number String
-  speedy_number   String
-  customer_name   String
-  problem         String
-  description     String
+  insiden_number String
+  speedy_number  String
+  customer_name  String
+  problem        String
+  description    String
 
   teknisi_job_id String      @db.ObjectId
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])

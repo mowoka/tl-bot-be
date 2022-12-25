@@ -12,6 +12,6 @@ export class TicketController {
 
     @Get()
     get_ticket() {
-        return this.ticketService.getTicket();
+        // return this.ticketService.getTicket();
     }
 }

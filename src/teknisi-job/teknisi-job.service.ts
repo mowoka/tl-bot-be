@@ -10,10 +10,41 @@ export class TeknisiJobService {
         try {
             const find_teknisi_job_all = await this.prisma.teknisi_job.findMany()
 
-            return find_teknisi_job_all
+            return {
+                status: true,
+                statusCode: 200,
+                message: 'Job create successfull',
+                data: find_teknisi_job_all
+            };
 
         } catch (error) {
             throw error
+        }
+    }
+
+    async get_teknisi_job_by_name(name: string) {
+        try {
+            const find_teknisi_job = await this.prisma.teknisi_job.findUnique({
+                where: {
+                    name: name
+                }
+            })
+
+            if (find_teknisi_job) return {
+                status: true,
+                statusCode: 200,
+                message: 'get teknisi succes',
+                data: find_teknisi_job
+            };
+
+            return {
+                status: false,
+                statusCode: 500,
+                message: 'Internal server errror',
+            };
+
+        } catch (e) {
+            throw e;
         }
     }
 

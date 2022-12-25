@@ -8,7 +8,11 @@ export class TeknisiUserService {
 
     async get_teknisi_user() {
         try {
-            const teknisi_user = await this.prisma.user_teknisi.findMany({})
+            const teknisi_user = await this.prisma.user_teknisi.findMany({
+                orderBy: {
+                    createAt: 'asc',
+                }
+            })
 
             if (teknisi_user) {
                 return {
