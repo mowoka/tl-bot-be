@@ -19,7 +19,7 @@ model user {
 
   nik        String @unique
   name       String
-  idTelegram String
+  idTelegram String @unique
   partner    String
   sector     String
   witel      String
@@ -35,11 +35,20 @@ model user_teknisi {
 
   nik        String @unique
   name       String
-  idTelegram String
+  idTelegram String @unique
   partner    String
   sector     String
   witel      String
   regional   String
+
+  lapor_langsung   lapor_langsung[]
+  tutup_odp        tutup_odp[]
+  ticket_regular   ticket_regular[]
+  ticket_sqm       ticket_sqm[]
+  proman           proman[]
+  unspect          unspect[]
+  valins           valins[]
+  ticket_team_lead ticket_team_lead[]
 }
 
 // team leader job model
@@ -48,8 +57,9 @@ model team_lead_job {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name  String @unique
-  point Float
+  name             String             @unique
+  point            Float
+  ticket_team_lead ticket_team_lead[]
 }
 
 // teknisi job model
@@ -58,9 +68,16 @@ model teknisi_job {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name   String   @unique
-  point  Float
-  ticket ticket[]
+  name           String           @unique
+  point          Float
+  ticket         ticket[]
+  lapor_langsung lapor_langsung[]
+  tutup_odp      tutup_odp[]
+  ticket_regular ticket_regular[]
+  ticket_sqm     ticket_sqm[]
+  proman         proman[]
+  unspect        unspect[]
+  valins         valins[]
 
   @@map("teknisi_job")
 }
@@ -76,11 +93,166 @@ model ticket {
   customer_number String
   reason          String
   description     String
-  requestor       String
-  status          String
 
   teknisi_job_id String      @db.ObjectId
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
   @@map("ticket")
+}
+
+// model Lapor Langsung
+model lapor_langsung {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  speedy_number  String
+  customer_phone String
+  customer_name  String
+  problem        String
+  description    String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("lapor_langsung")
+}
+
+// tutup odp
+model tutup_odp {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  nama_odp   String
+  alamat_odp String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("tutup_odp")
+}
+
+// ticket_regular
+model ticket_regular {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  inisiden_number String
+  speedy_number   String
+  customer_name   String
+  problem         String
+  description     String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_regular")
+}
+
+// SQM
+model ticket_sqm {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  inisiden_number String
+  speedy_number   String
+  customer_name   String
+  problem         String
+  description     String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_sqm")
+}
+
+// Proman
+model proman {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  odp_name              String
+  distribusi            String
+  capacity_port         Int
+  status_port_use       Int
+  status_port_available Int
+  odp_cradle            Int
+  opm_length            Int
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("proman")
+}
+
+// Unspect
+model unspect {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  speedy_number String
+  odp           String
+  problem       String
+  description   String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("unspect")
+}
+
+// Valins
+model valins {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  valins_id String
+  odp       String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("valins")
+}
+
+// TL ticket input
+model ticket_team_lead {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  description String
+
+  teknisi_user_id String       @db.ObjectId
+  teknisi         user_teknisi @relation(fields: [teknisi_user_id], references: [id])
+
+  team_lead_job_id String        @db.ObjectId
+  job              team_lead_job @relation(fields: [team_lead_job_id], references: [id])
 }
