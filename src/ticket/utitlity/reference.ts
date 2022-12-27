@@ -1,32 +1,6 @@
 export const regex = new RegExp(/[a-z]*([a-z])[a-z]*\1+[a-z]*/);
 
 
-export interface RequestTiketProps {
-    request_id: string;
-    ticket_id: string;
-    ticket_name: string;
-    in_number: string;
-    speedy_number: string;
-    customer_number: string;
-    reason: string;
-    description: string;
-    requestor: String;
-}
-
-export const REQUEST_TIKET: RequestTiketProps = {
-    request_id: '',
-    ticket_id: '',
-    ticket_name: '',
-    in_number: '',
-    speedy_number: '',
-    customer_number: '',
-    reason: '',
-    description: '',
-    requestor: '',
-}
-
-
-
 export const TICKET_REGULER_DATA: TicketRegularProps = {
     insiden_number: '',
     speedy_number: '',
@@ -86,12 +60,7 @@ export const REQUEST_TICKET_DATA: RequestTicketDataProps = {
     data: TICKET_REGULER_DATA
 }
 
-export interface RequestTicketDataProps {
-    job_id: string,
-    job_name: string,
-    idTelegram: string;
-    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps;
-}
+
 
 export interface LaporLangsungProps {
     speedy_number: string;
@@ -143,4 +112,10 @@ export interface UnspectProps {
 export interface ValinsProps {
     valins_id: string;
     odp: string;
+}
+export interface RequestTicketDataProps {
+    job_id: string,
+    job_name: string,
+    idTelegram: string;
+    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps;
 }

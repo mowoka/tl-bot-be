@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, checkValidTicketData, placingMessageTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
+import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 
 @Update()
 @Injectable()
 export class TicketService {
-  constructor(private prisma: PrismaService, private teknisi_service: TeknisiJobService) { }
+  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService) { }
 
   @Start()
   async startCommand(ctx: Context) {
@@ -37,17 +37,17 @@ export class TicketService {
   async onMessage(ctx: Context) {
     if (ctx.message && 'text' in ctx.message) {
       const message = ctx.message.text;
-      console.log(REQUEST_TICKET_DATA)
+      REQUEST_TICKET_DATA.idTelegram = ctx.message.chat.id.toString();
       await this.placingMessage(message);
       await this.requesting(ctx);
+
     } else {
       return ctx.reply('Please input your details');
     }
   }
 
   async resetRequest() {
-    REQUEST_TICKET_DATA.job_id = ''
-    REQUEST_TICKET_DATA.job_name = ''
+    resetTicketData();
   }
 
   async placingMessage(message: string) {
@@ -75,7 +75,6 @@ export class TicketService {
     const res = await this.teknisi_service.get_teknisi_job_by_name(ctx.callbackQuery.data);
     REQUEST_TICKET_DATA.job_id = res.data.id;
     REQUEST_TICKET_DATA.job_name = res.data.name;
-    REQUEST_TICKET_DATA.idTelegram = ctx.message.chat.id.toString();
     await setRequestTicketData(res.data.name, ctx);
   }
 
@@ -86,6 +85,18 @@ export class TicketService {
     if (!valid) {
       ctx.reply('Time out please use /start to start requesting again');
     } else {
+      const { job_name } = REQUEST_TICKET_DATA;
+      if (job_name === 'Tiket Reguler') {
+
+      } else if (job_name === 'Lapor Langsung') {
+        const res = await this.lapor_langsung_service.submit_lapor_langsung(REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      }
       // const res = await this.submitTicket(REQUEST_TIKET);
       // if (res.statusCode === 200) {
       //   await this.resetRequest()
@@ -96,7 +107,7 @@ export class TicketService {
       //     ])
       //   });
       // } else {
-      ctx.reply('failed request ticket to sistem');
+      // ctx.reply('failed request ticket to sistem');
       // }
     }
   }

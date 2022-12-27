@@ -16,6 +16,11 @@ export class TeknisiUserController {
         return this.teknisi_user_service.get_teknisi_user();
     }
 
+    @Get('report')
+    get_teknisi_user_report() {
+        return this.teknisi_user_service.get_teknisi_user_report();
+    }
+
     @Post()
     add_teknisi_user(@Body('') dto: TeknisiUser) {
         return this.teknisi_user_service.add_teknisi_user(dto);

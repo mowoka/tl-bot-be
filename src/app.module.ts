@@ -9,6 +9,7 @@ import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
 import { TeamLeaderJobModule } from './team-leader-job/team-leader-job.module';
 import { TeknisiUserModule } from './teknisi-user/teknisi-user.module';
+import { LaporLangsungModule } from './lapor-langsung/lapor-langsung.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TeknisiUserModule } from './teknisi-user/teknisi-user.module';
     TicketModule,
     TeamLeaderJobModule,
     TeknisiUserModule,
+    LaporLangsungModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -70,7 +70,6 @@ model teknisi_job {
 
   name           String           @unique
   point          Float
-  ticket         ticket[]
   lapor_langsung lapor_langsung[]
   tutup_odp      tutup_odp[]
   ticket_regular ticket_regular[]
@@ -80,24 +79,6 @@ model teknisi_job {
   valins         valins[]
 
   @@map("teknisi_job")
-}
-
-// report ticket from telegram bot
-model ticket {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-
-  in_number       String
-  speedy_number   String
-  customer_number String
-  reason          String
-  description     String
-
-  teknisi_job_id String      @db.ObjectId
-  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
-
-  @@map("ticket")
 }
 
 // model Lapor Langsung

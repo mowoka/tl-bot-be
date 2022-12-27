@@ -4,6 +4,7 @@ import { TicketController } from './ticket.controller';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { JwtStrategy } from 'src/auth/strategy';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
+import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
       token: process.env.TELEGRAM_TOKEN,
     }),
   ],
-  providers: [TicketService, JwtStrategy, TeknisiJobService],
+  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService],
   controllers: [TicketController]
 })
 export class TicketModule { }
