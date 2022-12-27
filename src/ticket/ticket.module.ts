@@ -5,6 +5,9 @@ import { TelegrafModule } from 'nestjs-telegraf';
 import { JwtStrategy } from 'src/auth/strategy';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
+import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
+import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
+import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 
 @Module({
   imports: [
@@ -12,7 +15,7 @@ import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service'
       token: process.env.TELEGRAM_TOKEN,
     }),
   ],
-  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService],
+  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService, TiketRegulerService, TiketRedundantService, TutupOdpService],
   controllers: [TicketController]
 })
 export class TicketModule { }

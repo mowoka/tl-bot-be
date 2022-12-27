@@ -12,6 +12,8 @@ import { TeknisiUserModule } from './teknisi-user/teknisi-user.module';
 import { LaporLangsungModule } from './lapor-langsung/lapor-langsung.module';
 import { TiketRegulerModule } from './tiket-reguler/tiket-reguler.module';
 import { TiketRedundantModule } from './tiket-redundant/tiket-redundant.module';
+import { TutupOdpModule } from './tutup-odp/tutup-odp.module';
+import { ValinsModule } from './valins/valins.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { TiketRedundantModule } from './tiket-redundant/tiket-redundant.module';
     LaporLangsungModule,
     TiketRegulerModule,
     TiketRedundantModule,
+    TutupOdpModule,
+    ValinsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

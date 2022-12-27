@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_REGULER_DATA, TICKET_TUTUP_ODP_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
+import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
+import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
 
 @Update()
 @Injectable()
 export class TicketService {
-  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService) { }
+  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService, private tiket_reguler: TiketRegulerService, private tutup_odp: TutupOdpService) { }
 
   @Start()
   async startCommand(ctx: Context) {
@@ -87,7 +89,13 @@ export class TicketService {
     } else {
       const { job_name } = REQUEST_TICKET_DATA;
       if (job_name === 'Tiket Reguler') {
-
+        const res = await this.tiket_reguler.submit_tiket_reguler(REQUEST_TICKET_DATA, TICKET_REGULER_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
       } else if (job_name === 'Lapor Langsung') {
         const res = await this.lapor_langsung_service.submit_lapor_langsung(REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA);
         if (res.statusCode === 200) {
@@ -96,19 +104,15 @@ export class TicketService {
         } else {
           ctx.reply('failed request ticket to sistem \n contact to admin Developer');
         }
+      } else if (job_name === 'Tutup ODP') {
+        const res = await this.tutup_odp.submit_tutup_odp(REQUEST_TICKET_DATA, TICKET_TUTUP_ODP_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
       }
-      // const res = await this.submitTicket(REQUEST_TIKET);
-      // if (res.statusCode === 200) {
-      //   await this.resetRequest()
-      //   await ctx.reply('success request ticket to sistem', {
-      //     parse_mode: 'Markdown',
-      //     ...Markup.keyboard([
-      //       '/start', '/help'
-      //     ])
-      //   });
-      // } else {
-      // ctx.reply('failed request ticket to sistem');
-      // }
     }
   }
 
