@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SqmService } from './sqm.service';
+import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 
 @Module({
-  providers: [SqmService]
+  providers: [SqmService, TiketRedundantService]
 })
-export class SqmModule {}
+export class SqmModule { }
