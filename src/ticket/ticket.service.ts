@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, REQUEST_TIKET, RequestTiketProps, setRequestTicketData, validationRequestTicket } from './utitlity';
-import { v4 as uuidv4 } from 'uuid';
+import { REQUEST_TICKET_DATA, checkValidTicketData, placingMessageTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 
 @Update()
@@ -52,7 +51,7 @@ export class TicketService {
   }
 
   async placingMessage(message: string) {
-
+    placingMessageTicketData(REQUEST_TICKET_DATA.job_name, message)
   }
 
   async requesting(ctx: Context) {
@@ -66,6 +65,8 @@ export class TicketService {
         parse_mode: "HTML",
         ...Markup.inlineKeyboard(tempKeyboardList),
       })
+    } else {
+      await validatorTicketData(REQUEST_TICKET_DATA.job_name, ctx);
     }
   }
 
@@ -74,13 +75,14 @@ export class TicketService {
     const res = await this.teknisi_service.get_teknisi_job_by_name(ctx.callbackQuery.data);
     REQUEST_TICKET_DATA.job_id = res.data.id;
     REQUEST_TICKET_DATA.job_name = res.data.name;
-    setRequestTicketData(res.data.name, ctx);
+    REQUEST_TICKET_DATA.idTelegram = ctx.message.chat.id.toString();
+    await setRequestTicketData(res.data.name, ctx);
   }
 
 
   @Action('submit')
   async submit(ctx: Context) {
-    const valid = validationRequestTicket();
+    const valid = checkValidTicketData(REQUEST_TICKET_DATA.job_name);
     if (!valid) {
       ctx.reply('Time out please use /start to start requesting again');
     } else {
@@ -101,7 +103,7 @@ export class TicketService {
 
   @Action('cancel')
   async cancle(ctx: Context) {
-    const valid = validationRequestTicket();
+    const valid = checkValidTicketData(REQUEST_TICKET_DATA.job_name);
     if (!valid) {
       ctx.reply('Time out please use /start to start requesting again');
     } else {
@@ -109,6 +111,4 @@ export class TicketService {
       ctx.reply('cancel submit');
     }
   }
-
-
 }
