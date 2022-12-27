@@ -10,6 +10,7 @@ import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { ValinsService } from 'src/valins/valins.service';
 import { UnspectService } from 'src/unspect/unspect.service';
+import { PromanService } from 'src/proman/proman.service';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UnspectService } from 'src/unspect/unspect.service';
       token: process.env.TELEGRAM_TOKEN,
     }),
   ],
-  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService, TiketRegulerService, TiketRedundantService, TutupOdpService, ValinsService, UnspectService],
+  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService, TiketRegulerService, TiketRedundantService, TutupOdpService, ValinsService, UnspectService, PromanService],
   controllers: [TicketController]
 })
 export class TicketModule { }
