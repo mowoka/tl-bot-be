@@ -49,6 +49,7 @@ model user_teknisi {
   unspect          unspect[]
   valins           valins[]
   ticket_team_lead ticket_team_lead[]
+  ticket_redundant ticket_redundant[]
 }
 
 // team leader job model
@@ -68,15 +69,16 @@ model teknisi_job {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name           String           @unique
-  point          Float
-  lapor_langsung lapor_langsung[]
-  tutup_odp      tutup_odp[]
-  ticket_regular ticket_regular[]
-  ticket_sqm     ticket_sqm[]
-  proman         proman[]
-  unspect        unspect[]
-  valins         valins[]
+  name             String             @unique
+  point            Float
+  lapor_langsung   lapor_langsung[]
+  tutup_odp        tutup_odp[]
+  ticket_regular   ticket_regular[]
+  ticket_sqm       ticket_sqm[]
+  proman           proman[]
+  unspect          unspect[]
+  valins           valins[]
+  ticket_redundant ticket_redundant[]
 
   @@map("teknisi_job")
 }
@@ -126,11 +128,12 @@ model ticket_regular {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  insiden_number String
-  speedy_number  String
-  customer_name  String
-  problem        String
-  description    String
+  insiden_number  String
+  speedy_number   String @unique
+  customer_name   String
+  customer_number String
+  problem         String
+  description     String
 
   teknisi_job_id String      @db.ObjectId
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
@@ -147,9 +150,10 @@ model ticket_sqm {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  inisiden_number String
-  speedy_number   String
+  insiden_number  String
+  speedy_number   String @unique
   customer_name   String
+  customer_number String
   problem         String
   description     String
 
@@ -236,4 +240,24 @@ model ticket_team_lead {
 
   team_lead_job_id String        @db.ObjectId
   job              team_lead_job @relation(fields: [team_lead_job_id], references: [id])
+}
+
+// model for note ticket regul
+model ticket_redundant {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number String
+  speedy_number  String
+  customer_name  String
+  problem        String
+  description    String
+  minus_point    Int
+
+  job_id String      @db.ObjectId
+  job    teknisi_job @relation(fields: [job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 }

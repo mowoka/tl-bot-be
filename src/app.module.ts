@@ -10,6 +10,8 @@ import { AppService } from './app/app.service';
 import { TeamLeaderJobModule } from './team-leader-job/team-leader-job.module';
 import { TeknisiUserModule } from './teknisi-user/teknisi-user.module';
 import { LaporLangsungModule } from './lapor-langsung/lapor-langsung.module';
+import { TiketRegulerModule } from './tiket-reguler/tiket-reguler.module';
+import { TiketRedundantModule } from './tiket-redundant/tiket-redundant.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { LaporLangsungModule } from './lapor-langsung/lapor-langsung.module';
     TeamLeaderJobModule,
     TeknisiUserModule,
     LaporLangsungModule,
+    TiketRegulerModule,
+    TiketRedundantModule,
   ],
   controllers: [AppController],
   providers: [AppService],

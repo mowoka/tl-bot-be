@@ -34,8 +34,6 @@ export class LaporLangsungService {
                 statusCode: 500,
                 message: 'Internal server error',
             };
-
-
         } catch (e) {
             throw e
         }
