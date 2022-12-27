@@ -27,6 +27,7 @@ export const TICKET_SQM_DATA: TicketSQMProps = {
     insiden_number: '',
     speedy_number: '',
     customer_name: '',
+    customer_phone: '',
     problem: '',
     description: '',
 }
@@ -88,6 +89,7 @@ export interface TicketSQMProps {
     insiden_number: string;
     speedy_number: string;
     customer_name: string;
+    customer_phone: string;
     problem: string;
     description: string;
 }

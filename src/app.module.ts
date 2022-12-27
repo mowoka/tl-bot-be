@@ -16,6 +16,7 @@ import { TutupOdpModule } from './tutup-odp/tutup-odp.module';
 import { ValinsModule } from './valins/valins.module';
 import { UnspectModule } from './unspect/unspect.module';
 import { PromanModule } from './proman/proman.module';
+import { SqmModule } from './sqm/sqm.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { PromanModule } from './proman/proman.module';
     ValinsModule,
     UnspectModule,
     PromanModule,
+    SqmModule,
   ],
   controllers: [AppController],
   providers: [AppService],

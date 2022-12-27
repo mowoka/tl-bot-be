@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
@@ -9,11 +9,12 @@ import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
 import { ValinsService } from 'src/valins/valins.service';
 import { UnspectService } from 'src/unspect/unspect.service';
 import { PromanService } from 'src/proman/proman.service';
+import { SqmService } from 'src/sqm/sqm.service';
 
 @Update()
 @Injectable()
 export class TicketService {
-  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService, private tiket_reguler: TiketRegulerService, private tutup_odp: TutupOdpService, private valins: ValinsService, private unspect: UnspectService, private proman: PromanService) { }
+  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService, private tiket_reguler: TiketRegulerService, private tutup_odp: TutupOdpService, private valins: ValinsService, private unspect: UnspectService, private proman: PromanService, private sqm: SqmService) { }
 
   @Start()
   async startCommand(ctx: Context) {
@@ -133,6 +134,14 @@ export class TicketService {
         }
       } else if (job_name === 'Proman') {
         const res = await this.proman.submit_proman(REQUEST_TICKET_DATA, TICKET_PROMAN_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else {
+        const res = await this.sqm.submit_sqm(REQUEST_TICKET_DATA, TICKET_SQM_DATA);
         if (res.statusCode === 200) {
           await this.resetRequest()
           ctx.reply(res.message);

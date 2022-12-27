@@ -1,4 +1,4 @@
-import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA } from './reference'
+import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA } from './reference'
 export const resetTicketData = () => {
     // request ticket
     REQUEST_TICKET_DATA.job_id = '';
@@ -17,8 +17,16 @@ export const resetTicketData = () => {
     TICKET_SQM_DATA.insiden_number = ''
     TICKET_SQM_DATA.speedy_number = ''
     TICKET_SQM_DATA.customer_name = ''
+    TICKET_SQM_DATA.customer_phone = ''
     TICKET_SQM_DATA.problem = ''
     TICKET_SQM_DATA.description = ''
+    // tiket reguler
+    TICKET_REGULER_DATA.insiden_number = ''
+    TICKET_REGULER_DATA.speedy_number = ''
+    TICKET_REGULER_DATA.customer_name = ''
+    TICKET_REGULER_DATA.customer_phone = ''
+    TICKET_REGULER_DATA.problem = ''
+    TICKET_REGULER_DATA.description = ''
     // proman
     TICKET_PROMAN_DATA.odp_name = ''
     TICKET_PROMAN_DATA.distribusi = ''
@@ -35,4 +43,5 @@ export const resetTicketData = () => {
     // valins
     TICKET_VALINS_DATA.valins_id = ''
     TICKET_VALINS_DATA.odp = ''
+
 }

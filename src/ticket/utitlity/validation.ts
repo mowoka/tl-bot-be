@@ -74,8 +74,8 @@ function checkProman(): boolean {
 
 
 function checkSQM(): boolean {
-    const { insiden_number, speedy_number, customer_name, problem, description } = TICKET_SQM_DATA;
-    if (!insiden_number || !speedy_number || !customer_name || !problem || !description) return false
+    const { insiden_number, speedy_number, customer_name, customer_phone, problem, description } = TICKET_SQM_DATA;
+    if (!insiden_number || !speedy_number || !customer_name || !problem || !customer_phone || !description) return false
     return true;
 }
 
@@ -85,7 +85,7 @@ export const validatorTicketData = async (job_name: string, ctx: Context) => {
             await TicketRegulerValidator(job_name, ctx);
             break;
         case 'Lapor Langsung':
-            await LaporLansgunValidator(job_name, ctx);
+            await LaporLangsunValidator(job_name, ctx);
             break;
         case 'Tutup ODP':
             await TutupODPValidator(job_name, ctx);
@@ -143,7 +143,7 @@ async function TicketRegulerValidator(job_name: string, ctx: Context) {
     }
 }
 
-async function LaporLansgunValidator(job_name: string, ctx: Context) {
+async function LaporLangsunValidator(job_name: string, ctx: Context) {
     const { speedy_number, customer_phone, customer_name, problem, description } = TICKET_LAPOR_LANGUSNG_DATA;
     if (!speedy_number) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan Speedy Number`, {
@@ -297,7 +297,7 @@ async function PromanValidator(job_name: string, ctx: Context) {
 
 
 async function SQMValidator(job_name: string, ctx: Context) {
-    const { insiden_number, speedy_number, customer_name, problem, description } = TICKET_SQM_DATA
+    const { insiden_number, speedy_number, customer_name, customer_phone, problem, description } = TICKET_SQM_DATA
     if (!insiden_number) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
             parse_mode: 'HTML',
@@ -308,6 +308,10 @@ async function SQMValidator(job_name: string, ctx: Context) {
         })
     } else if (!customer_name) {
         await ctx.reply(`Masukan nama pelanggan`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!customer_phone) {
+        await ctx.reply(`Masukan nomor cp pelanggan`, {
             parse_mode: 'HTML',
         })
     } else if (!problem) {

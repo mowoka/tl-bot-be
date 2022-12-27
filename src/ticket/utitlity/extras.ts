@@ -116,13 +116,15 @@ export const placingMessageTicketData = (job_name: string, message: string) => {
             }
             break;
         default:
-            const { insiden_number, speedy_number, customer_name, problem } = TICKET_SQM_DATA;
+            const { insiden_number, speedy_number, customer_name, customer_phone, problem } = TICKET_SQM_DATA;
             if (!insiden_number) {
                 TICKET_SQM_DATA.insiden_number = message;
             } else if (!speedy_number) {
                 TICKET_SQM_DATA.speedy_number = message;
             } else if (!customer_name) {
                 TICKET_SQM_DATA.customer_name = message;
+            } else if (!customer_phone) {
+                TICKET_SQM_DATA.customer_phone = message;
             } else if (!problem) {
                 TICKET_SQM_DATA.problem = message;
             } else {
