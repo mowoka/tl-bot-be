@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_REGULER_DATA, TICKET_TUTUP_ODP_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_REGULER_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
 import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
+import { ValinsService } from 'src/valins/valins.service';
+import { UnspectService } from 'src/unspect/unspect.service';
 
 @Update()
 @Injectable()
 export class TicketService {
-  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService, private tiket_reguler: TiketRegulerService, private tutup_odp: TutupOdpService) { }
+  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService, private tiket_reguler: TiketRegulerService, private tutup_odp: TutupOdpService, private valins: ValinsService, private unspect: UnspectService) { }
 
   @Start()
   async startCommand(ctx: Context) {
@@ -106,6 +108,22 @@ export class TicketService {
         }
       } else if (job_name === 'Tutup ODP') {
         const res = await this.tutup_odp.submit_tutup_odp(REQUEST_TICKET_DATA, TICKET_TUTUP_ODP_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else if (job_name === 'Valins') {
+        const res = await this.valins.submit_valins(REQUEST_TICKET_DATA, TICKET_VALINS_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else if (job_name === 'Unspect') {
+        const res = await this.unspect.submit_unspect(REQUEST_TICKET_DATA, TICKET_UNSPECT_DATA);
         if (res.statusCode === 200) {
           await this.resetRequest()
           ctx.reply(res.message);

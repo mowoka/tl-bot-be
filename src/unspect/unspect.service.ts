@@ -1,29 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RequestTicketDataProps, ValinsProps } from 'src/ticket/utitlity';
+import { RequestTicketDataProps, UnspectProps } from 'src/ticket/utitlity';
 
 @Injectable()
-export class ValinsService {
+export class UnspectService {
     constructor(private prisma: PrismaService) { }
 
-    async submit_valins(initalDto: RequestTicketDataProps, dto: ValinsProps) {
+    async submit_unspect(initalDto: RequestTicketDataProps, dto: UnspectProps) {
         const { job_id, idTelegram } = initalDto;
-        const { valins_id, odp } = dto;
+        const { speedy_number, odp, problem, description } = dto;
+
         try {
-            const valins = this.prisma.valins.create({
+            const unspect = await this.prisma.unspect.create({
                 data: {
-                    valins_id,
+                    speedy_number,
                     odp,
+                    problem,
+                    description,
                     idTelegram,
-                    teknisi_job_id: job_id,
+                    teknisi_job_id: job_id
                 }
             })
 
-            if (valins) return {
+            if (unspect) return {
                 status: true,
                 statusCode: 200,
-                message: 'Create valins successfull',
-                data: valins
+                message: 'Create unspect successfull',
+                data: unspect
             };
 
             return {
@@ -32,7 +35,7 @@ export class ValinsService {
                 message: 'Internal server error',
             };
         } catch (e) {
-            throw (e);
+            throw e;
         }
     }
 }

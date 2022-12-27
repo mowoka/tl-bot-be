@@ -8,6 +8,8 @@ import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service'
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
 import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
+import { ValinsService } from 'src/valins/valins.service';
+import { UnspectService } from 'src/unspect/unspect.service';
 
 @Module({
   imports: [
@@ -15,7 +17,7 @@ import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.servi
       token: process.env.TELEGRAM_TOKEN,
     }),
   ],
-  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService, TiketRegulerService, TiketRedundantService, TutupOdpService],
+  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService, TiketRegulerService, TiketRedundantService, TutupOdpService, ValinsService, UnspectService],
   controllers: [TicketController]
 })
 export class TicketModule { }

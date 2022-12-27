@@ -14,6 +14,7 @@ import { TiketRegulerModule } from './tiket-reguler/tiket-reguler.module';
 import { TiketRedundantModule } from './tiket-redundant/tiket-redundant.module';
 import { TutupOdpModule } from './tutup-odp/tutup-odp.module';
 import { ValinsModule } from './valins/valins.module';
+import { UnspectModule } from './unspect/unspect.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ValinsModule } from './valins/valins.module';
     TiketRedundantModule,
     TutupOdpModule,
     ValinsModule,
+    UnspectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
