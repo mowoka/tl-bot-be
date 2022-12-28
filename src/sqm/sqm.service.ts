@@ -26,7 +26,8 @@ export class SqmService {
                 const prevSqm = find_sqm[0];
                 const prevDate = new Date(prevSqm.createAt).getTime();
                 const countGapDate = dateNow - prevDate;
-                if (countGapDate < 60) {
+                const day = 1000 * 60 * 60 * 24;
+                if ((countGapDate / day) < 60) {
                     const sendData: TiketRedundantProps = {
                         insiden_number: insiden_number,
                         speedy_number: speedy_number,
@@ -39,32 +40,39 @@ export class SqmService {
                     }
                     // submit to tiket redundant
                     const res = await this.tiket_redundant_serv.submit_tiket_redundant(sendData);
-                    if (res.statusCode === 200) {
-                        const sqm = await this.prisma.ticket_sqm.create({
-                            data: {
-                                insiden_number,
-                                speedy_number,
-                                customer_name,
-                                customer_number: customer_phone,
-                                problem,
-                                description,
-                                teknisi_job_id: job_id,
-                                idTelegram
-                            }
-                        })
-                        if (sqm) return {
+                    if (res.statusCode == 200) {
+                        return {
                             status: true,
                             statusCode: 200,
                             message: 'Create sqm successfull',
-                            data: sqm
-                        };
-                    } else {
-                        return {
-                            status: true,
-                            statusCode: 403,
-                            message: 'error submiting tiket redundant',
                         }
                     }
+                    // if (res.statusCode === 200) {
+                    //     const sqm = await this.prisma.ticket_sqm.create({
+                    //         data: {
+                    //             insiden_number,
+                    //             speedy_number,
+                    //             customer_name,
+                    //             customer_number: customer_phone,
+                    //             problem,
+                    //             description,
+                    //             teknisi_job_id: job_id,
+                    //             idTelegram
+                    //         }
+                    //     })
+                    //     if (sqm) return {
+                    //         status: true,
+                    //         statusCode: 200,
+                    //         message: 'Create sqm successfull',
+                    //         data: sqm
+                    //     };
+                    // } else {
+                    //     return {
+                    //         status: true,
+                    //         statusCode: 403,
+                    //         message: 'error submiting tiket redundant',
+                    //     }
+                    // }
                 } else {
                     const sqm = await this.prisma.ticket_sqm.create({
                         data: {

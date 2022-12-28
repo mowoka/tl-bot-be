@@ -1,17 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
+import { TeknisiUserParams } from './params';
 
 @Injectable()
 export class TeknisiUserService {
     constructor(private prisma: PrismaService) { }
 
-    async get_teknisi_user() {
+    async get_teknisi_user(params: TeknisiUserParams) {
+        if (!params.partner) delete params.partner
+        if (!params.regional) delete params.regional
+        if (!params.sector) delete params.sector
         try {
             const teknisi_user = await this.prisma.user_teknisi.findMany({
                 orderBy: {
                     createAt: 'asc',
-                }
+                },
+                where: { ...params }
             })
 
             if (teknisi_user) {
@@ -29,6 +34,45 @@ export class TeknisiUserService {
             }
         } catch (e) {
             throw e;
+        }
+    }
+
+    async get_teknisi_user_filter() {
+        try {
+
+            const users = await this.prisma.user_teknisi.findMany({})
+
+            if (users) {
+                let tempPartner = [];
+                let tempRegional = [];
+                let tempSector = [];
+
+                users.map((user) => {
+                    tempPartner.push(user.partner)
+                    tempRegional.push(user.regional)
+                    tempSector.push(user.sector)
+                })
+
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: 'get teknisi user filter successfull',
+                    data:
+                    {
+                        partner: [... new Set(tempPartner)],
+                        regional: [... new Set(tempRegional)],
+                        sector: [... new Set(tempSector)],
+                    }
+                }
+            }
+
+            return {
+                statusCode: 500,
+                status: false,
+                message: 'Internal server error',
+            }
+        } catch (e) {
+            throw e
         }
     }
 

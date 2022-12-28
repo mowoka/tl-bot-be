@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guards';
 import { TeknisiUserService } from './teknisi-user.service';
 import { TeknisiUser } from './dto';
+import { TeknisiUserParams } from './params';
 
 @ApiTags('Teknisi User')
 @UseGuards(JwtGuard)
@@ -12,8 +13,22 @@ export class TeknisiUserController {
     constructor(private teknisi_user_service: TeknisiUserService) { }
 
     @Get()
-    get_teknisi_user() {
-        return this.teknisi_user_service.get_teknisi_user();
+    @ApiQuery({ name: 'partner', required: false })
+    @ApiQuery({ name: 'regional', required: false })
+    @ApiQuery({ name: 'sector', required: false })
+    get_teknisi_user(@Query('partner') partner?: string, @Query('regional') regional?: string, @Query('sector') sector?: string) {
+        const params: TeknisiUserParams = {
+            partner: partner ?? '',
+            regional: regional ?? '',
+            sector: sector ?? ''
+        }
+        console.log(params)
+        return this.teknisi_user_service.get_teknisi_user(params);
+    }
+
+    @Get('/master-filters')
+    get_teknisi_user_filter() {
+        return this.teknisi_user_service.get_teknisi_user_filter();
     }
 
     @Get('report')
