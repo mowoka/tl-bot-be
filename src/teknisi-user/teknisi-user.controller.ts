@@ -22,7 +22,6 @@ export class TeknisiUserController {
             regional: regional ?? '',
             sector: sector ?? ''
         }
-        console.log(params)
         return this.teknisi_user_service.get_teknisi_user(params);
     }
 
