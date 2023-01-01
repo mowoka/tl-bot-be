@@ -93,26 +93,32 @@ export class AuthService {
   }
 
   async sign(dto: LoginDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        nik: dto.nik,
-      },
-    });
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          nik: dto.nik,
+        },
+      });
+      console.log(user);
 
-    if (!user) throw new ForbiddenException('Credential Incorrect');
+      if (!user) throw new ForbiddenException('Credential Incorrect');
 
-    const passwordMatch = await argon.verify(user.password, dto.password);
+      const passwordMatch = await argon.verify(user.password, dto.password);
 
-    if (!passwordMatch) throw new ForbiddenException('Credential Incorrect');
+      if (!passwordMatch) throw new ForbiddenException('Credential Incorrect');
 
-    const generateToken = await this.signToken(user.id, user.nik);
+      const generateToken = await this.signToken(user.id, user.nik);
+      if (user) return {
+        statusCode: 200,
+        message: 'Login success',
+        status: true,
+        data: generateToken
+      }
 
-    return {
-      statusCode: 200,
-      message: 'Login success',
-      status: true,
-      data: generateToken
+    } catch (e) {
+      throw e;
     }
+
   }
 
   async signToken(userId: string, nik: string) {
