@@ -183,7 +183,7 @@ async function TutupODPValidator(job_name: string, ctx: Context) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan nama ODP`, {
             parse_mode: 'HTML',
         })
-    } else if (odp_address) {
+    } else if (!odp_address) {
         await ctx.reply(`Masukan Alamat ODP`, {
             parse_mode: 'HTML',
         })

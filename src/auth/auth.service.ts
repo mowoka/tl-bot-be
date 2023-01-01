@@ -99,7 +99,6 @@ export class AuthService {
           nik: dto.nik,
         },
       });
-      console.log(user);
 
       if (!user) throw new ForbiddenException('Credential Incorrect');
 

@@ -22,7 +22,8 @@ export class TiketRegulerService {
                 }
             });
 
-            if (find_ticket) {
+
+            if (find_ticket.length > 0) {
                 const prevTiket = find_ticket[0];
                 const prevDate = new Date(prevTiket.createAt).getTime();
                 const countGapDate = dateNow - prevDate;
