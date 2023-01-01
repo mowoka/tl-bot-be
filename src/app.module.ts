@@ -7,6 +7,16 @@ import { TeknisiJobModule } from './teknisi-job/teknisi-job.module';
 import { TicketModule } from './ticket/ticket.module';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
+import { TeamLeaderJobModule } from './team-leader-job/team-leader-job.module';
+import { TeknisiUserModule } from './teknisi-user/teknisi-user.module';
+import { LaporLangsungModule } from './lapor-langsung/lapor-langsung.module';
+import { TiketRegulerModule } from './tiket-reguler/tiket-reguler.module';
+import { TiketRedundantModule } from './tiket-redundant/tiket-redundant.module';
+import { TutupOdpModule } from './tutup-odp/tutup-odp.module';
+import { ValinsModule } from './valins/valins.module';
+import { UnspectModule } from './unspect/unspect.module';
+import { PromanModule } from './proman/proman.module';
+import { SqmModule } from './sqm/sqm.module';
 
 @Module({
   imports: [
@@ -16,9 +26,19 @@ import { AppService } from './app/app.service';
     UserModule,
     TeknisiJobModule,
     TicketModule,
+    TeamLeaderJobModule,
+    TeknisiUserModule,
+    LaporLangsungModule,
+    TiketRegulerModule,
+    TiketRedundantModule,
+    TutupOdpModule,
+    ValinsModule,
+    UnspectModule,
+    PromanModule,
+    SqmModule,
   ],
-  // controllers: [AppController],
-  // providers: [AppService],
+  controllers: [AppController],
+  providers: [AppService],
 
 })
 export class AppModule {}

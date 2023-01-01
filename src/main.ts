@@ -11,15 +11,15 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
-  .setTitle('Telebot API')
-  .setDescription('API for telebot apps')
-  .setVersion('1.0')
-  .addBearerAuth()
-  .build();
+    .setTitle('ION API')
+    .setDescription('API for ION apps')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);
   app.enableCors();
   await app.listen(process.env.PORT || 3001);
-  
+
 }
 bootstrap();

@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -11,27 +11,253 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
+// team lead user model
 model user {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  nik String @unique
-  name String
-  idTelegram String
-  partner String
-  sector String
-  witel String
-  regional String
-  password String
+  nik        String @unique
+  name       String
+  idTelegram String @unique
+  partner    String
+  sector     String
+  witel      String
+  regional   String
+  password   String
 }
 
-model teknisi_job{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+// teknisi user model
+model user_teknisi {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name String @unique
-  point Float
+  nik        String @unique
+  name       String
+  idTelegram String @unique
+  partner    String
+  sector     String
+  witel      String
+  regional   String
+
+  lapor_langsung   lapor_langsung[]
+  tutup_odp        tutup_odp[]
+  ticket_regular   ticket_regular[]
+  ticket_sqm       ticket_sqm[]
+  proman           proman[]
+  unspect          unspect[]
+  valins           valins[]
+  ticket_team_lead ticket_team_lead[]
+  ticket_redundant ticket_redundant[]
+}
+
+// team leader job model
+model team_lead_job {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  name             String             @unique
+  point            Float
+  ticket_team_lead ticket_team_lead[]
+}
+
+// teknisi job model
+model teknisi_job {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  name             String             @unique
+  point            Float
+  lapor_langsung   lapor_langsung[]
+  tutup_odp        tutup_odp[]
+  ticket_regular   ticket_regular[]
+  ticket_sqm       ticket_sqm[]
+  proman           proman[]
+  unspect          unspect[]
+  valins           valins[]
+  ticket_redundant ticket_redundant[]
+
+  @@map("teknisi_job")
+}
+
+// model Lapor Langsung
+model lapor_langsung {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  speedy_number  String
+  customer_phone String
+  customer_name  String
+  problem        String
+  description    String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("lapor_langsung")
+}
+
+// tutup odp
+model tutup_odp {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  odp_name    String
+  odp_address String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("tutup_odp")
+}
+
+// ticket_regular
+model ticket_regular {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number  String
+  speedy_number   String @unique
+  customer_name   String
+  customer_number String
+  problem         String
+  description     String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_regular")
+}
+
+// SQM
+model ticket_sqm {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number  String
+  speedy_number   String @unique
+  customer_name   String
+  customer_number String
+  problem         String
+  description     String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_sqm")
+}
+
+// Proman
+model proman {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  odp_name              String
+  distribusi            String
+  capacity_port         Int
+  status_port_use       Int
+  status_port_available Int
+  odp_cradle            Int
+  opm_length            Int
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("proman")
+}
+
+// Unspect
+model unspect {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  speedy_number String
+  odp           String
+  problem       String
+  description   String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("unspect")
+}
+
+// Valins
+model valins {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  valins_id String
+  odp       String
+
+  teknisi_job_id String      @db.ObjectId
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("valins")
+}
+
+// TL ticket input
+model ticket_team_lead {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  description String
+
+  teknisi_user_id String       @db.ObjectId
+  teknisi         user_teknisi @relation(fields: [teknisi_user_id], references: [id])
+
+  team_lead_job_id String        @db.ObjectId
+  job              team_lead_job @relation(fields: [team_lead_job_id], references: [id])
+}
+
+// model for note ticket regul
+model ticket_redundant {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number String
+  speedy_number  String
+  customer_name  String
+  problem        String
+  description    String
+  minus_point    Int
+
+  job_id String      @db.ObjectId
+  job    teknisi_job @relation(fields: [job_id], references: [id])
+
+  idTelegram           String
+  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 }

@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthDto, LoginDto } from './dto';
+import { AuthDto, LoginDto, ValidateNikDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
@@ -12,7 +12,30 @@ export class AuthService {
     private prisma: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
-  ) {}
+  ) { }
+
+
+  async validateNik(dto: ValidateNikDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        nik: dto.nik
+      }
+    });
+
+    if (user) {
+      return {
+        statusCode: 200,
+        message: 'nik already register',
+        success: false,
+      }
+    }
+    return {
+      statusCode: 200,
+      message: 'nik not register',
+      success: true
+    }
+
+  }
 
   async signup(dto: AuthDto) {
     const generateHash = await argon.hash(dto.password);
@@ -28,6 +51,7 @@ export class AuthService {
         return {
           statusCode: 406,
           message: 'User already exist',
+          status: false,
         };
       }
 
@@ -52,7 +76,12 @@ export class AuthService {
         access_token: generateToken.access_token,
       };
 
-      return responseData;
+      return {
+        statusCode: 200,
+        message: 'Create user success',
+        status: true,
+        data: responseData
+      }
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -64,23 +93,32 @@ export class AuthService {
   }
 
   async sign(dto: LoginDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        nik: dto.nik,
-      },
-    });
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          nik: dto.nik,
+        },
+      });
+      console.log(user);
 
-    if (!user) throw new ForbiddenException('Credential Incorrect');
+      if (!user) throw new ForbiddenException('Credential Incorrect');
 
-    const passwordMatch = await argon.verify(user.password, dto.password);
+      const passwordMatch = await argon.verify(user.password, dto.password);
 
-    if (!passwordMatch) throw new ForbiddenException('Credential Incorrect');
+      if (!passwordMatch) throw new ForbiddenException('Credential Incorrect');
 
-    const generateToken = await this.signToken(user.id, user.nik);
+      const generateToken = await this.signToken(user.id, user.nik);
+      if (user) return {
+        statusCode: 200,
+        message: 'Login success',
+        status: true,
+        data: generateToken
+      }
 
-    return {
-      access_token: generateToken.access_token,
-    };
+    } catch (e) {
+      throw e;
+    }
+
   }
 
   async signToken(userId: string, nik: string) {
@@ -91,8 +129,9 @@ export class AuthService {
 
     const secret = this.config.get('JWT_SECRET');
 
+    // maybe future can improve to implements expire token
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '120m',
+      // expiresIn: '120m',
       secret,
     });
 
