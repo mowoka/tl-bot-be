@@ -121,7 +121,7 @@ export class AuthService {
 
   }
 
-  async signToken(userId: string, nik: string) {
+  async signToken(userId: number, nik: string) {
     const payload = {
       sub: userId,
       nik,

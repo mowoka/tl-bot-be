@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknsiJob } from './dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TeknisiJobService {
@@ -63,8 +64,11 @@ export class TeknisiJobService {
                 message: 'Job already register',
             };
 
+            const id = 'teknisi-job' + uuidv4();
+
             const create_teknisi_job = await this.prisma.teknisi_job.create({
                 data: {
+                    id: id,
                     name: dto.name,
                     point: dto.point
                 }
