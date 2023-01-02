@@ -22,7 +22,7 @@ export class SqmService {
                 }
             })
 
-            if (find_sqm) {
+            if (find_sqm.length > 0) {
                 const prevSqm = find_sqm[0];
                 const prevDate = new Date(prevSqm.createAt).getTime();
                 const countGapDate = dateNow - prevDate;

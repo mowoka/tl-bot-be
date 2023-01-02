@@ -10,7 +10,7 @@ export class ValinsService {
         const { job_id, idTelegram } = initalDto;
         const { valins_id, odp } = dto;
         try {
-            const valins = this.prisma.valins.create({
+            const valins = await this.prisma.valins.create({
                 data: {
                     valins_id,
                     odp,

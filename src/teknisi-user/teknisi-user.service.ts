@@ -125,6 +125,12 @@ export class TeknisiUserService {
                             teknisi_use_telegram: true,
                         }
                     },
+                    ticket_redundant: {
+                        include: {
+                            job: true,
+                            teknisi_use_telegram: true,
+                        }
+                    },
                     ticket_team_lead: {
                         include: {
                             job: true,
@@ -154,15 +160,28 @@ export class TeknisiUserService {
 
     async add_teknisi_user(dto: TeknisiUser) {
         try {
-            const find_teknisi_user = await this.prisma.user_teknisi.findUnique({
+            const find_teknisi_user_by_nik = await this.prisma.user_teknisi.findUnique({
                 where: {
                     nik: dto.nik
                 }
             })
 
-            if (find_teknisi_user) return {
+            if (find_teknisi_user_by_nik) return {
                 statusCode: 406,
                 message: 'Teknisi user already exist',
+                status: false,
+            };
+
+
+            const find_teknisi_user_idTelegram = await this.prisma.user_teknisi.findUnique({
+                where: {
+                    nik: dto.idTelegram
+                }
+            })
+
+            if (find_teknisi_user_idTelegram) return {
+                statusCode: 406,
+                message: 'id telegram already exist',
                 status: false,
             };
 
