@@ -99,8 +99,8 @@ model lapor_langsung {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("lapor_langsung")
 }
@@ -117,8 +117,8 @@ model tutup_odp {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("tutup_odp")
 }
@@ -139,8 +139,8 @@ model ticket_regular {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("ticket_regular")
 }
@@ -161,8 +161,8 @@ model ticket_sqm {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("ticket_sqm")
 }
@@ -184,8 +184,8 @@ model proman {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("proman")
 }
@@ -204,8 +204,8 @@ model unspect {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("unspect")
 }
@@ -222,8 +222,8 @@ model valins {
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("valins")
 }
@@ -259,6 +259,6 @@ model ticket_redundant {
   job_id String
   job    teknisi_job @relation(fields: [job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
 import { TeknisiUserParams } from './params';
+import { User } from './type';
+import { count_kpi } from './utility';
 
 @Injectable()
 export class TeknisiUserService {
@@ -78,57 +80,57 @@ export class TeknisiUserService {
 
     async get_teknisi_user_report() {
         try {
-            const teknisi_user_report = await this.prisma.user_teknisi.findMany({
+            const teknisi_users_report = await this.prisma.user_teknisi.findMany({
                 orderBy: {
-                    createAt: 'asc'
+                    createAt: 'asc',
                 },
                 include: {
                     lapor_langsung: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
-                        }
+                            teknisi_user_telegram: true,
+                        },
                     },
                     tutup_odp: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     ticket_regular: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     ticket_sqm: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     proman: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     unspect: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     valins: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     ticket_redundant: {
                         include: {
                             job: true,
-                            teknisi_use_telegram: true,
+                            teknisi_user_telegram: true,
                         }
                     },
                     ticket_team_lead: {
@@ -140,11 +142,18 @@ export class TeknisiUserService {
                 }
             })
 
-            if (teknisi_user_report) return {
-                statusCode: 200,
-                status: true,
-                message: 'get teknisi user report successfull',
-                data: teknisi_user_report
+            if (teknisi_users_report) {
+                const teknisi_users: User[] = teknisi_users_report;
+                const result = teknisi_users.map((user) => {
+                    return count_kpi(user);
+                })
+
+                return {
+                    statusCode: 200,
+                    status: true,
+                    message: 'get teknisi user report successfull',
+                    data: result
+                }
             }
 
             return {
