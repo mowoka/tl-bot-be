@@ -58,7 +58,7 @@ function countTiketTeamLead(data: TiketTeamLead[]): number {
 function countTiketRedundant(data: TiketRedundant[]): number {
     let result = 0;
     data.map((item) => {
-        result += item.job.point
+        result += item.minus_point
     });
     return result;
 }
