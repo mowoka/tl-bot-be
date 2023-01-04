@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guards';
 import { TeknisiUserService } from './teknisi-user.service';
 import { TeknisiUser } from './dto';
-import { TeknisiUserParams } from './params';
+import { TeknisiUserParams, TeknisiUserReportParams } from './params';
 
 @ApiTags('Teknisi User')
 @UseGuards(JwtGuard)
@@ -31,8 +31,22 @@ export class TeknisiUserController {
     }
 
     @Get('report')
-    get_teknisi_user_report() {
-        return this.teknisi_user_service.get_teknisi_user_report();
+    @ApiQuery({ name: 'partner', required: false })
+    @ApiQuery({ name: 'regional', required: false })
+    @ApiQuery({ name: 'sector', required: false })
+    @ApiQuery({ name: 'startDate', required: true })
+    @ApiQuery({ name: 'endDate', required: true })
+    get_teknisi_user_report(@Query('partner') partner?: string, @Query('regional') regional?: string, @Query('sector') sector?: string, @Query('startDate') startDate?: string, @Query('endDate') endDate?: string,) {
+        const params: TeknisiUserReportParams = {
+            partner: partner ?? '',
+            regional: regional ?? '',
+            sector: sector ?? '',
+            createAt: {
+                gte: new Date(startDate) ?? new Date(),
+                lt: new Date(endDate) ?? new Date(),
+            }
+        }
+        return this.teknisi_user_service.get_teknisi_user_report(params);
     }
 
     @Post()

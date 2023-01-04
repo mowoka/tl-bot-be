@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
-import { TeknisiUserParams } from './params';
+import { TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { User } from './type';
 import { count_kpi } from './utility';
 
@@ -78,12 +78,17 @@ export class TeknisiUserService {
         }
     }
 
-    async get_teknisi_user_report() {
+    async get_teknisi_user_report(params: TeknisiUserReportParams) {
+        // if (!params.partner) delete params.partner
+        // if (!params.regional) delete params.regional
+        // if (!params.sector) delete params.sector
+
         try {
             const teknisi_users_report = await this.prisma.user_teknisi.findMany({
                 orderBy: {
                     createAt: 'asc',
                 },
+                // where: { ...params },
                 include: {
                     lapor_langsung: {
                         include: {
