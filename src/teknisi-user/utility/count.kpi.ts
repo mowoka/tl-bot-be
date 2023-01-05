@@ -32,7 +32,7 @@ export const count_kpi = (user: User): UserResult => {
         ...user,
         lapor_langsung: { name: 'lapor_langsung', score: kpi_lapor_langsung },
         tutup_odp: { name: 'tutup_odp', score: kpi_tutup_odp },
-        ticket_regular: { name: 'lapor_langsung', score: kpi_tiket_reguler },
+        ticket_regular: { name: 'tiket_reguler', score: kpi_tiket_reguler },
         ticket_sqm: { name: 'ticket_sqm', score: kpi_sqm },
         proman: { name: 'proman', score: kpi_proman },
         unspect: { name: 'unspect', score: kpi_unspect },

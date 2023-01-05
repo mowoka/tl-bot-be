@@ -131,4 +131,45 @@ export class TiketRegulerService {
             throw e;
         }
     }
+
+    async get_tiket_reguler_history(skip: number, take: number, idTelegram: string) {
+        try {
+            const history = await this.prisma.ticket_regular.findMany({
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram
+                }
+            })
+
+            const count_history = await this.prisma.ticket_regular.count({
+                where: { idTelegram: idTelegram }
+            })
+
+            const metadata = {
+                total: count_history,
+                page: skip === 0 ? 1 : skip / 10 + 1,
+                pagination: Math.ceil(9 / 10)
+            }
+
+            if (history.length > 0) return {
+                status: false,
+                statusCode: 200,
+                message: 'Get history tiket reguler successfull',
+                data: history,
+                metadata
+            }
+
+            return {
+                status: false,
+                statusCode: 200,
+                message: 'Get history tiket reguler successfull',
+                data: [],
+                metadata
+            }
+
+        } catch (e) {
+            throw e;
+        }
+    }
 }

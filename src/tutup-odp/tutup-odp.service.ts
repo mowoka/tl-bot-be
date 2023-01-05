@@ -36,4 +36,45 @@ export class TutupOdpService {
             throw e
         }
     }
+
+    async get_tutup_odp_history(skip: number, take: number, idTelegram: string) {
+        try {
+            const history = await this.prisma.tutup_odp.findMany({
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram
+                }
+            })
+
+            const count_history = await this.prisma.tutup_odp.count({
+                where: { idTelegram: idTelegram }
+            })
+
+            const metadata = {
+                total: count_history,
+                page: skip === 0 ? 1 : skip / 10 + 1,
+                pagination: Math.ceil(9 / 10)
+            }
+
+            if (history.length > 0) return {
+                status: false,
+                statusCode: 200,
+                message: 'Get history tutup odp successfull',
+                data: history,
+                metadata
+            }
+
+            return {
+                status: false,
+                statusCode: 200,
+                message: 'Get history tutup odp successfull',
+                data: [],
+                metadata
+            }
+
+        } catch (e) {
+            throw e;
+        }
+    }
 }

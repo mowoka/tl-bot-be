@@ -35,4 +35,45 @@ export class ValinsService {
             throw (e);
         }
     }
+
+    async get_valins_history(skip: number, take: number, idTelegram: string) {
+        try {
+            const history = await this.prisma.valins.findMany({
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram
+                }
+            })
+
+            const count_history = await this.prisma.valins.count({
+                where: { idTelegram: idTelegram }
+            })
+
+            const metadata = {
+                total: count_history,
+                page: skip === 0 ? 1 : skip / 10 + 1,
+                pagination: Math.ceil(9 / 10)
+            }
+
+            if (history.length > 0) return {
+                status: false,
+                statusCode: 200,
+                message: 'Get history valins successfull',
+                data: history,
+                metadata
+            }
+
+            return {
+                status: false,
+                statusCode: 200,
+                message: 'Get history valins successfull',
+                data: [],
+                metadata
+            }
+
+        } catch (e) {
+            throw e;
+        }
+    }
 }

@@ -1,13 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
-import { TeknisiUserParams, TeknisiUserReportParams } from './params';
+import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { User } from './type';
 import { count_kpi } from './utility';
+import { generateParams } from './utility/gen.params.history';
+import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
+import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
+import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
+import { SqmService } from 'src/sqm/sqm.service';
+import { PromanService } from 'src/proman/proman.service';
+import { UnspectService } from 'src/unspect/unspect.service';
+import { ValinsService } from 'src/valins/valins.service';
+import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 
 @Injectable()
 export class TeknisiUserService {
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService,
+        private lapor_langsung_serv: LaporLangsungService,
+        private tutup_odp_serv: TutupOdpService,
+        private tiket_reguler_serv: TiketRegulerService,
+        private tiket_sqm_serv: SqmService,
+        private tiket_proman_serv: PromanService,
+        private tiket_unspect_serv: UnspectService,
+        private tiket_valins_serv: ValinsService,
+        private tiket_redundant_serv: TiketRedundantService
+    ) { }
 
     async get_teknisi_user(params: TeknisiUserParams) {
         if (!params.partner) delete params.partner
@@ -221,11 +239,58 @@ export class TeknisiUserService {
             return {
                 status: false,
                 statusCode: 500,
-                message: 'Server internal error',
+                message: 'Internal server error',
             }
 
         } catch (e) {
             throw e;
+        }
+    }
+
+    async get_user_teknisi_history(params: TeknisiUserHistoryParams) {
+        try {
+            const teknisi_user = await this.prisma.user_teknisi.findUnique({
+                where: {
+                    nik: params.nik
+                }
+            })
+
+            if (teknisi_user) {
+                const { pagination } = generateParams(params);
+                if (params.ticket_title === 'lapor_langsung') {
+                    return this.lapor_langsung_serv.get_lapor_langsung_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'tutup_odp') {
+                    return this.tutup_odp_serv.get_tutup_odp_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'ticket_regular') {
+                    return this.tiket_reguler_serv.get_tiket_reguler_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'ticket_sqm') {
+                    return this.tiket_sqm_serv.get_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'proman') {
+                    return this.tiket_proman_serv.get_proman_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'unspect') {
+                    return this.tiket_unspect_serv.get_unspect_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'valins') {
+                    return this.tiket_valins_serv.get_valins_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                } else if (params.ticket_title === 'ticket_redundant') {
+                    return this.tiket_redundant_serv.get_tiket_redundant_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+                }
+
+
+            } else {
+                return {
+                    status: false,
+                    statusCode: 400,
+                    message: 'Teknisi user not found',
+                }
+            }
+
+            return {
+                status: false,
+                statusCode: 500,
+                message: 'Internal server error',
+            }
+        } catch (e) {
+            throw (e);
         }
     }
 }
