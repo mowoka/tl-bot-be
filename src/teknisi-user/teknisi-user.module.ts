@@ -10,6 +10,7 @@ import { PromanService } from 'src/proman/proman.service';
 import { UnspectService } from 'src/unspect/unspect.service';
 import { ValinsService } from 'src/valins/valins.service';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
+import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
 
 @Module({
   controllers: [TeknisiUserController],
@@ -22,7 +23,8 @@ import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.servi
     PromanService,
     UnspectService,
     ValinsService,
-    TiketRedundantService
+    TiketRedundantService,
+    TiketTeamLeadService
   ]
 })
 export class TeknisiUserModule { }

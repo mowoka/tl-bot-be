@@ -64,7 +64,6 @@ export class TeknisiUserController {
             ticket_title,
             page: page ?? '1'
         }
-        console.log(params);
         return this.teknisi_user_service.get_user_teknisi_history(params);
     }
 

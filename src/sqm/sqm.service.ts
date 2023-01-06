@@ -138,14 +138,16 @@ export class SqmService {
                 where: { idTelegram: idTelegram }
             })
 
+            const pagination = Math.ceil(count_history / 10);
+
             const metadata = {
                 total: count_history,
                 page: skip === 0 ? 1 : skip / 10 + 1,
-                pagination: Math.ceil(9 / 10)
+                pagination: pagination === 0 ? 1 : pagination
             }
 
             if (history.length > 0) return {
-                status: false,
+                status: true,
                 statusCode: 200,
                 message: 'Get history tiket SQM successfull',
                 data: history,
@@ -153,7 +155,7 @@ export class SqmService {
             }
 
             return {
-                status: false,
+                status: true,
                 statusCode: 200,
                 message: 'Get history tiket SQM successfull',
                 data: [],
