@@ -4,7 +4,7 @@ import { TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { User } from './type';
 import { count_kpi } from './utility';
-import { generateParams } from './utility/gen.params.history';
+import { generateParams, generateParamsUserTeknisi } from './utility/gen.params.history';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
 import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
@@ -30,23 +30,41 @@ export class TeknisiUserService {
     ) { }
 
     async get_teknisi_user(params: TeknisiUserParams) {
+        const { pagination } = generateParamsUserTeknisi(params.page);
         if (!params.partner) delete params.partner
         if (!params.regional) delete params.regional
         if (!params.sector) delete params.sector
+        delete params.page
         try {
             const teknisi_user = await this.prisma.user_teknisi.findMany({
+                skip: pagination.skip,
+                take: pagination.take,
                 orderBy: {
                     createAt: 'asc',
                 },
                 where: { ...params }
+
             })
+
+            const count_teknisi_user = await this.prisma.user_teknisi.count({ where: { ...params } })
+
+            const paginationValue = Math.ceil(count_teknisi_user / 10);
+
+            const metadata = {
+                total: count_teknisi_user,
+                page: pagination.skip === 0 ? 1 : pagination.skip / 10 + 1,
+                pagination: paginationValue === 0 ? 1 : paginationValue
+            }
 
             if (teknisi_user) {
                 return {
                     statusCode: 200,
                     status: true,
                     message: 'get teknisi user successfull',
-                    data: { teknisi_user }
+                    data: {
+                        data: teknisi_user,
+                        metadata
+                    }
                 }
             }
             return {

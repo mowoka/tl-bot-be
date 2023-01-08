@@ -9,4 +9,7 @@ export class TeknisiUserParams {
 
     @ApiProperty()
     regional: string
+
+    @ApiProperty()
+    page: string
 }

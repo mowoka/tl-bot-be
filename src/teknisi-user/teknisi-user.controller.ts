@@ -16,11 +16,13 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'partner', required: false })
     @ApiQuery({ name: 'regional', required: false })
     @ApiQuery({ name: 'sector', required: false })
-    get_teknisi_user(@Query('partner') partner?: string, @Query('regional') regional?: string, @Query('sector') sector?: string) {
+    @ApiQuery({ name: 'page', required: false })
+    get_teknisi_user(@Query('partner') partner?: string, @Query('regional') regional?: string, @Query('sector') sector?: string, @Query('page') page?: string) {
         const params: TeknisiUserParams = {
             partner: partner ?? '',
             regional: regional ?? '',
-            sector: sector ?? ''
+            sector: sector ?? '',
+            page: page ?? '1'
         }
         return this.teknisi_user_service.get_teknisi_user(params);
     }
