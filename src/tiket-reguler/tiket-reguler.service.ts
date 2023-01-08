@@ -159,16 +159,20 @@ export class TiketRegulerService {
                 status: false,
                 statusCode: 200,
                 message: 'Get history tiket reguler successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: false,
                 statusCode: 200,
                 message: 'Get history tiket reguler successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

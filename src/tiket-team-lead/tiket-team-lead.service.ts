@@ -50,13 +50,13 @@ export class TiketTeamLeadService {
                 let tempHistory;
 
                 if (job_name === 'gamas_type_a') {
-                    tempHistory = history.filter((h) => h.team_lead_job_id === 1)
+                    tempHistory = history.filter((h) => h.team_lead_job_id == 1)
                 } else if (job_name === 'gamas_type_b') {
-                    tempHistory = history.filter((h) => h.team_lead_job_id === 2)
+                    tempHistory = history.filter((h) => h.team_lead_job_id == 2)
                 } else if (job_name === 'gamas_type_c') {
-                    tempHistory = history.filter((h) => h.team_lead_job_id === 3)
+                    tempHistory = history.filter((h) => h.team_lead_job_id == 3)
                 } else {
-                    tempHistory = history.filter((h) => h.team_lead_job_id === 4)
+                    tempHistory = history.filter((h) => h.team_lead_job_id == 4)
                 }
 
                 const pagination = Math.ceil(tempHistory.length / 10);
@@ -71,8 +71,10 @@ export class TiketTeamLeadService {
                     status: true,
                     statusCode: 200,
                     message: `Get history ${job_name} successfull`,
-                    data: tempHistory,
-                    metadata
+                    data: {
+                        history: tempHistory,
+                        metadata
+                    },
                 }
             }
 
@@ -86,8 +88,10 @@ export class TiketTeamLeadService {
                 status: true,
                 statusCode: 200,
                 message: `Get history ${job_name} successfull`,
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

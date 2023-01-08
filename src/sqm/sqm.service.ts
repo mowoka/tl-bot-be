@@ -150,16 +150,20 @@ export class SqmService {
                 status: true,
                 statusCode: 200,
                 message: 'Get history tiket SQM successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: true,
                 statusCode: 200,
                 message: 'Get history tiket SQM successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

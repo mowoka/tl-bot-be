@@ -63,16 +63,20 @@ export class TutupOdpService {
                 status: false,
                 statusCode: 200,
                 message: 'Get history tutup odp successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: false,
                 statusCode: 200,
                 message: 'Get history tutup odp successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

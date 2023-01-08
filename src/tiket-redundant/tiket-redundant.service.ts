@@ -67,16 +67,20 @@ export class TiketRedundantService {
                 status: false,
                 statusCode: 200,
                 message: 'Get history tiket redundant successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: false,
                 statusCode: 200,
                 message: 'Get history tiket redundant successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

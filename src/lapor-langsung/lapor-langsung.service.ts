@@ -65,16 +65,20 @@ export class LaporLangsungService {
                 status: true,
                 statusCode: 200,
                 message: 'Get history lapor langsung successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: true,
                 statusCode: 200,
                 message: 'Get history lapor langsung successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

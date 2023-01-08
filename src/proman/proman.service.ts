@@ -67,16 +67,20 @@ export class PromanService {
                 status: true,
                 statusCode: 200,
                 message: 'Get history proman successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: true,
                 statusCode: 200,
                 message: 'Get history proman successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

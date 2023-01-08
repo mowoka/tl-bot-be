@@ -263,7 +263,7 @@ export class TeknisiUserService {
                     return this.lapor_langsung_serv.get_lapor_langsung_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
                 } else if (params.ticket_title === 'tutup_odp') {
                     return this.tutup_odp_serv.get_tutup_odp_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
-                } else if (params.ticket_title === 'ticket_regular') {
+                } else if (params.ticket_title === 'tiket_reguler') {
                     return this.tiket_reguler_serv.get_tiket_reguler_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
                 } else if (params.ticket_title === 'ticket_sqm') {
                     return this.tiket_sqm_serv.get_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
@@ -278,8 +278,6 @@ export class TeknisiUserService {
                 } else {
                     return this.tiket_team_lead_serv.get_tiket_team_lead_history(pagination.skip, pagination.take, params.ticket_title, teknisi_user.id);
                 }
-
-
             } else {
                 return {
                     status: false,
@@ -288,11 +286,6 @@ export class TeknisiUserService {
                 }
             }
 
-            return {
-                status: false,
-                statusCode: 500,
-                message: 'Internal server error',
-            }
         } catch (e) {
             throw (e);
         }

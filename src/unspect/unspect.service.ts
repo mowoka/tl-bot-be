@@ -65,16 +65,20 @@ export class UnspectService {
                 status: false,
                 statusCode: 200,
                 message: 'Get history unspect successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: false,
                 statusCode: 200,
                 message: 'Get history unspect successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {

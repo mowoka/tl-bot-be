@@ -62,16 +62,20 @@ export class ValinsService {
                 status: false,
                 statusCode: 200,
                 message: 'Get history valins successfull',
-                data: history,
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
             return {
                 status: false,
                 statusCode: 200,
                 message: 'Get history valins successfull',
-                data: [],
-                metadata
+                data: {
+                    history,
+                    metadata
+                },
             }
 
         } catch (e) {
