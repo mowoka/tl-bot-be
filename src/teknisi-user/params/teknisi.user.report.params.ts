@@ -11,6 +11,9 @@ export class TeknisiUserReportParams {
     regional: string
 
     @ApiProperty()
+    page: string
+
+    @ApiProperty()
     createAt: {
         gte: Date,
         lt: Date,

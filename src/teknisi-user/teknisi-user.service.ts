@@ -4,7 +4,7 @@ import { TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { User } from './type';
 import { count_kpi } from './utility';
-import { generateParams, generateParamsUserTeknisi } from './utility/gen.params.history';
+import { generateParams, generateParamsUserTeknisi, generateParamsUserTeknisiReport } from './utility/gen.params.history';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
 import { TiketRegulerService } from 'src/tiket-reguler/tiket-reguler.service';
@@ -117,16 +117,20 @@ export class TeknisiUserService {
     }
 
     async get_teknisi_user_report(params: TeknisiUserReportParams) {
-        // if (!params.partner) delete params.partner
-        // if (!params.regional) delete params.regional
-        // if (!params.sector) delete params.sector
+        const { pagination } = generateParamsUserTeknisiReport(params.page);
+        if (!params.partner) delete params.partner
+        if (!params.regional) delete params.regional
+        if (!params.sector) delete params.sector
+        delete params.page
 
         try {
             const teknisi_users_report = await this.prisma.user_teknisi.findMany({
+                skip: pagination.skip,
+                take: pagination.take,
                 orderBy: {
                     createAt: 'asc',
                 },
-                // where: { ...params },
+                where: { ...params },
                 include: {
                     lapor_langsung: {
                         include: {
@@ -185,17 +189,35 @@ export class TeknisiUserService {
                 }
             })
 
+            const count_teknisi_user_report = await this.prisma.user_teknisi.count({
+                where: { ...params }
+            })
+
             if (teknisi_users_report) {
                 const teknisi_users: User[] = teknisi_users_report;
                 const result = teknisi_users.map((user) => {
                     return count_kpi(user);
                 })
 
+                const paginationValue = Math.ceil(count_teknisi_user_report / 10);
+
+
+                const metadata = {
+                    total: count_teknisi_user_report,
+                    page: pagination.skip === 0 ? 1 : pagination.skip / 10 + 1,
+                    pagination: paginationValue === 0 ? 1 : paginationValue
+                }
+
+
+
                 return {
                     statusCode: 200,
                     status: true,
                     message: 'get teknisi user report successfull',
-                    data: result
+                    data: {
+                        data: result,
+                        metadata
+                    }
                 }
             }
 
