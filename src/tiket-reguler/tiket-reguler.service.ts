@@ -96,7 +96,6 @@ export class TiketRegulerService {
                     }
                 }
             }
-
             // logic jika tidak ada tiket terkait maka buat submit baru
             const tiket_reguler = await this.prisma.ticket_regular.create({
                 data: {
