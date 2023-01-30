@@ -10,7 +10,6 @@ export class TiketRegulerService {
     constructor(
         private prisma: PrismaService,
         private tiket_redundant_serv: TiketRedundantService,
-        private tiket_sqm_serv: SqmService
     ) { }
 
     async submit_tiket_reguler(initDto: RequestTicketDataProps, dto: TicketRegularProps) {
