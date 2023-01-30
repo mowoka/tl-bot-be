@@ -3,16 +3,63 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { RequestTicketDataProps, TicketRegularProps } from 'src/ticket/utitlity';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketRedundantProps } from 'src/tiket-redundant/dto';
+import { SqmService } from 'src/sqm/sqm.service';
 
 @Injectable()
 export class TiketRegulerService {
-    constructor(private prisma: PrismaService, private tiket_redundant_serv: TiketRedundantService) { }
+    constructor(
+        private prisma: PrismaService,
+        private tiket_redundant_serv: TiketRedundantService,
+        private tiket_sqm_serv: SqmService
+    ) { }
 
     async submit_tiket_reguler(initDto: RequestTicketDataProps, dto: TicketRegularProps) {
         const { job_id, idTelegram } = initDto;
         const { insiden_number, speedy_number, customer_name, customer_phone, problem, description } = dto;
         const dateNow = Date.now();
         try {
+            // logic for check if sqm tiket available < 60 days
+            // check SQM tiket
+            const find_tiket_sqm = await this.prisma.ticket_sqm.findMany({
+                where: {
+                    speedy_number
+                },
+                orderBy: {
+                    createAt: 'desc',
+                }
+            })
+
+            if (find_tiket_sqm.length > 0) {
+                const prevTiket = find_tiket_sqm[0];
+                const prevDate = new Date(prevTiket.createAt).getTime();
+                const countGapDate = dateNow - prevDate;
+                const day = 1000 * 60 * 60 * 24;
+                if ((countGapDate / day) < 60) {
+                    const sendData: TiketRedundantProps = {
+                        insiden_number: insiden_number,
+                        speedy_number: speedy_number,
+                        customer_name: customer_name,
+                        customer_phone: customer_phone,
+                        problem: problem,
+                        description: description,
+                        job_id: job_id,
+                        idTelegram: prevTiket.idTelegram,
+                    }
+
+                    const res = await this.tiket_redundant_serv.submit_tiket_redundant(sendData);
+                    if (res.statusCode === 200) {
+                        return {
+                            status: true,
+                            statusCode: 200,
+                            message: 'Create ticket reguler successfull',
+                        }
+                    }
+                }
+
+            }
+
+            // logic for check if tiket reguler available < 60 days
+            // check Reguler tiket
             const find_ticket = await this.prisma.ticket_regular.findMany({
                 where: {
                     speedy_number
@@ -37,7 +84,7 @@ export class TiketRegulerService {
                         customer_phone: customer_phone,
                         problem: problem,
                         description: description,
-                        job_id: job_id,
+                        job_id: prevTiket.idTelegram,
                         idTelegram: idTelegram,
                     }
                     // submit to tiket redundant
@@ -49,77 +96,28 @@ export class TiketRegulerService {
                             message: 'Create ticket reguler successfull',
                         }
                     }
-                    // if (res.statusCode === 200) {
-                    //     // submit tiket reguler
-                    //     const tiket_reguler = await this.prisma.ticket_regular.create({
-                    //         data: {
-                    //             insiden_number,
-                    //             speedy_number,
-                    //             customer_name,
-                    //             customer_number: customer_phone,
-                    //             problem,
-                    //             description,
-                    //             idTelegram,
-                    //             teknisi_job_id: job_id,
-                    //         }
-                    //     })
-
-                    //     if (tiket_reguler) return {
-                    //         status: true,
-                    //         statusCode: 200,
-                    //         message: 'Create ticket reguler successfull',
-                    //         data: tiket_reguler
-                    //     }
-
-                    // } else {
-                    //     return {
-                    //         status: true,
-                    //         statusCode: 403,
-                    //         message: 'error submiting tiket redundant',
-                    //     }
-                    // }
-                } else {
-                    const tiket_reguler = await this.prisma.ticket_regular.create({
-                        data: {
-                            insiden_number,
-                            speedy_number,
-                            customer_name,
-                            customer_number: customer_phone,
-                            problem,
-                            description,
-                            idTelegram,
-                            teknisi_job_id: job_id,
-                        }
-                    })
-
-                    if (tiket_reguler) return {
-                        status: true,
-                        statusCode: 200,
-                        message: 'Create ticket reguler successfull',
-                        data: tiket_reguler
-                    }
                 }
-            } else {
-                // logic jika tidak ada tiket terkait maka buat submit baru
-                const tiket_reguler = await this.prisma.ticket_regular.create({
-                    data: {
-                        insiden_number,
-                        speedy_number,
-                        customer_name,
-                        customer_number: customer_phone,
-                        problem,
-                        description,
-                        idTelegram,
-                        teknisi_job_id: job_id,
-                    }
-                })
+            }
 
-                if (tiket_reguler) return {
-                    status: true,
-                    statusCode: 200,
-                    message: 'Create ticket reguler successfull',
-                    data: tiket_reguler
+            // logic jika tidak ada tiket terkait maka buat submit baru
+            const tiket_reguler = await this.prisma.ticket_regular.create({
+                data: {
+                    insiden_number,
+                    speedy_number,
+                    customer_name,
+                    customer_number: customer_phone,
+                    problem,
+                    description,
+                    idTelegram,
+                    teknisi_job_id: job_id,
                 }
+            })
+
+            if (tiket_reguler) return {
+                status: true,
+                statusCode: 200,
+                message: 'Create ticket reguler successfull',
+                data: tiket_reguler
             }
 
             return {
@@ -127,6 +125,7 @@ export class TiketRegulerService {
                 statusCode: 500,
                 message: 'Internal server error',
             };
+
         } catch (e) {
             throw e;
         }
