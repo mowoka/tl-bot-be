@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { RequestTicketDataProps, TicketRegularProps } from 'src/ticket/utitlity';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketRedundantProps } from 'src/tiket-redundant/dto';
-import { SqmService } from 'src/sqm/sqm.service';
 
 @Injectable()
 export class TiketRegulerService {
@@ -59,7 +58,7 @@ export class TiketRegulerService {
 
             // logic for check if tiket reguler available < 60 days
             // check Reguler tiket
-            const find_ticket = await this.prisma.ticket_regular.findMany({
+            const find_ticket_reguler = await this.prisma.ticket_regular.findMany({
                 where: {
                     speedy_number
                 },
@@ -69,8 +68,8 @@ export class TiketRegulerService {
             });
 
 
-            if (find_ticket.length > 0) {
-                const prevTiket = find_ticket[0];
+            if (find_ticket_reguler.length > 0) {
+                const prevTiket = find_ticket_reguler[0];
                 const prevDate = new Date(prevTiket.createAt).getTime();
                 const countGapDate = dateNow - prevDate;
                 const day = 1000 * 60 * 60 * 24;
