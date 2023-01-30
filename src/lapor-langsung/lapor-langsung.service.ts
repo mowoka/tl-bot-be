@@ -38,4 +38,51 @@ export class LaporLangsungService {
             throw e
         }
     }
+
+    async get_lapor_langsung_history(skip: number, take: number, idTelegram: string) {
+        try {
+            const history = await this.prisma.lapor_langsung.findMany({
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram
+                }
+            })
+
+            const count_history = await this.prisma.lapor_langsung.count({
+                where: { idTelegram: idTelegram }
+            })
+
+            const pagination = Math.ceil(count_history / 10);
+
+            const metadata = {
+                total: count_history,
+                page: skip === 0 ? 1 : skip / 10 + 1,
+                pagination: pagination === 0 ? 1 : pagination
+            }
+
+            if (history.length > 0) return {
+                status: true,
+                statusCode: 200,
+                message: 'Get history lapor langsung successfull',
+                data: {
+                    history,
+                    metadata
+                },
+            }
+
+            return {
+                status: true,
+                statusCode: 200,
+                message: 'Get history lapor langsung successfull',
+                data: {
+                    history,
+                    metadata
+                },
+            }
+
+        } catch (e) {
+            throw e;
+        }
+    }
 }

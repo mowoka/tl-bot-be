@@ -11,8 +11,8 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
-    .setTitle('ION API')
-    .setDescription('API for ION apps')
+    .setTitle('IOAN API')
+    .setDescription('API for IAON apps')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

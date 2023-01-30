@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 
-export class TeknisiUserParams {
+export class TeknisiUserReportParams {
     @ApiProperty()
     partner: string
 
@@ -12,4 +12,10 @@ export class TeknisiUserParams {
 
     @ApiProperty()
     page: string
+
+    @ApiProperty()
+    createAt: {
+        gte: Date,
+        lt: Date,
+    }
 }

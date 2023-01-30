@@ -99,7 +99,6 @@ export class AuthService {
           nik: dto.nik,
         },
       });
-      console.log(user);
 
       if (!user) throw new ForbiddenException('Credential Incorrect');
 
@@ -121,7 +120,7 @@ export class AuthService {
 
   }
 
-  async signToken(userId: string, nik: string) {
+  async signToken(userId: number, nik: string) {
     const payload = {
       sub: userId,
       nik,

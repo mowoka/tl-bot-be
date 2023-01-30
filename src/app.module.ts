@@ -17,6 +17,7 @@ import { ValinsModule } from './valins/valins.module';
 import { UnspectModule } from './unspect/unspect.module';
 import { PromanModule } from './proman/proman.module';
 import { SqmModule } from './sqm/sqm.module';
+import { TiketTeamLeadModule } from './tiket-team-lead/tiket-team-lead.module';
 
 @Module({
   imports: [
@@ -36,9 +37,10 @@ import { SqmModule } from './sqm/sqm.module';
     UnspectModule,
     PromanModule,
     SqmModule,
+    TiketTeamLeadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 
 })
-export class AppModule {}
+export class AppModule { }

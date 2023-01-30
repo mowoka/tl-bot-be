@@ -183,7 +183,7 @@ async function TutupODPValidator(job_name: string, ctx: Context) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan nama ODP`, {
             parse_mode: 'HTML',
         })
-    } else if (odp_address) {
+    } else if (!odp_address) {
         await ctx.reply(`Masukan Alamat ODP`, {
             parse_mode: 'HTML',
         })
@@ -302,7 +302,7 @@ async function SQMValidator(job_name: string, ctx: Context) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
             parse_mode: 'HTML',
         })
-    } else if (speedy_number) {
+    } else if (!speedy_number) {
         await ctx.reply(`Masukan speedy number`, {
             parse_mode: 'HTML',
         })

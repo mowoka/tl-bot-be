@@ -7,13 +7,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 // team lead user model
 model user {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -29,7 +30,7 @@ model user {
 
 // teknisi user model
 model user_teknisi {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -54,7 +55,7 @@ model user_teknisi {
 
 // team leader job model
 model team_lead_job {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -65,7 +66,7 @@ model team_lead_job {
 
 // teknisi job model
 model teknisi_job {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @unique
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -85,7 +86,7 @@ model teknisi_job {
 
 // model Lapor Langsung
 model lapor_langsung {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -95,36 +96,36 @@ model lapor_langsung {
   problem        String
   description    String
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("lapor_langsung")
 }
 
 // tutup odp
 model tutup_odp {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
   odp_name    String
   odp_address String
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("tutup_odp")
 }
 
 // ticket_regular
 model ticket_regular {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -135,18 +136,18 @@ model ticket_regular {
   problem         String
   description     String
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("ticket_regular")
 }
 
 // SQM
 model ticket_sqm {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -157,18 +158,18 @@ model ticket_sqm {
   problem         String
   description     String
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("ticket_sqm")
 }
 
 // Proman
 model proman {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -180,18 +181,18 @@ model proman {
   odp_cradle            Int
   opm_length            Int
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("proman")
 }
 
 // Unspect
 model unspect {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -200,51 +201,51 @@ model unspect {
   problem       String
   description   String
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("unspect")
 }
 
 // Valins
 model valins {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
   valins_id String
   odp       String
 
-  teknisi_job_id String      @db.ObjectId
+  teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("valins")
 }
 
 // TL ticket input
 model ticket_team_lead {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
   description String
 
-  teknisi_user_id String       @db.ObjectId
+  teknisi_user_id Int
   teknisi         user_teknisi @relation(fields: [teknisi_user_id], references: [id])
 
-  team_lead_job_id String        @db.ObjectId
+  team_lead_job_id Int
   job              team_lead_job @relation(fields: [team_lead_job_id], references: [id])
 }
 
 // model for note ticket regul
 model ticket_redundant {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
@@ -255,9 +256,9 @@ model ticket_redundant {
   description    String
   minus_point    Int
 
-  job_id String      @db.ObjectId
+  job_id String
   job    teknisi_job @relation(fields: [job_id], references: [id])
 
-  idTelegram           String
-  teknisi_use_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 }
