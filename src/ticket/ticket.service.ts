@@ -10,11 +10,22 @@ import { ValinsService } from 'src/valins/valins.service';
 import { UnspectService } from 'src/unspect/unspect.service';
 import { PromanService } from 'src/proman/proman.service';
 import { SqmService } from 'src/sqm/sqm.service';
+import { TeknisiUserService } from 'src/teknisi-user/teknisi-user.service';
 
 @Update()
 @Injectable()
 export class TicketService {
-  constructor(private teknisi_service: TeknisiJobService, private lapor_langsung_service: LaporLangsungService, private tiket_reguler: TiketRegulerService, private tutup_odp: TutupOdpService, private valins: ValinsService, private unspect: UnspectService, private proman: PromanService, private sqm: SqmService) { }
+  constructor(
+    private teknisi_service: TeknisiJobService,
+    private lapor_langsung_service: LaporLangsungService,
+    private tiket_reguler: TiketRegulerService,
+    private tutup_odp: TutupOdpService,
+    private valins: ValinsService,
+    private unspect: UnspectService,
+    private proman: PromanService,
+    private sqm: SqmService,
+    private teknisi_user_serv: TeknisiUserService,
+  ) { }
 
   @Start()
   async startCommand(ctx: Context) {
@@ -46,7 +57,6 @@ export class TicketService {
       REQUEST_TICKET_DATA.idTelegram = ctx.message.chat.id.toString();
       await this.placingMessage(message);
       await this.requesting(ctx);
-
     } else {
       return ctx.reply('Please input your details');
     }
@@ -61,6 +71,9 @@ export class TicketService {
   }
 
   async requesting(ctx: Context) {
+    const idTelegram = ctx.message.chat.id.toString();
+    const isUserTeknisiAvailable = await this.teknisi_user_serv.check_user_teknisi(idTelegram);
+    if (!isUserTeknisiAvailable) return ctx.reply('Anda belum terdaftar di sistem, mohon contact admin sistem');
     if (!REQUEST_TICKET_DATA.job_name) {
       const teknisi_job = await this.teknisi_service.get_teknisi_job();
       const tempKeyboardList = [];

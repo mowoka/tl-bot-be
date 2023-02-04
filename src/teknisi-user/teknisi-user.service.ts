@@ -17,7 +17,8 @@ import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.servic
 
 @Injectable()
 export class TeknisiUserService {
-    constructor(private prisma: PrismaService,
+    constructor(
+        private prisma: PrismaService,
         private lapor_langsung_serv: LaporLangsungService,
         private tutup_odp_serv: TutupOdpService,
         private tiket_reguler_serv: TiketRegulerService,
@@ -326,6 +327,20 @@ export class TeknisiUserService {
                 }
             }
 
+        } catch (e) {
+            throw (e);
+        }
+    }
+
+    async check_user_teknisi(idTelegram: string) {
+        try {
+            const user_teknisi_available = this.prisma.user_teknisi.findUnique({
+                where: {
+                    idTelegram: idTelegram,
+                }
+            });
+            if (user_teknisi_available) return true;
+            return false;
         } catch (e) {
             throw (e);
         }

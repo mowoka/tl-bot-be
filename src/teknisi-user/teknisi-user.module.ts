@@ -14,7 +14,8 @@ import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.servic
 
 @Module({
   controllers: [TeknisiUserController],
-  providers: [TeknisiUserService,
+  providers: [
+    TeknisiUserService,
     JwtStrategy,
     LaporLangsungService,
     TutupOdpService,
@@ -23,8 +24,9 @@ import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.servic
     PromanService,
     UnspectService,
     ValinsService,
+    TiketTeamLeadService,
     TiketRedundantService,
-    TiketTeamLeadService
-  ]
+  ],
+  exports: [TiketTeamLeadService]
 })
 export class TeknisiUserModule { }
