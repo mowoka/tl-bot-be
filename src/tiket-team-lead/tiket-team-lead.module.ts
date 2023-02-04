@@ -5,6 +5,7 @@ import { JwtStrategy } from 'src/auth/strategy';
 
 @Module({
   controllers: [TiketTeamLeadController],
-  providers: [TiketTeamLeadService, JwtStrategy]
+  providers: [TiketTeamLeadService, JwtStrategy],
+  exports: [TiketTeamLeadService]
 })
 export class TiketTeamLeadModule { }

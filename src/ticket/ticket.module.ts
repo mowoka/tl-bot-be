@@ -1,6 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TicketService } from './ticket.service';
-import { TicketController } from './ticket.controller';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { JwtStrategy } from 'src/auth/strategy';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
@@ -12,14 +11,30 @@ import { ValinsService } from 'src/valins/valins.service';
 import { UnspectService } from 'src/unspect/unspect.service';
 import { PromanService } from 'src/proman/proman.service';
 import { SqmService } from 'src/sqm/sqm.service';
+import { TeknisiUserService } from 'src/teknisi-user/teknisi-user.service';
+import { TeknisiUserModule } from 'src/teknisi-user/teknisi-user.module';
 
 @Module({
   imports: [
     TelegrafModule.forRoot({
       token: process.env.TELEGRAM_TOKEN,
+
     }),
+    forwardRef(() => TeknisiUserModule),
   ],
-  providers: [TicketService, JwtStrategy, TeknisiJobService, LaporLangsungService, TiketRegulerService, TiketRedundantService, TutupOdpService, ValinsService, UnspectService, PromanService, SqmService],
-  controllers: [TicketController]
+  providers: [
+    TicketService,
+    JwtStrategy,
+    TeknisiJobService,
+    LaporLangsungService,
+    TiketRegulerService,
+    TiketRedundantService,
+    TutupOdpService,
+    ValinsService,
+    UnspectService,
+    PromanService,
+    SqmService,
+    TeknisiUserService
+  ],
 })
 export class TicketModule { }
