@@ -119,9 +119,12 @@ export class TeknisiUserService {
 
     async get_teknisi_user_report(params: TeknisiUserReportParams) {
         const { pagination } = generateParamsUserTeknisiReport(params.page);
-        if (!params.partner) delete params.partner
-        if (!params.regional) delete params.regional
-        if (!params.sector) delete params.sector
+        const paramsParent = params;
+        const paramsChild = { ...params.createAt };
+        if (!params.partner) delete paramsParent.partner
+        if (!params.regional) delete paramsParent.regional
+        if (!params.sector) delete paramsParent.sector
+        delete paramsParent.createAt;
         delete params.page
 
         try {
@@ -131,57 +134,84 @@ export class TeknisiUserService {
                 orderBy: {
                     createAt: 'asc',
                 },
-                where: { ...params },
+                where: { ...paramsParent },
                 include: {
                     lapor_langsung: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         },
                     },
                     tutup_odp: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     ticket_regular: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     ticket_sqm: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     proman: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     unspect: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     valins: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     ticket_redundant: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi_user_telegram: true,
                         }
                     },
                     ticket_team_lead: {
+                        where: {
+                            createAt: { ...paramsChild }
+                        },
                         include: {
                             job: true,
                             teknisi: true,
