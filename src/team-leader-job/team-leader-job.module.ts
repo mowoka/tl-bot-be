@@ -5,6 +5,6 @@ import { JwtStrategy } from 'src/auth/strategy';
 
 @Module({
   controllers: [TeamLeaderJobController],
-  providers: [TeamLeaderJobService, JwtStrategy]
+  providers: [TeamLeaderJobService, JwtStrategy],
 })
 export class TeamLeaderJobModule { }

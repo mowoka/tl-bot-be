@@ -17,13 +17,18 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'regional', required: false })
     @ApiQuery({ name: 'sector', required: false })
     @ApiQuery({ name: 'page', required: false })
-    get_teknisi_user(@Query('partner') partner?: string, @Query('regional') regional?: string, @Query('sector') sector?: string, @Query('page') page?: string) {
+    get_teknisi_user(
+        @Query('partner') partner?: string,
+        @Query('regional') regional?: string,
+        @Query('sector') sector?: string,
+        @Query('page') page?: string,
+    ) {
         const params: TeknisiUserParams = {
             partner: partner ?? '',
             regional: regional ?? '',
             sector: sector ?? '',
-            page: page ?? '1'
-        }
+            page: page ?? '1',
+        };
         return this.teknisi_user_service.get_teknisi_user(params);
     }
 
@@ -44,7 +49,14 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'startDate', required: true })
     @ApiQuery({ name: 'endDate', required: true })
     @ApiQuery({ name: 'page', required: false })
-    get_teknisi_user_report(@Query('partner') partner?: string, @Query('regional') regional?: string, @Query('sector') sector?: string, @Query('startDate') startDate?: string, @Query('endDate') endDate?: string, @Query('page') page?: string) {
+    get_teknisi_user_report(
+        @Query('partner') partner?: string,
+        @Query('regional') regional?: string,
+        @Query('sector') sector?: string,
+        @Query('startDate') startDate?: string,
+        @Query('endDate') endDate?: string,
+        @Query('page') page?: string,
+    ) {
         const params: TeknisiUserReportParams = {
             partner: partner ?? '',
             regional: regional ?? '',
@@ -53,8 +65,8 @@ export class TeknisiUserController {
             createAt: {
                 gte: new Date(startDate) ?? new Date(),
                 lt: new Date(endDate) ?? new Date(),
-            }
-        }
+            },
+        };
         return this.teknisi_user_service.get_teknisi_user_report(params);
     }
 
@@ -62,13 +74,16 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'nik', required: true })
     @ApiQuery({ name: 'ticket_title', required: true })
     @ApiQuery({ name: 'page', required: false })
-    get_teknisi_user_history(@Query('nik') nik: string, @Query('ticket_title') ticket_title: string, @Query('page') page?: string) {
+    get_teknisi_user_history(
+        @Query('nik') nik: string,
+        @Query('ticket_title') ticket_title: string,
+        @Query('page') page?: string,
+    ) {
         const params: TeknisiUserHistoryParams = {
             nik: nik,
             ticket_title,
-            page: page ?? '1'
-        }
+            page: page ?? '1',
+        };
         return this.teknisi_user_service.get_user_teknisi_history(params);
     }
-
 }
