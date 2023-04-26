@@ -44,7 +44,7 @@ CREATE TABLE "team_lead_job" (
 
 -- CreateTable
 CREATE TABLE "teknisi_job" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "name" TEXT NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE "lapor_langsung" (
     "customer_name" TEXT NOT NULL,
     "problem" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "lapor_langsung_pkey" PRIMARY KEY ("id")
@@ -76,7 +76,7 @@ CREATE TABLE "tutup_odp" (
     "updateAt" TIMESTAMP(3) NOT NULL,
     "odp_name" TEXT NOT NULL,
     "odp_address" TEXT NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "tutup_odp_pkey" PRIMARY KEY ("id")
@@ -93,7 +93,7 @@ CREATE TABLE "ticket_regular" (
     "customer_number" TEXT NOT NULL,
     "problem" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "ticket_regular_pkey" PRIMARY KEY ("id")
@@ -110,7 +110,7 @@ CREATE TABLE "ticket_sqm" (
     "customer_number" TEXT NOT NULL,
     "problem" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "ticket_sqm_pkey" PRIMARY KEY ("id")
@@ -128,7 +128,7 @@ CREATE TABLE "proman" (
     "status_port_available" INTEGER NOT NULL,
     "odp_cradle" INTEGER NOT NULL,
     "opm_length" INTEGER NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "proman_pkey" PRIMARY KEY ("id")
@@ -143,7 +143,7 @@ CREATE TABLE "unspect" (
     "odp" TEXT NOT NULL,
     "problem" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "unspect_pkey" PRIMARY KEY ("id")
@@ -156,7 +156,7 @@ CREATE TABLE "valins" (
     "updateAt" TIMESTAMP(3) NOT NULL,
     "valins_id" TEXT NOT NULL,
     "odp" TEXT NOT NULL,
-    "teknisi_job_id" INTEGER NOT NULL,
+    "teknisi_job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "valins_pkey" PRIMARY KEY ("id")
@@ -185,7 +185,7 @@ CREATE TABLE "ticket_redundant" (
     "problem" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "minus_point" INTEGER NOT NULL,
-    "job_id" INTEGER NOT NULL,
+    "job_id" TEXT NOT NULL,
     "idTelegram" TEXT NOT NULL,
 
     CONSTRAINT "ticket_redundant_pkey" PRIMARY KEY ("id")
@@ -205,6 +205,9 @@ CREATE UNIQUE INDEX "user_teknisi_idTelegram_key" ON "user_teknisi"("idTelegram"
 
 -- CreateIndex
 CREATE UNIQUE INDEX "team_lead_job_name_key" ON "team_lead_job"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "teknisi_job_id_key" ON "teknisi_job"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "teknisi_job_name_key" ON "teknisi_job"("name");
