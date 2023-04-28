@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  // output   = "../node_modules/.prisma/client"
+  // output   = "../node_modules/.prisma/client"d
 }
 
 datasource db {
@@ -12,6 +12,16 @@ datasource db {
   // for production uncomment down below
   // url               = env("DATABASE_URL")
   // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+// sector model
+model sector {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  sector_code String @unique
+  name        String
 }
 
 // team lead user model

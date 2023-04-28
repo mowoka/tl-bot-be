@@ -18,6 +18,8 @@ import { UnspectModule } from './unspect/unspect.module';
 import { PromanModule } from './proman/proman.module';
 import { SqmModule } from './sqm/sqm.module';
 import { TiketTeamLeadModule } from './tiket-team-lead/tiket-team-lead.module';
+import { SectorModule } from './sector/sector.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { TiketTeamLeadModule } from './tiket-team-lead/tiket-team-lead.module';
     PromanModule,
     SqmModule,
     TiketTeamLeadModule,
+    SectorModule,
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
