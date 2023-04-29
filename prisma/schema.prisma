@@ -44,6 +44,16 @@ model partner {
   name         String
 }
 
+// regional model
+model regional {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  regional_code String @unique
+  name          String
+}
+
 // team lead user model
 model user {
   id       Int      @id @default(autoincrement())

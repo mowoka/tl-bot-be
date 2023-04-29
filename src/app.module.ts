@@ -22,6 +22,7 @@ import { SectorModule } from './sector/sector.module';
 import { CoreModule } from './core/core.module';
 import { WitelModule } from './witel/witel.module';
 import { PartnerModule } from './partner/partner.module';
+import { RegionalModule } from './regional/regional.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { PartnerModule } from './partner/partner.module';
     CoreModule,
     WitelModule,
     PartnerModule,
+    RegionalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
