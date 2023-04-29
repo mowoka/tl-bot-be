@@ -1,44 +1,44 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class AuthDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ example: '1120120012212' })
   nik: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ example: 'Mokaz' })
   name: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
-  idTelegram: string;
+  @ApiProperty({ example: 'team-lead' })
+  role: 'team-lead' | 'admin';
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ example: 1 })
+  partner_id: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ example: 1 })
+  sector_id: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ example: 1 })
+  witel_id: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ example: 1 })
+  regional_id: number;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
-  partner: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  sector: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  witel: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  regional: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ example: 'YakinMokaz123!' })
   password: string;
 }

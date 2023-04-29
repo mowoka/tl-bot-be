@@ -22,6 +22,8 @@ model sector {
 
   sector_code String @unique
   name        String
+
+  user user[]
 }
 
 // witel model
@@ -32,6 +34,8 @@ model witel {
 
   witel_code String @unique
   name       String
+
+  user user[]
 }
 
 // partner model
@@ -42,6 +46,8 @@ model partner {
 
   partner_code String @unique
   name         String
+
+  user user[]
 }
 
 // regional model
@@ -52,6 +58,7 @@ model regional {
 
   regional_code String @unique
   name          String
+  user          user[]
 }
 
 // team lead user model
@@ -60,14 +67,22 @@ model user {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  nik        String @unique
-  name       String
-  idTelegram String @unique
-  partner    String
-  sector     String
-  witel      String
-  regional   String
-  password   String
+  nik      String @unique
+  name     String
+  password String
+  role     String
+
+  partner_id Int
+  partner    partner @relation(fields: [partner_id], references: [id])
+
+  sector_id Int
+  sector    sector @relation(fields: [sector_id], references: [id])
+
+  witel_id Int
+  witel    witel @relation(fields: [witel_id], references: [id])
+
+  regional_id Int
+  regional    regional @relation(fields: [regional_id], references: [id])
 }
 
 // teknisi user model

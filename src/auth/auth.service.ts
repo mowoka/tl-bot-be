@@ -24,13 +24,13 @@ export class AuthService {
 
     if (user) {
       return {
-        statusCode: 200,
+        statusCode: 201,
         message: 'nik already register',
         success: false,
       }
     }
     return {
-      statusCode: 200,
+      statusCode: 201,
       message: 'nik not register',
       success: true
     }
@@ -55,16 +55,18 @@ export class AuthService {
         };
       }
 
+      console.log({ dto });
+
       const user = await this.prisma.user.create({
         data: {
           nik: dto.nik,
           name: dto.name,
-          idTelegram: dto.idTelegram,
-          partner: dto.partner,
-          sector: dto.sector,
-          witel: dto.witel,
-          regional: dto.regional,
           password: generateHash,
+          role: dto.role,
+          partner_id: dto.partner_id,
+          sector_id: dto.sector_id,
+          witel_id: dto.witel_id,
+          regional_id: dto.regional_id,
         },
       });
 
@@ -92,7 +94,7 @@ export class AuthService {
     }
   }
 
-  async sign(dto: LoginDto) {
+  async signin(dto: LoginDto) {
     try {
       const user = await this.prisma.user.findUnique({
         where: {

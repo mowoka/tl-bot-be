@@ -4,6 +4,6 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class ValidateNikDto {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: '1120120012212' })
     nik: string;
 }
