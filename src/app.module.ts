@@ -21,6 +21,7 @@ import { TiketTeamLeadModule } from './tiket-team-lead/tiket-team-lead.module';
 import { SectorModule } from './sector/sector.module';
 import { CoreModule } from './core/core.module';
 import { WitelModule } from './witel/witel.module';
+import { PartnerModule } from './partner/partner.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { WitelModule } from './witel/witel.module';
     SectorModule,
     CoreModule,
     WitelModule,
+    PartnerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

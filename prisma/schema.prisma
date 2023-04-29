@@ -34,6 +34,16 @@ model witel {
   name       String
 }
 
+// partner model
+model partner {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  partner_code String @unique
+  name         String
+}
+
 // team lead user model
 model user {
   id       Int      @id @default(autoincrement())
