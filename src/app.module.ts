@@ -20,6 +20,7 @@ import { SqmModule } from './sqm/sqm.module';
 import { TiketTeamLeadModule } from './tiket-team-lead/tiket-team-lead.module';
 import { SectorModule } from './sector/sector.module';
 import { CoreModule } from './core/core.module';
+import { WitelModule } from './witel/witel.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { CoreModule } from './core/core.module';
     TiketTeamLeadModule,
     SectorModule,
     CoreModule,
+    WitelModule,
   ],
   controllers: [AppController],
   providers: [AppService],

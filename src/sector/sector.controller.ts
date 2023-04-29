@@ -5,14 +5,14 @@ import { JwtGuard } from 'src/auth/guards';
 import { SectorDto } from './dto';
 import { SectorResponse, SectorsResponse } from './types';
 import { BadRequestResponse, ErrorServerResponse } from '@core/types';
-// import { AdminRolesGuard } from '@auth/guards/admin-role.guard';
+import { AdminRolesGuard } from '@auth/guards/admin-role.guard';
 
 @ApiTags('Sector')
 @Controller('sector')
 export class SectorController {
     constructor(private sectorServ: SectorService) { }
 
-    // @UseGuards(AdminRolesGuard)
+
     @Get()
     @ApiResponse({ status: 200, description: 'Get Sector Successfull', type: SectorsResponse })
     get_sector() {
@@ -21,6 +21,7 @@ export class SectorController {
 
     @ApiBearerAuth()
     @UseGuards(JwtGuard)
+    @UseGuards(AdminRolesGuard)
     @Post()
     @ApiCreatedResponse({ status: 201, description: 'Create Sector Successfull', type: SectorResponse })
     @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
