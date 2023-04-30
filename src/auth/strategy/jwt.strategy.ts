@@ -1,3 +1,4 @@
+import { excludeUserField } from "@auth/utilities";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
@@ -5,8 +6,8 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt'){
-    constructor(config: ConfigService, private prisma:PrismaService){
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+    constructor(config: ConfigService, private prisma: PrismaService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -14,17 +15,22 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt'){
         });
     }
 
-    async validate(payload: {sub: string, nik: string}){
+    async validate(payload: { sub: string, nik: string }) {
         const user = await this.prisma.user.findUnique({
             where: {
                 nik: payload.nik
-            }
-        })  
-        
-        delete user.password
+            }, include: {
+                sector: true,
+                partner: true,
+                witel: true,
+                regional: true,
+            },
+        })
 
-        if(!user) return null
+        if (!user) return null
 
-        return user  
+        const userRemoveField = excludeUserField(user, ['password', 'createAt', 'updateAt', 'partner_id', 'sector_id', 'witel_id', 'regional_id'])
+
+        return userRemoveField;
     }
 }
