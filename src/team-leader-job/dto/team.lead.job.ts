@@ -5,11 +5,11 @@ export class TeamLeadJob {
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: 'Gamas Tipe A' })
     name: string;
 
     @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: 4 })
     point: number
 }

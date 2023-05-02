@@ -116,8 +116,10 @@ model team_lead_job {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name             String             @unique
-  point            Float
+  team_lead_job_code String @unique
+  name               String
+  point              Float
+
   ticket_team_lead ticket_team_lead[]
 }
 
