@@ -5,11 +5,11 @@ export class TeknsiJob {
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: 'Tiket Reguler' })
     name: string;
 
     @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: 1 })
     point: number
 }

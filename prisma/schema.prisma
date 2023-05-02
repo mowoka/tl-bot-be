@@ -127,8 +127,10 @@ model teknisi_job {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  name             String             @unique
+  teknisi_job_code String @unique
+  name             String
   point            Float
+
   lapor_langsung   lapor_langsung[]
   tutup_odp        tutup_odp[]
   ticket_regular   ticket_regular[]
