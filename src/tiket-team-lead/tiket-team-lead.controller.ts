@@ -1,8 +1,9 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guards';
-import { TiketTeamLead } from './dto';
+import { TiketTeamLeadDto } from './dto';
 import { TiketTeamLeadService } from './tiket-team-lead.service';
+import { ApiResponseType, BadRequestResponse, ErrorServerResponse } from '@core/types';
 
 @ApiTags('Tiket Team Lead')
 @UseGuards(JwtGuard)
@@ -12,7 +13,10 @@ export class TiketTeamLeadController {
     constructor(private tiket_team_lead: TiketTeamLeadService) { }
 
     @Post()
-    add_tiket_lead(@Body('') dto: TiketTeamLead) {
+    @ApiCreatedResponse({ status: 201, description: 'Input Tiket Team Lead Successfull', type: ApiResponseType })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
+    @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
+    add_tiket_lead(@Body('') dto: TiketTeamLeadDto) {
         return this.tiket_team_lead.add_tiket_team_lead(dto);
     }
 }

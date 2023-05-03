@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TiketTeamLead } from './dto';
+import { TiketTeamLeadDto } from './dto';
 
 @Injectable()
 export class TiketTeamLeadService {
     constructor(private prisma: PrismaService) { }
 
 
-    async add_tiket_team_lead(dto: TiketTeamLead) {
+    async add_tiket_team_lead(dto: TiketTeamLeadDto) {
         try {
             const tiket_team_lead = await this.prisma.ticket_team_lead.create({
                 data: {
@@ -17,21 +17,18 @@ export class TiketTeamLeadService {
                 }
             })
 
-            if (tiket_team_lead) return {
+            return {
                 status: true,
-                statusCode: 200,
-                message: 'create tiket team lead success full',
-                data: tiket_team_lead
+                statusCode: 201,
+                message: 'Input Tiket Team Lead Successfull',
             }
-
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
-                message: 'Internal server error',
+                message: 'Internal Server Errror',
+                data: e,
             }
-
-        } catch (e) {
-            throw e
         }
     }
 
