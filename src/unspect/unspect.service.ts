@@ -21,21 +21,19 @@ export class UnspectService {
                     teknisi_job_id: job_id
                 }
             })
-
-            if (unspect) return {
+            return {
                 status: true,
                 statusCode: 200,
                 message: 'Create unspect successfull',
                 data: unspect
             };
-
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
-                message: 'Internal server error',
+                message: 'Internal Server Error',
+                data: e
             };
-        } catch (e) {
-            throw e;
         }
     }
 
