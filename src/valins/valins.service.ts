@@ -21,18 +21,17 @@ export class ValinsService {
 
             if (valins) return {
                 status: true,
-                statusCode: 200,
-                message: 'Create valins successfull',
+                statusCode: 201,
+                message: 'Submit Valins Successfull',
                 data: valins
             };
-
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
-                message: 'Internal server error',
+                message: 'Internal Server Error',
+                data: e,
             };
-        } catch (e) {
-            throw (e);
         }
     }
 
