@@ -23,6 +23,7 @@ import { CoreModule } from './core/core.module';
 import { WitelModule } from './witel/witel.module';
 import { PartnerModule } from './partner/partner.module';
 import { RegionalModule } from './regional/regional.module';
+import { KendalaSqmModule } from './kendala-sqm/kendala-sqm.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { RegionalModule } from './regional/regional.module';
     WitelModule,
     PartnerModule,
     RegionalModule,
+    KendalaSqmModule,
   ],
   controllers: [AppController],
   providers: [AppService],

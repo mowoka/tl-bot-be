@@ -25,7 +25,7 @@ export class PromanService {
             })
             return {
                 status: true,
-                statusCode: 200,
+                statusCode: 201,
                 message: 'Submit Ticket Proman Successfull',
                 data: proman
             };

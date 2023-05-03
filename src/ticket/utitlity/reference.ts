@@ -115,9 +115,18 @@ export interface ValinsProps {
     valins_id: string;
     odp: string;
 }
+
+export interface KendalaSQMProps {
+    insiden_number: string;
+    speedy_number: string;
+    customer_name: string;
+    customer_number: string;
+    problem: string;
+    description: string;
+}
 export interface RequestTicketDataProps {
     job_id: string,
     job_name: string,
     idTelegram: string;
-    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps;
+    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps | KendalaSQMProps;
 }
