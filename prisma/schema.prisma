@@ -254,11 +254,11 @@ model ticket_proman {
 
   odp_name              String
   distribusi            String
-  capacity_port         Int
-  status_port_use       Int
-  status_port_available Int
-  odp_cradle            Int
-  opm_length            Int
+  capacity_port         String
+  status_port_use       String
+  status_port_available String
+  odp_cradle            String
+  opm_length            String
 
   teknisi_job_id String
   job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])

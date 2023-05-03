@@ -39,7 +39,7 @@ export const TICKET_PROMAN_DATA: PromanProps = {
     status_port_use: '',
     status_port_available: '',
     odp_cradle: '',
-    opm_lenght: '',
+    opm_length: '',
 }
 
 export const TICKET_UNSPECT_DATA: UnspectProps = {
@@ -101,7 +101,7 @@ export interface PromanProps {
     status_port_use: string;
     status_port_available: string;
     odp_cradle: string;
-    opm_lenght: string;
+    opm_length: string;
 }
 
 export interface UnspectProps {

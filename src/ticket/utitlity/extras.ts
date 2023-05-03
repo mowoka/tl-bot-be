@@ -112,7 +112,7 @@ export const placingMessageTicketData = (job_name: string, message: string) => {
             } else if (!odp_cradle) {
                 TICKET_PROMAN_DATA.odp_cradle = message;
             } else {
-                TICKET_PROMAN_DATA.opm_lenght = message;
+                TICKET_PROMAN_DATA.opm_length = message;
             }
             break;
         default:

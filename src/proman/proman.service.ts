@@ -8,35 +8,34 @@ export class PromanService {
 
     async submit_proman(initalDto: RequestTicketDataProps, dto: PromanProps) {
         const { job_id, idTelegram } = initalDto
-        const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_lenght } = dto;
+        const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_length } = dto;
         try {
             const proman = await this.prisma.ticket_proman.create({
                 data: {
                     odp_name,
                     distribusi,
-                    capacity_port: parseInt(capacity_port),
-                    status_port_use: parseInt(status_port_use),
-                    status_port_available: parseInt(status_port_available),
-                    odp_cradle: parseInt(odp_cradle),
-                    opm_length: parseInt(opm_lenght),
+                    capacity_port,
+                    status_port_use,
+                    status_port_available,
+                    odp_cradle,
+                    opm_length,
                     teknisi_job_id: job_id,
                     idTelegram
                 }
             })
-            if (proman) return {
+            return {
                 status: true,
                 statusCode: 200,
-                message: 'Create proman successfull',
+                message: 'Submit Ticket Proman Successfull',
                 data: proman
             };
-
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
                 message: 'Internal server error',
+                data: e,
             };
-        } catch (e) {
-            throw e;
         }
     }
 

@@ -67,7 +67,7 @@ function checkUnspect(): boolean {
 }
 
 function checkProman(): boolean {
-    const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_lenght } = TICKET_PROMAN_DATA;
+    const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_length: opm_lenght } = TICKET_PROMAN_DATA;
     if (!odp_name || !distribusi || !capacity_port || !status_port_use || !status_port_available || !odp_cradle || !opm_lenght) return false;
     return true;
 }
@@ -254,7 +254,7 @@ async function UnspectValidator(job_name: string, ctx: Context) {
 
 
 async function PromanValidator(job_name: string, ctx: Context) {
-    const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_lenght } = TICKET_PROMAN_DATA
+    const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_length: opm_lenght } = TICKET_PROMAN_DATA
     if (!odp_name) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan nama ODP`, {
             parse_mode: 'HTML',

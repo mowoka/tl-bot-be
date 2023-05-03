@@ -34,7 +34,7 @@ export const resetTicketData = () => {
     TICKET_PROMAN_DATA.status_port_use = ''
     TICKET_PROMAN_DATA.status_port_available = ''
     TICKET_PROMAN_DATA.odp_cradle = ''
-    TICKET_PROMAN_DATA.opm_lenght = ''
+    TICKET_PROMAN_DATA.opm_length = ''
     // unspect 
     TICKET_UNSPECT_DATA.speedy_number = ''
     TICKET_UNSPECT_DATA.odp = ''
