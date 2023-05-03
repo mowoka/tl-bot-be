@@ -22,20 +22,19 @@ export class LaporLangsungService {
                 }
             })
 
-            if (lapor_langsung) return {
+            return {
                 status: true,
-                statusCode: 200,
-                message: 'Create lapor langsung successfull',
+                statusCode: 201,
+                message: 'Submit Lapor Langsung Successfull',
                 data: lapor_langsung
             };
-
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
                 message: 'Internal server error',
+                data: e
             };
-        } catch (e) {
-            throw e
         }
     }
 
