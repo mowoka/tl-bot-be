@@ -117,15 +117,15 @@ model user_teknisi {
   user_id Int
   user    user @relation(fields: [user_id], references: [id])
 
-  lapor_langsung   lapor_langsung[]
-  tutup_odp        tutup_odp[]
-  ticket_regular   ticket_regular[]
-  ticket_sqm       ticket_sqm[]
-  proman           proman[]
-  unspect          unspect[]
-  valins           valins[]
-  ticket_team_lead ticket_team_lead[]
-  ticket_redundant ticket_redundant[]
+  ticket_lapor_langsung ticket_lapor_langsung[]
+  ticket_tutup_odp      ticket_tutup_odp[]
+  ticket_regular        ticket_regular[]
+  ticket_sqm            ticket_sqm[]
+  ticket_proman         ticket_proman[]
+  ticket_unspect        ticket_unspect[]
+  ticket_valins         ticket_valins[]
+  ticket_team_lead      ticket_team_lead[]
+  ticket_redundant      ticket_redundant[]
 }
 
 // team leader job model
@@ -151,20 +151,20 @@ model teknisi_job {
   name             String
   point            Float
 
-  lapor_langsung   lapor_langsung[]
-  tutup_odp        tutup_odp[]
-  ticket_regular   ticket_regular[]
-  ticket_sqm       ticket_sqm[]
-  proman           proman[]
-  unspect          unspect[]
-  valins           valins[]
-  ticket_redundant ticket_redundant[]
+  tiket_lapor_langsung ticket_lapor_langsung[]
+  ticket_tutup_odp     ticket_tutup_odp[]
+  ticket_regular       ticket_regular[]
+  ticket_sqm           ticket_sqm[]
+  ticket_proman        ticket_proman[]
+  ticket_unspect       ticket_unspect[]
+  ticket_valins        ticket_valins[]
+  ticket_redundant     ticket_redundant[]
 
   @@map("teknisi_job")
 }
 
 // model Lapor Langsung
-model lapor_langsung {
+model ticket_lapor_langsung {
   id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -181,11 +181,11 @@ model lapor_langsung {
   idTelegram            String
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
-  @@map("lapor_langsung")
+  @@map("ticket_lapor_langsung")
 }
 
 // tutup odp
-model tutup_odp {
+model ticket_tutup_odp {
   id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -199,7 +199,7 @@ model tutup_odp {
   idTelegram            String
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
-  @@map("tutup_odp")
+  @@map("ticket_tutup_odp")
 }
 
 // ticket_regular
@@ -247,7 +247,7 @@ model ticket_sqm {
 }
 
 // Proman
-model proman {
+model ticket_proman {
   id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -266,11 +266,11 @@ model proman {
   idTelegram            String
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
-  @@map("proman")
+  @@map("ticket_proman")
 }
 
 // Unspect
-model unspect {
+model ticket_unspect {
   id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -286,11 +286,11 @@ model unspect {
   idTelegram            String
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
-  @@map("unspect")
+  @@map("ticket_unspect")
 }
 
 // Valins
-model valins {
+model ticket_valins {
   id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -304,7 +304,7 @@ model valins {
   idTelegram            String
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
-  @@map("valins")
+  @@map("ticket_valins")
 }
 
 // TL ticket input

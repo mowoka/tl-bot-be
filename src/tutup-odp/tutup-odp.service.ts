@@ -11,7 +11,7 @@ export class TutupOdpService {
         const { odp_address, odp_name } = dto;
 
         try {
-            const tutup_odp = await this.prisma.tutup_odp.create({
+            const tutup_odp = await this.prisma.ticket_tutup_odp.create({
                 data: {
                     odp_name,
                     odp_address,
@@ -38,7 +38,7 @@ export class TutupOdpService {
 
     async get_tutup_odp_history(skip: number, take: number, idTelegram: string) {
         try {
-            const history = await this.prisma.tutup_odp.findMany({
+            const history = await this.prisma.ticket_tutup_odp.findMany({
                 skip,
                 take,
                 where: {
@@ -46,7 +46,7 @@ export class TutupOdpService {
                 }
             })
 
-            const count_history = await this.prisma.tutup_odp.count({
+            const count_history = await this.prisma.ticket_tutup_odp.count({
                 where: { idTelegram: idTelegram }
             })
 

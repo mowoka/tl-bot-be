@@ -10,7 +10,7 @@ export class PromanService {
         const { job_id, idTelegram } = initalDto
         const { odp_name, distribusi, capacity_port, status_port_use, status_port_available, odp_cradle, opm_lenght } = dto;
         try {
-            const proman = await this.prisma.proman.create({
+            const proman = await this.prisma.ticket_proman.create({
                 data: {
                     odp_name,
                     distribusi,
@@ -42,7 +42,7 @@ export class PromanService {
 
     async get_proman_history(skip: number, take: number, idTelegram: string) {
         try {
-            const history = await this.prisma.proman.findMany({
+            const history = await this.prisma.ticket_proman.findMany({
                 skip,
                 take,
                 where: {
@@ -50,7 +50,7 @@ export class PromanService {
                 }
             })
 
-            const count_history = await this.prisma.proman.count({
+            const count_history = await this.prisma.ticket_proman.count({
                 where: { idTelegram: idTelegram }
             })
 

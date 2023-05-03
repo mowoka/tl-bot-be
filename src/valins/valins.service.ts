@@ -10,7 +10,7 @@ export class ValinsService {
         const { job_id, idTelegram } = initalDto;
         const { valins_id, odp } = dto;
         try {
-            const valins = await this.prisma.valins.create({
+            const valins = await this.prisma.ticket_valins.create({
                 data: {
                     valins_id,
                     odp,
@@ -38,7 +38,7 @@ export class ValinsService {
 
     async get_valins_history(skip: number, take: number, idTelegram: string) {
         try {
-            const history = await this.prisma.valins.findMany({
+            const history = await this.prisma.ticket_valins.findMany({
                 skip,
                 take,
                 where: {
@@ -46,7 +46,7 @@ export class ValinsService {
                 }
             })
 
-            const count_history = await this.prisma.valins.count({
+            const count_history = await this.prisma.ticket_valins.count({
                 where: { idTelegram: idTelegram }
             })
 

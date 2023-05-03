@@ -11,7 +11,7 @@ export class UnspectService {
         const { speedy_number, odp, problem, description } = dto;
 
         try {
-            const unspect = await this.prisma.unspect.create({
+            const unspect = await this.prisma.ticket_unspect.create({
                 data: {
                     speedy_number,
                     odp,
@@ -41,7 +41,7 @@ export class UnspectService {
 
     async get_unspect_history(skip: number, take: number, idTelegram: string) {
         try {
-            const history = await this.prisma.unspect.findMany({
+            const history = await this.prisma.ticket_unspect.findMany({
                 skip,
                 take,
                 where: {
@@ -49,7 +49,7 @@ export class UnspectService {
                 }
             })
 
-            const count_history = await this.prisma.unspect.count({
+            const count_history = await this.prisma.ticket_unspect.count({
                 where: { idTelegram: idTelegram }
             })
 

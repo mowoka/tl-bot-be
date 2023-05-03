@@ -10,7 +10,7 @@ export class LaporLangsungService {
         const { idTelegram, job_id } = initalDto;
         const { speedy_number, customer_name, customer_phone, problem, description } = dto
         try {
-            const lapor_langsung = await this.prisma.lapor_langsung.create({
+            const lapor_langsung = await this.prisma.ticket_lapor_langsung.create({
                 data: {
                     speedy_number,
                     customer_name,
@@ -40,7 +40,7 @@ export class LaporLangsungService {
 
     async get_lapor_langsung_history(skip: number, take: number, idTelegram: string) {
         try {
-            const history = await this.prisma.lapor_langsung.findMany({
+            const history = await this.prisma.ticket_lapor_langsung.findMany({
                 skip,
                 take,
                 where: {
@@ -48,7 +48,7 @@ export class LaporLangsungService {
                 }
             })
 
-            const count_history = await this.prisma.lapor_langsung.count({
+            const count_history = await this.prisma.ticket_lapor_langsung.count({
                 where: { idTelegram: idTelegram }
             })
 
