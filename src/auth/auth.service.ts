@@ -55,8 +55,6 @@ export class AuthService {
         };
       }
 
-      console.log({ dto });
-
       const user = await this.prisma.user.create({
         data: {
           nik: dto.nik,

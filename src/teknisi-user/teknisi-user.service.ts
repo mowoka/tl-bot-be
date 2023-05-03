@@ -339,7 +339,7 @@ export class TeknisiUserService {
           pagination.take,
           teknisi_user.idTelegram,
         );
-      } else if (params.job_title === 'ticketsqm') {
+      } else if (params.job_title === 'tiketsqm') {
         return this.tiket_sqm_serv.get_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
       } else if (params.job_title === 'proman') {
         return this.tiket_proman_serv.get_proman_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
@@ -347,7 +347,7 @@ export class TeknisiUserService {
         return this.tiket_unspect_serv.get_unspect_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
       } else if (params.job_title === 'valins') {
         return this.tiket_valins_serv.get_valins_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
-      } else if (params.job_title === 'ticketredundant') {
+      } else if (params.job_title === 'tiketredundant') {
         return this.tiket_redundant_serv.get_tiket_redundant_history(
           pagination.skip,
           pagination.take,
