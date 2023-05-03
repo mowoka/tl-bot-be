@@ -15,10 +15,10 @@ export interface User {
     nik: string;
     name: string
     idTelegram: string
-    partner: string
-    sector: string,
-    witel: string
-    regional: string,
+    partner_id: number
+    sector_id: number,
+    witel_id: number,
+    regional_id: number,
     lapor_langsung: LaporLangsung[];
     tutup_odp: TutupOdp[];
     ticket_regular: TiketReguler[];
@@ -42,10 +42,10 @@ export interface UserResult {
     nik: string;
     name: string;
     idTelegram: string;
-    partner: string;
-    sector: string;
-    witel: string;
-    regional: string;
+    partner_id: number;
+    sector_id: number;
+    witel_id: number;
+    regional_id: number;
     lapor_langsung: KpiUser;
     tutup_odp: KpiUser;
     ticket_regular: KpiUser;

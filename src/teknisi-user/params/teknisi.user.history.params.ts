@@ -4,13 +4,13 @@ import { IsNotEmpty, IsString } from "class-validator"
 export class TeknisiUserHistoryParams {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
-    nik: string
+    @ApiProperty({ example: 1 })
+    user_id: number
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
-    ticket_title: string
+    @ApiProperty({ example: 'laporlangsung' })
+    job_title: string
 
     @ApiProperty()
     page: string

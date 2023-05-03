@@ -5,8 +5,9 @@ export interface TeknisiUser {
     nik: string,
     name: string,
     idTelegram: string,
-    partner: string,
-    sector: string,
-    witel: string,
-    regional: string
+    partner_id: number,
+    sector_id: number,
+    witel_id: number,
+    regional_id: number,
+    user_id: number,
 }

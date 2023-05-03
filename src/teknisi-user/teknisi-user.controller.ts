@@ -1,9 +1,12 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guards';
 import { TeknisiUserService } from './teknisi-user.service';
 import { TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
+import { BadRequestResponse, ErrorServerResponse } from '@core/types';
+import { MasterFilterResponseType, TeknisiUserResponseType } from './types';
+import { TeknisiUsersResponseType } from './types/teknisi.users.response';
 
 @ApiTags('Teknisi User')
 @UseGuards(JwtGuard)
@@ -12,55 +15,66 @@ import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } 
 export class TeknisiUserController {
     constructor(private teknisi_user_service: TeknisiUserService) { }
 
+    @Post()
+    @ApiCreatedResponse({ status: 201, description: 'Create Teknisi User Successfull', type: TeknisiUserResponseType })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
+    @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
+    add_teknisi_user(@Body('') dto: TeknisiUser) {
+        return this.teknisi_user_service.add_teknisi_user(dto);
+    }
+
     @Get()
-    @ApiQuery({ name: 'partner', required: false })
-    @ApiQuery({ name: 'regional', required: false })
-    @ApiQuery({ name: 'sector', required: false })
+    @ApiQuery({ name: 'partner_id', required: false })
+    @ApiQuery({ name: 'regional_id', required: false })
+    @ApiQuery({ name: 'sector_id', required: false })
+    @ApiQuery({ name: 'witel_id', required: false })
     @ApiQuery({ name: 'page', required: false })
+    @ApiResponse({ status: 200, description: 'Get Teknisi User Successfull', type: TeknisiUsersResponseType })
     get_teknisi_user(
-        @Query('partner') partner?: string,
-        @Query('regional') regional?: string,
-        @Query('sector') sector?: string,
+        @Query('partner_id') partner_id?: string,
+        @Query('regional_id') regional_id?: string,
+        @Query('sector_id') sector_id?: string,
+        @Query('witel_id') witel_id?: string,
         @Query('page') page?: string,
     ) {
         const params: TeknisiUserParams = {
-            partner: partner ?? '',
-            regional: regional ?? '',
-            sector: sector ?? '',
+            partner_id: parseInt(partner_id) ?? 0,
+            regional_id: parseInt(regional_id) ?? 0,
+            sector_id: parseInt(sector_id) ?? 0,
+            witel_id: parseInt(witel_id) ?? 0,
             page: page ?? '1',
         };
         return this.teknisi_user_service.get_teknisi_user(params);
     }
 
     @Get('/master-filters')
+    @ApiResponse({ status: 200, description: 'Get Master Filter Successfull', type: MasterFilterResponseType })
     get_teknisi_user_filter() {
         return this.teknisi_user_service.get_teknisi_user_filter();
     }
 
-    @Post()
-    add_teknisi_user(@Body('') dto: TeknisiUser) {
-        return this.teknisi_user_service.add_teknisi_user(dto);
-    }
-
     @Get('report')
-    @ApiQuery({ name: 'partner', required: false })
-    @ApiQuery({ name: 'regional', required: false })
-    @ApiQuery({ name: 'sector', required: false })
+    @ApiQuery({ name: 'partner_id', required: false })
+    @ApiQuery({ name: 'regional_id', required: false })
+    @ApiQuery({ name: 'sector_id', required: false })
+    @ApiQuery({ name: 'witel_id', required: false })
     @ApiQuery({ name: 'startDate', required: true })
     @ApiQuery({ name: 'endDate', required: true })
     @ApiQuery({ name: 'page', required: false })
     get_teknisi_user_report(
-        @Query('partner') partner?: string,
-        @Query('regional') regional?: string,
-        @Query('sector') sector?: string,
+        @Query('partner_id') partner_id?: number,
+        @Query('regional_id') regional_id?: number,
+        @Query('sector_id') sector_id?: number,
+        @Query('witel_id') witel_id?: number,
         @Query('startDate') startDate?: string,
         @Query('endDate') endDate?: string,
         @Query('page') page?: string,
     ) {
         const params: TeknisiUserReportParams = {
-            partner: partner ?? '',
-            regional: regional ?? '',
-            sector: sector ?? '',
+            partner_id: partner_id ?? 0,
+            regional_id: regional_id ?? 0,
+            sector_id: sector_id ?? 0,
+            witel_id: witel_id ?? 0,
             page: page ?? '1',
             createAt: {
                 gte: new Date(startDate) ?? new Date(),
@@ -71,17 +85,17 @@ export class TeknisiUserController {
     }
 
     @Get('history')
-    @ApiQuery({ name: 'nik', required: true })
-    @ApiQuery({ name: 'ticket_title', required: true })
+    @ApiQuery({ name: 'user_id', required: true })
+    @ApiQuery({ name: 'job_title', required: true })
     @ApiQuery({ name: 'page', required: false })
     get_teknisi_user_history(
-        @Query('nik') nik: string,
-        @Query('ticket_title') ticket_title: string,
+        @Query('user_id') user_id: string,
+        @Query('job_title') job_title: string,
         @Query('page') page?: string,
     ) {
         const params: TeknisiUserHistoryParams = {
-            nik: nik,
-            ticket_title,
+            user_id: user_id ? parseInt(user_id) : 0,
+            job_title: job_title,
             page: page ?? '1',
         };
         return this.teknisi_user_service.get_user_teknisi_history(params);

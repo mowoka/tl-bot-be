@@ -1,39 +1,44 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsNotEmpty, IsString } from "class-validator"
+import { IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class TeknisiUser {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: '1120120012214' })
     nik: string
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: 'giomowoka' })
     name: string
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ example: '083821148288' })
     idTelegram: string
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
-    partner: string
+    @ApiProperty({ example: 1 })
+    partner_id: number
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
-    sector: string
+    @ApiProperty({ example: 1 })
+    sector_id: number
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
-    witel: string
+    @ApiProperty({ example: 1 })
+    witel_id: number
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    @ApiProperty()
-    regional: string
+    @ApiProperty({ example: 1 })
+    regional_id: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiProperty({ example: 1 })
+    user_id: number
 }

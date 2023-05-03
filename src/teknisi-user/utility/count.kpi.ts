@@ -1,4 +1,4 @@
-import { LaporLangsung, Proman, SQM, TiketRedundant, TiketReguler, TiketTeamLead, TutupOdp, Unspect, User, UserResult, Valins } from "../type";
+import { LaporLangsung, Proman, SQM, TiketRedundant, TiketReguler, TiketTeamLead, TutupOdp, Unspect, User, UserResult, Valins } from "../interface";
 
 export const count_kpi = (user: User): UserResult => {
 

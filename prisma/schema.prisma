@@ -23,7 +23,8 @@ model sector {
   sector_code String @unique
   name        String
 
-  user user[]
+  user         user[]
+  user_teknisi user_teknisi[]
 }
 
 // witel model
@@ -35,7 +36,8 @@ model witel {
   witel_code String @unique
   name       String
 
-  user user[]
+  user         user[]
+  user_teknisi user_teknisi[]
 }
 
 // partner model
@@ -47,7 +49,8 @@ model partner {
   partner_code String @unique
   name         String
 
-  user user[]
+  user         user[]
+  user_teknisi user_teknisi[]
 }
 
 // regional model
@@ -58,7 +61,9 @@ model regional {
 
   regional_code String @unique
   name          String
-  user          user[]
+
+  user         user[]
+  user_teknisi user_teknisi[]
 }
 
 // team lead user model
@@ -83,6 +88,8 @@ model user {
 
   regional_id Int
   regional    regional @relation(fields: [regional_id], references: [id])
+
+  user_teknisi user_teknisi[]
 }
 
 // teknisi user model
@@ -94,10 +101,21 @@ model user_teknisi {
   nik        String @unique
   name       String
   idTelegram String @unique
-  partner    String
-  sector     String
-  witel      String
-  regional   String
+
+  partner_id Int
+  partner    partner @relation(fields: [partner_id], references: [id])
+
+  sector_id Int
+  sector    sector @relation(fields: [sector_id], references: [id])
+
+  witel_id Int
+  witel    witel @relation(fields: [witel_id], references: [id])
+
+  regional_id Int
+  regional    regional @relation(fields: [regional_id], references: [id])
+
+  user_id Int
+  user    user @relation(fields: [user_id], references: [id])
 
   lapor_langsung   lapor_langsung[]
   tutup_odp        tutup_odp[]
