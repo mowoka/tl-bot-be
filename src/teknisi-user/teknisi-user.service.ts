@@ -138,7 +138,7 @@ export class TeknisiUserService {
         },
         where: { ...paramsParent },
         include: {
-          lapor_langsung: {
+          ticket_lapor_langsung: {
             where: {
               createAt: { ...paramsChild },
             },
@@ -147,7 +147,7 @@ export class TeknisiUserService {
               teknisi_user_telegram: true,
             },
           },
-          tutup_odp: {
+          ticket_tutup_odp: {
             where: {
               createAt: { ...paramsChild },
             },
@@ -174,7 +174,7 @@ export class TeknisiUserService {
               teknisi_user_telegram: true,
             },
           },
-          proman: {
+          ticket_proman: {
             where: {
               createAt: { ...paramsChild },
             },
@@ -183,7 +183,7 @@ export class TeknisiUserService {
               teknisi_user_telegram: true,
             },
           },
-          unspect: {
+          ticket_unspect: {
             where: {
               createAt: { ...paramsChild },
             },
@@ -192,7 +192,7 @@ export class TeknisiUserService {
               teknisi_user_telegram: true,
             },
           },
-          valins: {
+          ticket_valins: {
             where: {
               createAt: { ...paramsChild },
             },

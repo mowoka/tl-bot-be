@@ -2,13 +2,13 @@ import { LaporLangsung, Proman, SQM, TiketRedundant, TiketReguler, TiketTeamLead
 
 export const count_kpi = (user: User): UserResult => {
 
-    const kpi_lapor_langsung = countLaporLangsung(user.lapor_langsung);
-    const kpi_tutup_odp = countTutupOdp(user.tutup_odp);
+    const kpi_lapor_langsung = countLaporLangsung(user.ticket_lapor_langsung);
+    const kpi_tutup_odp = countTutupOdp(user.ticket_tutup_odp);
     const kpi_tiket_reguler = countTiketReguler(user.ticket_regular);
     const kpi_sqm = countSqm(user.ticket_sqm);
-    const kpi_proman = countProman(user.proman);
-    const kpi_unspect = countUnspect(user.unspect);
-    const kpi_valins = countValins(user.valins);
+    const kpi_proman = countProman(user.ticket_proman);
+    const kpi_unspect = countUnspect(user.ticket_unspect);
+    const kpi_valins = countValins(user.ticket_valins);
     const kpi_tiket_redundant = countTiketRedundant(user.ticket_redundant);
 
     // logic for count kpi team lead tiket
@@ -30,13 +30,13 @@ export const count_kpi = (user: User): UserResult => {
 
     return {
         ...user,
-        lapor_langsung: { name: 'lapor_langsung', score: kpi_lapor_langsung },
-        tutup_odp: { name: 'tutup_odp', score: kpi_tutup_odp },
+        ticket_lapor_langsung: { name: 'lapor_langsung', score: kpi_lapor_langsung },
+        ticket_tutup_odp: { name: 'tutup_odp', score: kpi_tutup_odp },
         ticket_regular: { name: 'tiket_reguler', score: kpi_tiket_reguler },
         ticket_sqm: { name: 'ticket_sqm', score: kpi_sqm },
-        proman: { name: 'proman', score: kpi_proman },
-        unspect: { name: 'unspect', score: kpi_unspect },
-        valins: { name: 'valins', score: kpi_valins },
+        ticket_proman: { name: 'proman', score: kpi_proman },
+        ticket_unspect: { name: 'unspect', score: kpi_unspect },
+        ticket_valins: { name: 'valins', score: kpi_valins },
         ticket_redundant: { name: 'ticket_redundant', score: kpi_tiket_redundant },
         gamas_type_a: { name: 'gamas_type_a', score: kpi_gamas_type_a },
         gamas_type_b: { name: 'gamas_type_b', score: kpi_gamas_type_b },

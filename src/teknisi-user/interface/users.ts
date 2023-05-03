@@ -19,13 +19,13 @@ export interface User {
     sector_id: number,
     witel_id: number,
     regional_id: number,
-    lapor_langsung: LaporLangsung[];
-    tutup_odp: TutupOdp[];
+    ticket_lapor_langsung: LaporLangsung[];
+    ticket_tutup_odp: TutupOdp[];
     ticket_regular: TiketReguler[];
     ticket_sqm: SQM[];
-    proman: Proman[];
-    unspect: Unspect[];
-    valins: Valins[];
+    ticket_proman: Proman[];
+    ticket_unspect: Unspect[];
+    ticket_valins: Valins[];
     ticket_redundant: TiketRedundant[];
     ticket_team_lead: TiketTeamLead[];
 }
@@ -46,13 +46,13 @@ export interface UserResult {
     sector_id: number;
     witel_id: number;
     regional_id: number;
-    lapor_langsung: KpiUser;
-    tutup_odp: KpiUser;
+    ticket_lapor_langsung: KpiUser;
+    ticket_tutup_odp: KpiUser;
     ticket_regular: KpiUser;
     ticket_sqm: KpiUser;
-    proman: KpiUser;
-    unspect: KpiUser;
-    valins: KpiUser;
+    ticket_proman: KpiUser;
+    ticket_unspect: KpiUser;
+    ticket_valins: KpiUser;
     ticket_redundant: KpiUser;
     gamas_type_a: KpiUser;
     gamas_type_b: KpiUser;
