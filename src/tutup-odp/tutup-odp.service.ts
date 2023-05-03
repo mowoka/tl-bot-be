@@ -20,20 +20,19 @@ export class TutupOdpService {
                 }
             })
 
-            if (tutup_odp) return {
+            return {
                 status: true,
-                statusCode: 200,
-                message: 'Create tutup odp successfull',
+                statusCode: 201,
+                message: 'Submit Tutup ODP Successfull',
                 data: tutup_odp
             };
-
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
                 message: 'Internal server error',
+                data: e,
             };
-        } catch (e) {
-            throw e
         }
     }
 
