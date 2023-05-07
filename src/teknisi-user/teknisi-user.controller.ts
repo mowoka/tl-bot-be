@@ -28,6 +28,7 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'regional_id', required: false })
     @ApiQuery({ name: 'sector_id', required: false })
     @ApiQuery({ name: 'witel_id', required: false })
+    @ApiQuery({ name: 'teknisi_lead_id', required: false })
     @ApiQuery({ name: 'page', required: false })
     @ApiResponse({ status: 200, description: 'Get Teknisi User Successfull', type: TeknisiUsersResponseType })
     get_teknisi_user(
@@ -35,6 +36,7 @@ export class TeknisiUserController {
         @Query('regional_id') regional_id?: string,
         @Query('sector_id') sector_id?: string,
         @Query('witel_id') witel_id?: string,
+        @Query('teknisi_lead_id') teknisi_lead_id?: string,
         @Query('page') page?: string,
     ) {
         const params: TeknisiUserParams = {
@@ -42,6 +44,7 @@ export class TeknisiUserController {
             regional_id: parseInt(regional_id) ?? 0,
             sector_id: parseInt(sector_id) ?? 0,
             witel_id: parseInt(witel_id) ?? 0,
+            user_id: parseInt(teknisi_lead_id) ?? 0,
             page: page ?? '1',
         };
         return this.teknisi_user_service.get_teknisi_user(params);

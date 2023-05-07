@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { User } from './interface';
-import { count_kpi } from './utility';
+import { count_kpi, excludePartnerField, excludeRegionalField, excludeSectorField, excludeWitelField } from './utility';
 import {
   generateParams,
   generateParamsUserTeknisi,
@@ -18,6 +18,8 @@ import { UnspectService } from 'src/unspect/unspect.service';
 import { ValinsService } from 'src/valins/valins.service';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
+import { excludeUserField } from '@auth/utilities';
+
 
 @Injectable()
 export class TeknisiUserService {
@@ -40,6 +42,7 @@ export class TeknisiUserService {
     if (!params.regional_id) delete params.regional_id;
     if (!params.sector_id) delete params.sector_id;
     if (!params.witel_id) delete params.witel_id;
+    if (!params.user_id) delete params.user_id;
     delete params.page;
 
     try {
@@ -50,13 +53,31 @@ export class TeknisiUserService {
           orderBy: {
             createAt: 'desc',
           },
+          include: {
+            partner: true,
+            regional: true,
+            sector: true,
+            witel: true,
+            user: true,
+          },
           where: { ...params },
         }),
         await this.prisma.user_teknisi.count({
           where: { ...params },
         })
       ])
+      const excludeUser = teknisi[0].map((user) => excludeUserField(user, ['createAt', 'updateAt', 'partner_id', 'sector_id', 'witel_id', 'regional_id', 'user_id']))
 
+      excludeUser.map((user) => {
+        return {
+          ...user,
+          partner: excludePartnerField(user.partner, ['createAt', 'updateAt', 'partner_code']),
+          sector: excludeSectorField(user.sector, ['createAt', 'updateAt', 'sector_code']),
+          witel: excludeWitelField(user.witel, ['createAt', 'updateAt', 'witel_code']),
+          regional: excludeRegionalField(user.regional, ['createAt', 'updateAt', 'regional_code']),
+          user: excludeUserField(user.user, ['createAt', 'updateAt', 'partner_id', 'sector_id', 'witel_id', 'regional_id', 'password']),
+        }
+      })
       const paginationValue = Math.ceil(teknisi[1] / 10);
 
       const metadata = {
@@ -95,16 +116,21 @@ export class TeknisiUserService {
         await this.prisma.witel.findMany({}),
       ]);
 
+      const sector = data[1].map(e => excludeSectorField(e, ['createAt', 'updateAt', 'sector_code']))
+      const regional = data[0].map(e => excludeRegionalField(e, ['createAt', 'updateAt', 'regional_code']))
+      const partner = data[2].map(e => excludePartnerField(e, ['createAt', 'updateAt', 'partner_code']))
+      const witel = data[3].map(e => excludeWitelField(e, ['createAt', 'updateAt', 'witel_code']))
+
       if (data) {
         return {
           statusCode: 200,
           status: true,
           message: 'get teknisi user filter successfull',
           data: {
-            regional: data[0],
-            sector: data[1],
-            partner: data[2],
-            wtitel: data[3],
+            regional: regional,
+            sector: sector,
+            partner: partner,
+            wtitel: witel,
           },
         };
       }

@@ -14,5 +14,8 @@ export class TeknisiUserParams {
     witel_id: number
 
     @ApiProperty({ example: 1 })
+    user_id: number
+
+    @ApiProperty({ example: 1 })
     page: string
 }
