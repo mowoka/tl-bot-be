@@ -89,7 +89,7 @@ export class TicketService {
     }
   }
 
-  @Action(['Tiket Reguler', 'Lapor Langsung', 'Tutup ODP', 'Valins', 'Unspect', 'Proman', 'SQM'])
+  @Action(['Tiket Reguler', 'Lapor Langsung', 'Tutup ODP', 'Valins', 'Unspect', 'Proman', 'SQM', 'Kendala SQM'])
   async requestAction(ctx: Context) {
     const res = await this.teknisi_service.get_teknisi_job_by_name(ctx.callbackQuery.data);
     REQUEST_TICKET_DATA.job_id = res.data.id;

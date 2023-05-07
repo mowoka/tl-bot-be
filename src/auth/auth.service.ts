@@ -100,14 +100,23 @@ export class AuthService {
         },
       });
 
-      if (!user) throw new ForbiddenException('Credential Incorrect');
+      if (!user) return {
+        statusCode: 400,
+        message: 'Credential Incorrect',
+        status: false,
+      }
 
       const passwordMatch = await argon.verify(user.password, dto.password);
 
-      if (!passwordMatch) throw new ForbiddenException('Credential Incorrect');
+      if (!passwordMatch) return {
+        statusCode: 400,
+        message: 'Credential Incorrect',
+        status: false,
+      }
 
       const generateToken = await this.signToken(user.id, user.nik);
-      if (user) return {
+
+      return {
         statusCode: 200,
         message: 'Login success',
         status: true,
@@ -115,7 +124,12 @@ export class AuthService {
       }
 
     } catch (e) {
-      throw e;
+      return {
+        statusCode: 500,
+        message: 'Internal Server Error',
+        status: false,
+        data: e
+      }
     }
 
   }
