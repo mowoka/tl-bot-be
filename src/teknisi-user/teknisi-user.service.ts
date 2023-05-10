@@ -130,7 +130,7 @@ export class TeknisiUserService {
             regional: regional,
             sector: sector,
             partner: partner,
-            wtitel: witel,
+            witel: witel,
           },
         };
       }
