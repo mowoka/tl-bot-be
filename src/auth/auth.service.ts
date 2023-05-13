@@ -15,7 +15,7 @@ export class AuthService {
   ) { }
 
 
-  async validateNik(dto: ValidateNikDto) {
+  async validateTeamLeadNik(dto: ValidateNikDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         nik: dto.nik
@@ -34,7 +34,27 @@ export class AuthService {
       message: 'nik not register',
       success: true
     }
+  }
 
+  async validateTeknisiUserNik(dto: ValidateNikDto) {
+    const user = await this.prisma.user_teknisi.findUnique({
+      where: {
+        nik: dto.nik
+      }
+    });
+
+    if (user) {
+      return {
+        statusCode: 201,
+        message: 'nik already register',
+        success: false,
+      }
+    }
+    return {
+      statusCode: 201,
+      message: 'nik not register',
+      success: true
+    }
   }
 
   async signup(dto: AuthDto) {

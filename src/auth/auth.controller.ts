@@ -10,12 +10,20 @@ import { SigninResponse, SignupResponse } from './types';
 export class AuthController {
   constructor(private authService: AuthService) { }
 
-  @Post('validate')
+  @Post('validate/team-lead')
   @ApiCreatedResponse({ status: 201, description: 'Create Sector Successfull', type: ApiResponseType })
   @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
   @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
-  validateNik(@Body() dto: ValidateNikDto) {
-    return this.authService.validateNik(dto);
+  validateTeamLeadNik(@Body() dto: ValidateNikDto) {
+    return this.authService.validateTeamLeadNik(dto);
+  }
+
+  @Post('validate/teknisi-user')
+  @ApiCreatedResponse({ status: 201, description: 'Create Sector Successfull', type: ApiResponseType })
+  @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
+  @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
+  validateTeknisiUserNik(@Body() dto: ValidateNikDto) {
+    return this.authService.validateTeknisiUserNik(dto);
   }
 
   @Post('signup')
