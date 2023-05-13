@@ -5,7 +5,7 @@ import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } 
 import { User } from './interface';
 import { count_kpi, excludePartnerField, excludeRegionalField, excludeSectorField, excludeWitelField } from './utility';
 import {
-  generateParams,
+  generateParamUserHistory,
   generateParamsUserTeknisi,
   generateParamsUserTeknisiReport,
 } from './utility/gen.params.history';
@@ -350,7 +350,7 @@ export class TeknisiUserService {
         message: 'Teknisi user not found',
       };
 
-      const { pagination } = generateParams(params);
+      const { pagination } = generateParamUserHistory(params);
       if (params.job_title === 'laporlangsung') {
         return this.lapor_langsung_serv.get_lapor_langsung_history(
           pagination.skip,

@@ -1,6 +1,6 @@
 import { TeknisiUserHistoryParams } from "../params"
 
-export function generateParams(params: TeknisiUserHistoryParams) {
+export function generateParamUserHistory(params: TeknisiUserHistoryParams) {
     const pageNumber = parseInt(params.page);
 
     const pagination = {

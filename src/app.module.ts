@@ -24,6 +24,7 @@ import { WitelModule } from './witel/witel.module';
 import { PartnerModule } from './partner/partner.module';
 import { RegionalModule } from './regional/regional.module';
 import { KendalaSqmModule } from './kendala-sqm/kendala-sqm.module';
+import { TeamLeadUserModule } from './team-lead-user/team-lead-user.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { KendalaSqmModule } from './kendala-sqm/kendala-sqm.module';
     PartnerModule,
     RegionalModule,
     KendalaSqmModule,
+    TeamLeadUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

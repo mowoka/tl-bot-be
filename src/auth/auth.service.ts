@@ -49,7 +49,7 @@ export class AuthService {
 
       if (findUser) {
         return {
-          statusCode: 406,
+          statusCode: 400,
           message: 'User already exist',
           status: false,
         };
@@ -77,7 +77,7 @@ export class AuthService {
       };
 
       return {
-        statusCode: 200,
+        statusCode: 201,
         message: 'Create user success',
         status: true,
         data: responseData
