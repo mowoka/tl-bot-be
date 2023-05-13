@@ -5,6 +5,9 @@ export class Witel {
     id: number;
 
     @ApiProperty()
+    witel_code: string;
+
+    @ApiProperty()
     name: string;
 
     @ApiProperty()

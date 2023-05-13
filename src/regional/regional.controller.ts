@@ -19,8 +19,8 @@ export class RegionalController {
     }
 
     @ApiBearerAuth()
-    @UseGuards(JwtGuard)
     @UseGuards(AdminRolesGuard)
+    @UseGuards(JwtGuard)
     @Post()
     @ApiCreatedResponse({ status: 201, description: 'Create Regional Successfull', type: RegionalResponse })
     @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })

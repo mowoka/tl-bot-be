@@ -7,12 +7,13 @@ import { TeamLeadJobResponseType, TeamLeadJobsResponseType } from './types';
 import { BadRequestResponse, ErrorServerResponse } from '@core/types';
 
 @ApiTags('Team Leader Job')
-@UseGuards(JwtGuard)
+
 @ApiBearerAuth()
 @Controller('team-leader-job')
 export class TeamLeaderJobController {
     constructor(private team_lead_job_service: TeamLeaderJobService) { }
 
+    @UseGuards(JwtGuard)
     @Get()
     @ApiResponse({ status: 200, description: 'Get Team Lead Job Successfull', type: TeamLeadJobsResponseType })
     get_team_lead_job() {
@@ -20,6 +21,7 @@ export class TeamLeaderJobController {
     }
 
     @UseGuards(AdminRolesGuard)
+    @UseGuards(JwtGuard)
     @Post()
     @ApiCreatedResponse({ status: 201, description: 'Create Regional Successfull', type: TeamLeadJobResponseType })
     @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })

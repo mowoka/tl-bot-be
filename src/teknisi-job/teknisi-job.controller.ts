@@ -7,12 +7,12 @@ import { TeknisiJobResponseType, TeknisiJobsResponseType } from './types';
 import { BadRequestResponse, ErrorServerResponse } from '@core/types';
 
 @ApiTags('Teknisi-job')
-@UseGuards(JwtGuard)
 @ApiBearerAuth()
 @Controller('teknisi-job')
 export class TeknisiJobController {
     constructor(private teknisijob: TeknisiJobService) { }
 
+    @UseGuards(JwtGuard)
     @Get()
     @ApiResponse({ status: 200, description: 'Get Teknisi Job Successfull', type: TeknisiJobsResponseType })
     get_teknisi_job() {
@@ -20,6 +20,7 @@ export class TeknisiJobController {
     }
 
     @UseGuards(AdminRolesGuard)
+    @UseGuards(JwtGuard)
     @Post()
     @ApiCreatedResponse({ status: 201, description: 'Create Teknisi Job Successfull', type: TeknisiJobResponseType })
     @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })

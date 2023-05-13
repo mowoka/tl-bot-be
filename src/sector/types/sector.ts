@@ -8,6 +8,9 @@ export class Sector {
     name: string;
 
     @ApiProperty()
+    sector_code: string;
+
+    @ApiProperty()
     createdAt: Date;
 
     @ApiProperty()

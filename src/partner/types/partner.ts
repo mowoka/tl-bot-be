@@ -5,6 +5,9 @@ export class Partner {
     id: number;
 
     @ApiProperty()
+    partner_code: string;
+
+    @ApiProperty()
     name: string;
 
     @ApiProperty()

@@ -19,8 +19,8 @@ export class PartnerController {
     }
 
     @ApiBearerAuth()
-    @UseGuards(JwtGuard)
     @UseGuards(AdminRolesGuard)
+    @UseGuards(JwtGuard)
     @Post()
     @ApiCreatedResponse({ status: 201, description: 'Create Partner Successfull', type: PartnerResponse })
     @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })

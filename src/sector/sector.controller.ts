@@ -20,8 +20,8 @@ export class SectorController {
     }
 
     @ApiBearerAuth()
-    @UseGuards(JwtGuard)
     @UseGuards(AdminRolesGuard)
+    @UseGuards(JwtGuard)
     @Post()
     @ApiCreatedResponse({ status: 201, description: 'Create Sector Successfull', type: SectorResponse })
     @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })

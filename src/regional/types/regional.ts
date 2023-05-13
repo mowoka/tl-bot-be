@@ -8,6 +8,9 @@ export class Regional {
     name: string;
 
     @ApiProperty()
+    regional_code: string;
+
+    @ApiProperty()
     createdAt: Date;
 
     @ApiProperty()
