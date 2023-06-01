@@ -80,7 +80,12 @@ export class UnspectService {
             }
 
         } catch (e) {
-            throw e;
+            return {
+                status: false,
+                statusCode: 500,
+                message: 'Internal Server Error',
+                data: e
+            };
         }
     }
 }

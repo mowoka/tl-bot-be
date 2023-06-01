@@ -60,6 +60,13 @@ export const TICKET_INFRA: TicketInfra = {
     date: '',
 }
 
+export const TICKET_BANTEK: TicketBantek = {
+    ticket_number: '',
+    description: '',
+    date: '',
+    teknisi_bantek: '',
+}
+
 export const REQUEST_TICKET_DATA: RequestTicketDataProps = {
     job_id: '',
     job_name: '',
@@ -138,9 +145,16 @@ export interface TicketInfra {
     date: string;
 }
 
+export interface TicketBantek {
+    ticket_number: string;
+    description: string;
+    date: string;
+    teknisi_bantek: string;
+}
+
 export interface RequestTicketDataProps {
     job_id: string,
     job_name: string,
     idTelegram: string;
-    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps | KendalaSQMProps | TicketInfra;
+    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps | KendalaSQMProps | TicketInfra | TicketBantek;
 }

@@ -26,6 +26,7 @@ import { RegionalModule } from './regional/regional.module';
 import { KendalaSqmModule } from './kendala-sqm/kendala-sqm.module';
 import { TeamLeadUserModule } from './team-lead-user/team-lead-user.module';
 import { TiketInfraModule } from './tiket-infra/tiket-infra.module';
+import { TiketBantekModule } from './tiket-bantek/tiket-bantek.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { TiketInfraModule } from './tiket-infra/tiket-infra.module';
     KendalaSqmModule,
     TeamLeadUserModule,
     TiketInfraModule,
+    TiketBantekModule,
   ],
   controllers: [AppController],
   providers: [AppService],
