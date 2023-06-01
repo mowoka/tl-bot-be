@@ -127,6 +127,7 @@ model user_teknisi {
   ticket_team_lead      ticket_team_lead[]
   ticket_redundant      ticket_redundant[]
   ticket_kendala_sqm    ticket_kendala_sqm[]
+  ticket_infra          ticket_infra[]
 }
 
 // team leader job model
@@ -161,6 +162,7 @@ model teknisi_job {
   ticket_valins        ticket_valins[]
   ticket_redundant     ticket_redundant[]
   ticket_kendala_sqm   ticket_kendala_sqm[]
+  ticket_infra         ticket_infra[]
 
   @@map("teknisi_job")
 }
@@ -363,4 +365,20 @@ model ticket_kendala_sqm {
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("ticket_kendala_sqm")
+}
+
+model ticket_infra {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number String
+
+  teknisi_job_id String
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_infra")
 }

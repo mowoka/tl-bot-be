@@ -54,12 +54,19 @@ export const TICKET_VALINS_DATA: ValinsProps = {
     odp: '',
 }
 
+export const TICKET_INFRA: TicketInfra = {
+    insiden_number: '',
+    description: '',
+    date: '',
+}
+
 export const REQUEST_TICKET_DATA: RequestTicketDataProps = {
     job_id: '',
     job_name: '',
     idTelegram: '',
     data: TICKET_REGULER_DATA
 }
+
 
 
 
@@ -124,9 +131,16 @@ export interface KendalaSQMProps {
     problem: string;
     description: string;
 }
+
+export interface TicketInfra {
+    insiden_number: string;
+    description: string;
+    date: string;
+}
+
 export interface RequestTicketDataProps {
     job_id: string,
     job_name: string,
     idTelegram: string;
-    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps | KendalaSQMProps;
+    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps | KendalaSQMProps | TicketInfra;
 }
