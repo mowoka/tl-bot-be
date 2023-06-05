@@ -1,5 +1,5 @@
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA } from './reference';
+import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
 
 
 
@@ -24,8 +24,17 @@ export const checkValidTicketData = (job_name: string): boolean => {
         case 'Proman':
             valid = checkProman();
             break;
-        default:
+        case 'Tiket SQM':
             valid = checkSQM();
+            break;
+        case 'Tiket Kendala SQM':
+            valid = checkKendalaSQM();
+            break;
+        case 'Tiket Infra':
+            valid = checkTiketInfra();
+        // default will be tiket bantek
+        default:
+            valid = checkTiketBantek();
             break;
     }
     return valid;
@@ -79,6 +88,24 @@ function checkSQM(): boolean {
     return true;
 }
 
+function checkKendalaSQM(): boolean {
+    const { insiden_number, speedy_number, customer_name, customer_number, problem, description } = TIKET_KENDALA_SQM;
+    if (!insiden_number || !speedy_number || !customer_name || !customer_number || !problem || !description) return false
+    return true;
+}
+
+function checkTiketInfra(): boolean {
+    const { insiden_number, description, date } = TICKET_INFRA;
+    if (!insiden_number || !description || !date) return false
+    return true;
+}
+
+function checkTiketBantek(): boolean {
+    const { ticket_number, description, date, teknisi_bantek } = TICKET_BANTEK;
+    if (!ticket_number || !description || !date || !teknisi_bantek) return false;
+    return true;
+}
+
 export const validatorTicketData = async (job_name: string, ctx: Context) => {
     switch (job_name) {
         case 'Tiket Reguler':
@@ -99,8 +126,18 @@ export const validatorTicketData = async (job_name: string, ctx: Context) => {
         case 'Proman':
             await PromanValidator(job_name, ctx);
             break;
-        default:
+        case 'Tiket SQM':
             await SQMValidator(job_name, ctx);
+            break;
+        case 'Tiket Kendala SQM':
+            await KendalaSQMValidator(job_name, ctx);
+            break;
+        case 'TiketInfra':
+            await TiketInfraValidator(job_name, ctx);
+            break;
+        // default will be tiket bantek
+        default:
+            await TiketBantekValidator(job_name, ctx);
             break;
     }
 }
@@ -299,7 +336,7 @@ async function PromanValidator(job_name: string, ctx: Context) {
 async function SQMValidator(job_name: string, ctx: Context) {
     const { insiden_number, speedy_number, customer_name, customer_phone, problem, description } = TICKET_SQM_DATA
     if (!insiden_number) {
-        await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+        await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN mokaz (exp: INxxxx01)`, {
             parse_mode: 'HTML',
         })
     } else if (!speedy_number) {
@@ -332,4 +369,99 @@ async function SQMValidator(job_name: string, ctx: Context) {
             ])
         })
     }
+}
+
+async function KendalaSQMValidator(job_name: string, ctx: Context) {
+    const { insiden_number, speedy_number, customer_name, customer_number, problem, description } = TIKET_KENDALA_SQM;
+    if (!insiden_number) {
+        await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!speedy_number) {
+        await ctx.reply(`Masukan speedy number`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!customer_name) {
+        await ctx.reply(`Masukan nama pelanggan`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!customer_number) {
+        await ctx.reply(`Masukan nomor telepone pelanggan`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!problem) {
+        await ctx.reply(`Masukan kendala`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!description) {
+        await ctx.reply(`Masukan keterangan perbaikan`, {
+            parse_mode: 'HTML',
+        })
+    } else {
+        REQUEST_TICKET_DATA.data = TIKET_KENDALA_SQM;
+        await ctx.reply(`Summary ${job_name} \n\nNo IN: ${insiden_number} \n\nNo Speedy: ${speedy_number} \nnama pelanggan: ${customer_name} \npenyebab: ${problem} \nperbaikan: ${description} \n\n jika benar klik submit`, {
+            parse_mode: "HTML",
+            ...Markup.inlineKeyboard([
+                Markup.button.callback('Submit', 'submit'),
+                Markup.button.callback('Cancel', 'cancel')
+            ])
+        })
+    }
+}
+
+async function TiketInfraValidator(job_name: string, ctx: Context) {
+    const { insiden_number, description, date } = TICKET_INFRA;
+    if (!insiden_number) {
+        await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!description) {
+        await ctx.reply(`Masukan keterangan`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!date) {
+        await ctx.reply(`Masukan Tanggal Perbaikan`, {
+            parse_mode: 'HTML',
+        })
+    } else {
+        REQUEST_TICKET_DATA.data = TICKET_INFRA;
+        await ctx.reply(`Summary ${job_name} \n\nNo IN: ${insiden_number} \n\nketerangan: ${description} \n\ntanggal perbaikan: ${date} jika benar klik submit`, {
+            parse_mode: "HTML",
+            ...Markup.inlineKeyboard([
+                Markup.button.callback('Submit', 'submit'),
+                Markup.button.callback('Cancel', 'cancel')
+            ])
+        })
+    }
+}
+
+async function TiketBantekValidator(job_name: string, ctx: Context) {
+    const { ticket_number, description, date, teknisi_bantek } = TICKET_BANTEK;
+    if (!ticket_number) {
+        await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan tiket number`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!description) {
+        await ctx.reply(`Masukan keterangan`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!date) {
+        await ctx.reply(`Masukan Tanggal Bantek`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!teknisi_bantek) {
+        await ctx.reply(`Masukan Teknisi Yang di bantu`, {
+            parse_mode: 'HTML',
+        })
+    } else {
+        REQUEST_TICKET_DATA.data = TICKET_BANTEK;
+        await ctx.reply(`Summary ${job_name} \n\nNo Tiket: ${ticket_number} \n\nketerangan: ${description} \n\ntanggal bantek: ${date} \n\n teknisi yang di bantu: ${teknisi_bantek} jika benar klik submit`, {
+            parse_mode: "HTML",
+            ...Markup.inlineKeyboard([
+                Markup.button.callback('Submit', 'submit'),
+                Markup.button.callback('Cancel', 'cancel')
+            ])
+        })
+    }
+
 }

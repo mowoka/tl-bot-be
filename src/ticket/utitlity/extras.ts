@@ -1,5 +1,5 @@
 import { Context } from 'telegraf';
-import { TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA } from './reference';
+import { TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
 
 export const setRequestTicketData = async (job_name: string, ctx: Context) => {
     switch (job_name) {
@@ -33,8 +33,24 @@ export const setRequestTicketData = async (job_name: string, ctx: Context) => {
                 parse_mode: 'HTML',
             })
             break;
-        default:
+        case 'Tiket SQM':
             await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+                parse_mode: 'HTML',
+            })
+            break;
+        case 'Tiket Kendala SQM':
+            await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+                parse_mode: 'HTML',
+            })
+            break;
+        case 'Tiket Infra':
+            await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+                parse_mode: 'HTML',
+            })
+            break;
+        // defaul will be tiket bantek
+        default:
+            await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan tiket number`, {
                 parse_mode: 'HTML',
             })
             break;
@@ -115,20 +131,54 @@ export const placingMessageTicketData = (job_name: string, message: string) => {
                 TICKET_PROMAN_DATA.opm_length = message;
             }
             break;
-        default:
-            const { insiden_number, speedy_number, customer_name, customer_phone, problem } = TICKET_SQM_DATA;
-            if (!insiden_number) {
+        case 'Tiket SQM':
+            if (!TICKET_SQM_DATA.insiden_number) {
                 TICKET_SQM_DATA.insiden_number = message;
-            } else if (!speedy_number) {
+            } else if (!TICKET_SQM_DATA.speedy_number) {
                 TICKET_SQM_DATA.speedy_number = message;
-            } else if (!customer_name) {
+            } else if (!TICKET_SQM_DATA.customer_name) {
                 TICKET_SQM_DATA.customer_name = message;
-            } else if (!customer_phone) {
+            } else if (!TICKET_SQM_DATA.customer_phone) {
                 TICKET_SQM_DATA.customer_phone = message;
-            } else if (!problem) {
+            } else if (!TICKET_SQM_DATA.problem) {
                 TICKET_SQM_DATA.problem = message;
             } else {
                 TICKET_SQM_DATA.description = message;
+            }
+            break;
+        case 'Tiket Kendala SQM':
+            if (!TIKET_KENDALA_SQM.insiden_number) {
+                TIKET_KENDALA_SQM.insiden_number = message;
+            } else if (!TIKET_KENDALA_SQM.speedy_number) {
+                TIKET_KENDALA_SQM.speedy_number = message;
+            } else if (!TIKET_KENDALA_SQM.customer_name) {
+                TIKET_KENDALA_SQM.customer_name = message;
+            } else if (!TIKET_KENDALA_SQM.customer_number) {
+                TIKET_KENDALA_SQM.customer_number = message;
+            } else if (!TIKET_KENDALA_SQM.problem) {
+                TIKET_KENDALA_SQM.problem = message;
+            } else {
+                TIKET_KENDALA_SQM.description = message;
+            }
+            break;
+        case 'Tiket Infra':
+            if (!TICKET_INFRA.insiden_number) {
+                TICKET_INFRA.insiden_number = message;
+            } else if (!TICKET_INFRA.description) {
+                TICKET_INFRA.description = message;
+            } else {
+                TICKET_INFRA.date = message;
+            }
+        // the deaful will be tiket bantek
+        default:
+            if (!TICKET_BANTEK.ticket_number) {
+                TICKET_BANTEK.ticket_number = message;
+            } else if (!TICKET_BANTEK.description) {
+                TICKET_BANTEK.description = message;
+            } else if (!TICKET_BANTEK.date) {
+                TICKET_BANTEK.date = message;
+            } else {
+                TICKET_BANTEK.teknisi_bantek = message;
             }
             break;
     }
