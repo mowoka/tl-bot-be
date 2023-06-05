@@ -1,3 +1,20 @@
+// register ticket action name in here
+export const TICKET_ACTION_NAME =
+    [
+        'Tiket Reguler',
+        'Lapor Langsung',
+        'Tutup ODP',
+        'Valins',
+        'Unspect',
+        'Proman',
+        'Tiket SQM',
+        'Tiket Kendala SQM',
+        'Tiket Infra',
+        'Tiket Bantek'
+    ];
+
+
+
 export const regex = new RegExp(/[a-z]*([a-z])[a-z]*\1+[a-z]*/);
 
 

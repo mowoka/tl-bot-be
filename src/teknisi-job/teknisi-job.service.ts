@@ -95,4 +95,14 @@ export class TeknisiJobService {
             };
         }
     }
+
+    async get_ticket_action_name() {
+        try {
+            const teknisi_job = await this.prisma.teknisi_job.findMany({})
+            return teknisi_job.map((item) => item.name);
+        } catch (e) {
+            console.log('get_ticket_action_name error', e);
+            return [];
+        }
+    }
 }

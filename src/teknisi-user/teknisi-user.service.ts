@@ -19,6 +19,7 @@ import { ValinsService } from 'src/valins/valins.service';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
 import { excludeUserField } from '@auth/utilities';
+import { TeknisiJobService } from '@teknisi-job/teknisi-job.service';
 
 
 @Injectable()

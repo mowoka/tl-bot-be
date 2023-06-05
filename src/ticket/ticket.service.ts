@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_ACTION_NAME, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
@@ -46,8 +46,9 @@ export class TicketService {
 
   @Command('reset')
   async resetCommand(ctx: Context) {
-    this.resetRequest();
     ctx.reply('reset requesting')
+    this.resetRequest();
+    ctx.reply('reset success, you can /start to submit tiket again');
   }
 
   @On('message')
@@ -76,10 +77,18 @@ export class TicketService {
     if (!isUserTeknisiAvailable) return ctx.reply('Anda belum terdaftar di sistem, mohon contact admin sistem');
     if (!REQUEST_TICKET_DATA.job_name) {
       const teknisi_job = await this.teknisi_service.get_teknisi_job();
-      const tempKeyboardList = [];
-      teknisi_job.data.map((i) => {
-        tempKeyboardList.push([Markup.button.callback(i.name, i.name)])
-      })
+      const tempKeyboardList: any = [];
+      let tempRowKeyboard: any = [];
+
+      teknisi_job.data.forEach((i, index) => {
+        tempRowKeyboard.push(Markup.button.callback(i.name, i.name));
+
+        if (tempRowKeyboard.length === 2 || index === teknisi_job.data.length - 1) {
+          tempKeyboardList.push([...tempRowKeyboard]);
+          tempRowKeyboard = [];
+        }
+      });
+
       ctx.reply('Silahkan Pilih Tiket', {
         parse_mode: "HTML",
         ...Markup.inlineKeyboard(tempKeyboardList),
@@ -89,7 +98,7 @@ export class TicketService {
     }
   }
 
-  @Action(['Tiket Reguler', 'Lapor Langsung', 'Tutup ODP', 'Valins', 'Unspect', 'Proman', 'SQM', 'Kendala SQM'])
+  @Action(TICKET_ACTION_NAME)
   async requestAction(ctx: Context) {
     const res = await this.teknisi_service.get_teknisi_job_by_name(ctx.callbackQuery.data);
     REQUEST_TICKET_DATA.job_id = res.data.id;
