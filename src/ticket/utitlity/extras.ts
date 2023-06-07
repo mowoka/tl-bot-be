@@ -1,5 +1,5 @@
 import { Context } from 'telegraf';
-import { TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
+import { TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TICKET_KENDALA_SQM } from './reference';
 
 export const setRequestTicketData = async (job_name: string, ctx: Context) => {
     switch (job_name) {
@@ -152,18 +152,18 @@ export const placingMessageTicketData = (job_name: string, message: string) => {
             }
             break;
         case 'Tiket Kendala SQM':
-            if (!TIKET_KENDALA_SQM.insiden_number) {
-                TIKET_KENDALA_SQM.insiden_number = message;
-            } else if (!TIKET_KENDALA_SQM.speedy_number) {
-                TIKET_KENDALA_SQM.speedy_number = message;
-            } else if (!TIKET_KENDALA_SQM.customer_name) {
-                TIKET_KENDALA_SQM.customer_name = message;
-            } else if (!TIKET_KENDALA_SQM.customer_number) {
-                TIKET_KENDALA_SQM.customer_number = message;
-            } else if (!TIKET_KENDALA_SQM.problem) {
-                TIKET_KENDALA_SQM.problem = message;
+            if (!TICKET_KENDALA_SQM.insiden_number) {
+                TICKET_KENDALA_SQM.insiden_number = message;
+            } else if (!TICKET_KENDALA_SQM.speedy_number) {
+                TICKET_KENDALA_SQM.speedy_number = message;
+            } else if (!TICKET_KENDALA_SQM.customer_name) {
+                TICKET_KENDALA_SQM.customer_name = message;
+            } else if (!TICKET_KENDALA_SQM.customer_number) {
+                TICKET_KENDALA_SQM.customer_number = message;
+            } else if (!TICKET_KENDALA_SQM.problem) {
+                TICKET_KENDALA_SQM.problem = message;
             } else {
-                TIKET_KENDALA_SQM.description = message;
+                TICKET_KENDALA_SQM.description = message;
             }
             break;
         case 'Tiket Infra':

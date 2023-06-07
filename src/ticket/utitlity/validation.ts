@@ -1,5 +1,5 @@
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
+import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TICKET_KENDALA_SQM } from './reference';
 
 
 
@@ -92,7 +92,7 @@ function checkSQM(): boolean {
 }
 
 function checkKendalaSQM(): boolean {
-    const { insiden_number, speedy_number, customer_name, customer_number, problem, description } = TIKET_KENDALA_SQM;
+    const { insiden_number, speedy_number, customer_name, customer_number, problem, description } = TICKET_KENDALA_SQM;
     if (!insiden_number || !speedy_number || !customer_name || !customer_number || !problem || !description) return false
     return true;
 }
@@ -384,7 +384,7 @@ async function SQMValidator(job_name: string, ctx: Context) {
 }
 
 async function KendalaSQMValidator(job_name: string, ctx: Context) {
-    const { insiden_number, speedy_number, customer_name, customer_number, problem, description } = TIKET_KENDALA_SQM;
+    const { insiden_number, speedy_number, customer_name, customer_number, problem, description } = TICKET_KENDALA_SQM;
     if (!insiden_number) {
         await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
             parse_mode: 'HTML',
@@ -410,7 +410,7 @@ async function KendalaSQMValidator(job_name: string, ctx: Context) {
             parse_mode: 'HTML',
         })
     } else {
-        REQUEST_TICKET_DATA.data = TIKET_KENDALA_SQM;
+        REQUEST_TICKET_DATA.data = TICKET_KENDALA_SQM;
         await ctx.reply(`Summary ${job_name} \n\nNo IN: ${insiden_number} \n\nNo Speedy: ${speedy_number} \nnama pelanggan: ${customer_name} \npenyebab: ${problem} \nperbaikan: ${description} \n\n jika benar klik submit`, {
             parse_mode: "HTML",
             ...Markup.inlineKeyboard([

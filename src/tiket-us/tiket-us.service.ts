@@ -49,7 +49,7 @@ export class TiketUsService {
                 }
             });
 
-            const count_history = await this.prisma.ticket_infra.count({
+            const count_history = await this.prisma.ticket_us.count({
                 where: { idTelegram: idTelegram }
             })
 

@@ -78,7 +78,7 @@ export const TICKET_INFRA: TicketInfra = {
     date: '',
 }
 
-export const TIKET_KENDALA_SQM: KendalaSQMProps = {
+export const TICKET_KENDALA_SQM: KendalaSQMProps = {
     insiden_number: '',
     speedy_number: '',
     customer_name: '',

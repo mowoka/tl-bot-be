@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_ACTION_NAME, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_ACTION_NAME, TICKET_BANTEK, TICKET_INFRA, TICKET_KENDALA_SQM, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
@@ -11,6 +11,10 @@ import { UnspectService } from 'src/unspect/unspect.service';
 import { PromanService } from 'src/proman/proman.service';
 import { SqmService } from 'src/sqm/sqm.service';
 import { TeknisiUserService } from 'src/teknisi-user/teknisi-user.service';
+import { TiketBantekService } from '@tiket-bantek/tiket-bantek.service';
+import { KendalaSqmService } from '@kendala-sqm/kendala-sqm.service';
+import { TiketInfraService } from '@tiket-infra/tiket-infra.service';
+import { TiketUsService } from '@tiket-us/tiket-us.service';
 
 @Update()
 @Injectable()
@@ -24,6 +28,10 @@ export class TicketService {
     private unspect: UnspectService,
     private proman: PromanService,
     private sqm: SqmService,
+    private bantek: TiketBantekService,
+    private kendalaSqm: KendalaSqmService,
+    private infra: TiketInfraService,
+    private tiket_us: TiketUsService,
     private teknisi_user_serv: TeknisiUserService,
   ) { }
 
@@ -162,8 +170,42 @@ export class TicketService {
         } else {
           ctx.reply('failed request ticket to sistem \n contact to admin Developer');
         }
-      } else {
+
+      } else if (job_name === 'Tiket SQM') {
         const res = await this.sqm.submit_sqm(REQUEST_TICKET_DATA, TICKET_SQM_DATA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else if (job_name === 'Tiket Kendala SQM') {
+        const res = await this.kendalaSqm.submit_kendala_sqm(REQUEST_TICKET_DATA, TICKET_KENDALA_SQM);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else if (job_name === 'Tiket Infra') {
+        const res = await this.infra.submit_tiket_infra(REQUEST_TICKET_DATA, TICKET_INFRA);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else if (job_name === 'Tiket US') {
+        const res = await this.tiket_us.submit_tiket_us(REQUEST_TICKET_DATA, TICKET_US);
+        if (res.statusCode === 200) {
+          await this.resetRequest()
+          ctx.reply(res.message);
+        } else {
+          ctx.reply('failed request ticket to sistem \n contact to admin Developer');
+        }
+      } else {
+        // last will be ticket bantek
+        const res = await this.bantek.submit_tiket_bantek(REQUEST_TICKET_DATA, TICKET_BANTEK);
         if (res.statusCode === 200) {
           await this.resetRequest()
           ctx.reply(res.message);

@@ -1,4 +1,4 @@
-import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference'
+import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TICKET_KENDALA_SQM } from './reference'
 export const resetTicketData = () => {
     // request ticket
     REQUEST_TICKET_DATA.job_id = '';
@@ -44,12 +44,12 @@ export const resetTicketData = () => {
     TICKET_VALINS_DATA.valins_id = ''
     TICKET_VALINS_DATA.odp = ''
     // kendala Sqm 
-    TIKET_KENDALA_SQM.insiden_number = ''
-    TIKET_KENDALA_SQM.speedy_number = ''
-    TIKET_KENDALA_SQM.customer_name = ''
-    TIKET_KENDALA_SQM.customer_number = ''
-    TIKET_KENDALA_SQM.problem = ''
-    TIKET_KENDALA_SQM.description = ''
+    TICKET_KENDALA_SQM.insiden_number = ''
+    TICKET_KENDALA_SQM.speedy_number = ''
+    TICKET_KENDALA_SQM.customer_name = ''
+    TICKET_KENDALA_SQM.customer_number = ''
+    TICKET_KENDALA_SQM.problem = ''
+    TICKET_KENDALA_SQM.description = ''
     // tiket infra
     TICKET_INFRA.insiden_number = ''
     TICKET_INFRA.description = ''
