@@ -18,18 +18,20 @@ export class TiketUsService {
                     description,
                     tanggal: date,
                     idTelegram,
-                    teknisi_job_id: job_id
+                    teknisi_job_id: job_id,
                 }
             })
 
             return {
                 status: true,
-                statusCode: 200,
+                statusCode: 201,
                 message: 'Submit ticket us successfull',
                 data: ticket_us
             };
 
         } catch (e) {
+            console.log({ dto, intialDto });
+            console.log(e);
             return {
                 status: false,
                 statusCode: 500,

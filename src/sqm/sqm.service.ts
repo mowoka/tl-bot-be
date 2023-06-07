@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RequestTicketDataProps, TicketSQMProps } from 'src/ticket/utitlity';
-import { TiketRedundantProps } from 'src/tiket-redundant/dto';
-import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 
 @Injectable()
 export class SqmService {
-    constructor(private prisma: PrismaService, private tiket_redundant_serv: TiketRedundantService) { }
+    constructor(private prisma: PrismaService) { }
 
     async submit_sqm(initalDto: RequestTicketDataProps, dto: TicketSQMProps) {
         const { job_id, idTelegram } = initalDto;
@@ -26,19 +24,18 @@ export class SqmService {
             })
             if (sqm) return {
                 status: true,
-                statusCode: 200,
-                message: 'Create sqm successfull',
+                statusCode: 201,
+                message: 'Submit sqm successfull',
                 data: sqm
             };
 
+
+        } catch (e) {
             return {
                 status: false,
                 statusCode: 500,
                 message: 'Internal server error',
             };
-
-        } catch (e) {
-            throw e;
         }
     }
 

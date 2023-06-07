@@ -130,6 +130,8 @@ model user_teknisi {
   ticket_infra          ticket_infra[]
   ticket_bantek         ticket_bantek[]
   ticket_us             ticket_us[]
+
+  @@map("user_teknisi")
 }
 
 // team leader job model
@@ -217,7 +219,7 @@ model ticket_regular {
   updateAt DateTime @updatedAt
 
   insiden_number  String
-  speedy_number   String @unique
+  speedy_number   String
   customer_name   String
   customer_number String
   problem         String
@@ -239,7 +241,7 @@ model ticket_sqm {
   updateAt DateTime @updatedAt
 
   insiden_number  String
-  speedy_number   String @unique
+  speedy_number   String
   customer_name   String
   customer_number String
   problem         String
@@ -356,7 +358,7 @@ model ticket_kendala_sqm {
   updateAt DateTime @updatedAt
 
   insiden_number  String
-  speedy_number   String @unique
+  speedy_number   String
   customer_name   String
   customer_number String
   problem         String

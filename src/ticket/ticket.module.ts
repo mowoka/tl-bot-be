@@ -13,6 +13,10 @@ import { PromanService } from 'src/proman/proman.service';
 import { SqmService } from 'src/sqm/sqm.service';
 import { TeknisiUserService } from 'src/teknisi-user/teknisi-user.service';
 import { TeknisiUserModule } from 'src/teknisi-user/teknisi-user.module';
+import { TiketBantekService } from '@tiket-bantek/tiket-bantek.service';
+import { KendalaSqmService } from '@kendala-sqm/kendala-sqm.service';
+import { TiketInfraService } from '@tiket-infra/tiket-infra.service';
+import { TiketUsService } from '@tiket-us/tiket-us.service';
 
 @Module({
   imports: [
@@ -34,6 +38,10 @@ import { TeknisiUserModule } from 'src/teknisi-user/teknisi-user.module';
     UnspectService,
     PromanService,
     SqmService,
+    KendalaSqmService,
+    TiketInfraService,
+    TiketUsService,
+    TiketBantekService,
     TeknisiUserService
   ],
 })

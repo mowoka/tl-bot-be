@@ -23,7 +23,7 @@ export class TiketBantekService {
             })
             return {
                 status: true,
-                statusCode: 200,
+                statusCode: 201,
                 message: 'Submit Ticket Bantek successfull',
                 data: ticket_infra
             };

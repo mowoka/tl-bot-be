@@ -112,7 +112,7 @@ export class TiketRegulerService {
 
             if (tiket_reguler) return {
                 status: true,
-                statusCode: 200,
+                statusCode: 201,
                 message: 'Create ticket reguler successfull',
                 data: tiket_reguler
             }

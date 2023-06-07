@@ -22,7 +22,7 @@ export class TiketInfraService {
             })
             return {
                 status: true,
-                statusCode: 200,
+                statusCode: 201,
                 message: 'Submit Ticket Infra successfull',
                 data: ticket_infra
             };

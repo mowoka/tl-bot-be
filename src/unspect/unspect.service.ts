@@ -23,8 +23,8 @@ export class UnspectService {
             })
             return {
                 status: true,
-                statusCode: 200,
-                message: 'Create unspect successfull',
+                statusCode: 201,
+                message: 'Submit tiket unspect successfull',
                 data: unspect
             };
         } catch (e) {

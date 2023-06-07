@@ -124,7 +124,7 @@ export class TicketService {
       const { job_name } = REQUEST_TICKET_DATA;
       if (job_name === 'Tiket Reguler') {
         const res = await this.tiket_reguler.submit_tiket_reguler(REQUEST_TICKET_DATA, TICKET_REGULER_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -132,7 +132,7 @@ export class TicketService {
         }
       } else if (job_name === 'Lapor Langsung') {
         const res = await this.lapor_langsung_service.submit_lapor_langsung(REQUEST_TICKET_DATA, TICKET_LAPOR_LANGUSNG_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -140,7 +140,7 @@ export class TicketService {
         }
       } else if (job_name === 'Tutup ODP') {
         const res = await this.tutup_odp.submit_tutup_odp(REQUEST_TICKET_DATA, TICKET_TUTUP_ODP_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -148,7 +148,7 @@ export class TicketService {
         }
       } else if (job_name === 'Valins') {
         const res = await this.valins.submit_valins(REQUEST_TICKET_DATA, TICKET_VALINS_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -156,7 +156,7 @@ export class TicketService {
         }
       } else if (job_name === 'Unspect') {
         const res = await this.unspect.submit_unspect(REQUEST_TICKET_DATA, TICKET_UNSPECT_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -164,7 +164,7 @@ export class TicketService {
         }
       } else if (job_name === 'Proman') {
         const res = await this.proman.submit_proman(REQUEST_TICKET_DATA, TICKET_PROMAN_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -173,7 +173,7 @@ export class TicketService {
 
       } else if (job_name === 'Tiket SQM') {
         const res = await this.sqm.submit_sqm(REQUEST_TICKET_DATA, TICKET_SQM_DATA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -181,7 +181,7 @@ export class TicketService {
         }
       } else if (job_name === 'Tiket Kendala SQM') {
         const res = await this.kendalaSqm.submit_kendala_sqm(REQUEST_TICKET_DATA, TICKET_KENDALA_SQM);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -189,7 +189,7 @@ export class TicketService {
         }
       } else if (job_name === 'Tiket Infra') {
         const res = await this.infra.submit_tiket_infra(REQUEST_TICKET_DATA, TICKET_INFRA);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
@@ -197,16 +197,17 @@ export class TicketService {
         }
       } else if (job_name === 'Tiket US') {
         const res = await this.tiket_us.submit_tiket_us(REQUEST_TICKET_DATA, TICKET_US);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {
+          ctx.reply(res.message);
           ctx.reply('failed request ticket to sistem \n contact to admin Developer');
         }
       } else {
         // last will be ticket bantek
         const res = await this.bantek.submit_tiket_bantek(REQUEST_TICKET_DATA, TICKET_BANTEK);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
           await this.resetRequest()
           ctx.reply(res.message);
         } else {

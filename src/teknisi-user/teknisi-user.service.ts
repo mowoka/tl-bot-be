@@ -19,7 +19,6 @@ import { ValinsService } from 'src/valins/valins.service';
 import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
 import { excludeUserField } from '@auth/utilities';
-import { TeknisiJobService } from '@teknisi-job/teknisi-job.service';
 
 
 @Injectable()
@@ -400,7 +399,7 @@ export class TeknisiUserService {
 
   async check_user_teknisi(idTelegram: string) {
     try {
-      const user_teknisi_available = this.prisma.user_teknisi.findUnique({
+      const user_teknisi_available = await this.prisma.user_teknisi.findUnique({
         where: {
           idTelegram: idTelegram,
         },
