@@ -10,7 +10,8 @@ export const TICKET_ACTION_NAME =
         'Tiket SQM',
         'Tiket Kendala SQM',
         'Tiket Infra',
-        'Tiket Bantek'
+        'Tiket Bantek',
+        'Tiket US',
     ];
 
 
@@ -91,6 +92,13 @@ export const TICKET_BANTEK: TicketBantek = {
     description: '',
     date: '',
     teknisi_bantek: '',
+}
+
+export const TICKET_US: TicketUS = {
+    speedy_number: '',
+    odp: '',
+    description: '',
+    date: '',
 }
 
 export const REQUEST_TICKET_DATA: RequestTicketDataProps = {
@@ -178,9 +186,26 @@ export interface TicketBantek {
     teknisi_bantek: string;
 }
 
+export interface TicketUS {
+    speedy_number: string;
+    odp: string;
+    description: string;
+    date: string
+}
+
 export interface RequestTicketDataProps {
     job_id: string,
     job_name: string,
     idTelegram: string;
-    data: LaporLangsungProps | TutupOdpProps | TicketRegularProps | TicketSQMProps | PromanProps | UnspectProps | ValinsProps | KendalaSQMProps | TicketInfra | TicketBantek;
+    data: LaporLangsungProps |
+    TutupOdpProps |
+    TicketRegularProps |
+    TicketSQMProps |
+    PromanProps |
+    UnspectProps |
+    ValinsProps |
+    KendalaSQMProps |
+    TicketInfra |
+    TicketBantek |
+    TicketUS;
 }

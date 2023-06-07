@@ -27,6 +27,7 @@ import { KendalaSqmModule } from './kendala-sqm/kendala-sqm.module';
 import { TeamLeadUserModule } from './team-lead-user/team-lead-user.module';
 import { TiketInfraModule } from './tiket-infra/tiket-infra.module';
 import { TiketBantekModule } from './tiket-bantek/tiket-bantek.module';
+import { TiketUsModule } from './tiket-us/tiket-us.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { TiketBantekModule } from './tiket-bantek/tiket-bantek.module';
     TeamLeadUserModule,
     TiketInfraModule,
     TiketBantekModule,
+    TiketUsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -181,7 +181,8 @@ export class TicketService {
       ctx.reply('Time out please use /start to start requesting again');
     } else {
       this.resetRequest();
-      ctx.reply('cancel submit');
+      await ctx.reply('cancel submit');
+      await ctx.reply('This bot help you to create ticket ION dashboard \n\n /start to intitilize request \n /help to see availabel command \n /reset reseting data request \n\n *contact admin if you have issue or major bug');
     }
   }
 }

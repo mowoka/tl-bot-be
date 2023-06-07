@@ -1,5 +1,5 @@
 import { Context } from 'telegraf';
-import { TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
+import { TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
 
 export const setRequestTicketData = async (job_name: string, ctx: Context) => {
     switch (job_name) {
@@ -45,6 +45,11 @@ export const setRequestTicketData = async (job_name: string, ctx: Context) => {
             break;
         case 'Tiket Infra':
             await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan IN (exp: INxxxx01)`, {
+                parse_mode: 'HTML',
+            })
+            break;
+        case 'Tiket US':
+            await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan nomer speedy (exp: 131165185739)`, {
                 parse_mode: 'HTML',
             })
             break;
@@ -168,6 +173,16 @@ export const placingMessageTicketData = (job_name: string, message: string) => {
                 TICKET_INFRA.description = message;
             } else {
                 TICKET_INFRA.date = message;
+            }
+        case 'Tiket US':
+            if (!TICKET_US.speedy_number) {
+                TICKET_US.speedy_number = message;
+            } else if (!TICKET_US.odp) {
+                TICKET_US.odp = message;
+            } else if (!TICKET_US.description) {
+                TICKET_US.description = message;
+            } else {
+                TICKET_US.date = message;
             }
         // the deaful will be tiket bantek
         default:

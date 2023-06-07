@@ -1,5 +1,5 @@
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
+import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference';
 
 
 
@@ -32,6 +32,9 @@ export const checkValidTicketData = (job_name: string): boolean => {
             break;
         case 'Tiket Infra':
             valid = checkTiketInfra();
+        case 'Tiket US':
+            valid = checkTiketUS();
+            break;
         // default will be tiket bantek
         default:
             valid = checkTiketBantek();
@@ -106,6 +109,12 @@ function checkTiketBantek(): boolean {
     return true;
 }
 
+function checkTiketUS(): boolean {
+    const { speedy_number, odp, description, date } = TICKET_US;
+    if (!speedy_number || !odp || !description || !date) return false;
+    return true;
+}
+
 export const validatorTicketData = async (job_name: string, ctx: Context) => {
     switch (job_name) {
         case 'Tiket Reguler':
@@ -132,8 +141,11 @@ export const validatorTicketData = async (job_name: string, ctx: Context) => {
         case 'Tiket Kendala SQM':
             await KendalaSQMValidator(job_name, ctx);
             break;
-        case 'TiketInfra':
+        case 'Tiket Infra':
             await TiketInfraValidator(job_name, ctx);
+            break;
+        case 'Tiket US':
+            await TiketUSValidator(job_name, ctx);
             break;
         // default will be tiket bantek
         default:
@@ -464,4 +476,34 @@ async function TiketBantekValidator(job_name: string, ctx: Context) {
         })
     }
 
+}
+
+async function TiketUSValidator(job_name: string, ctx: Context) {
+    const { speedy_number, odp, description, date } = TICKET_US;
+    if (!speedy_number) {
+        await ctx.reply(`Anda memilih <b>${job_name}</b> \nSilahkan masukan nomer speedy (exp: 131165185739)`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!odp) {
+        await ctx.reply(`Masukan ODP`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!description) {
+        await ctx.reply(`Masukan keterangan perbaikan,\n\n balas none atau kosong bila tidak ada keterangan`, {
+            parse_mode: 'HTML',
+        })
+    } else if (!date) {
+        await ctx.reply(`Masukan Tanggal Perbaikan`, {
+            parse_mode: 'HTML',
+        })
+    } else {
+        REQUEST_TICKET_DATA.data = TICKET_US;
+        await ctx.reply(`Summary ${job_name} \n\nNomor speedy: ${speedy_number} \n\nOdp : ${odp} \n\nKeterangan perbaikan: ${description} \n\nTanggal: ${date} \n\njika benar klik submit`, {
+            parse_mode: "HTML",
+            ...Markup.inlineKeyboard([
+                Markup.button.callback('Submit', 'submit'),
+                Markup.button.callback('Cancel', 'cancel')
+            ])
+        })
+    }
 }

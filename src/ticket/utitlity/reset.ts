@@ -1,4 +1,4 @@
-import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference'
+import { REQUEST_TICKET_DATA, TICKET_BANTEK, TICKET_INFRA, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, TIKET_KENDALA_SQM } from './reference'
 export const resetTicketData = () => {
     // request ticket
     REQUEST_TICKET_DATA.job_id = '';
@@ -54,6 +54,11 @@ export const resetTicketData = () => {
     TICKET_INFRA.insiden_number = ''
     TICKET_INFRA.description = ''
     TICKET_INFRA.date = ''
+    // tiket us
+    TICKET_US.speedy_number = ''
+    TICKET_US.odp = ''
+    TICKET_US.description = ''
+    TICKET_US.date = ''
     // tiket bantek
     TICKET_BANTEK.ticket_number = ''
     TICKET_BANTEK.description = ''
