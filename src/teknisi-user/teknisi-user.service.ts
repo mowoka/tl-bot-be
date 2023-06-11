@@ -227,7 +227,34 @@ export class TeknisiUserService {
               teknisi_user_telegram: true,
             },
           },
-          ticket_redundant: {
+          ticket_kendala_sqm: {
+            where: {
+              createAt: { ...paramsChild },
+            },
+            include: {
+              job: true,
+              teknisi_user_telegram: true,
+            },
+          },
+          ticket_bantek: {
+            where: {
+              createAt: { ...paramsChild },
+            },
+            include: {
+              job: true,
+              teknisi_user_telegram: true,
+            },
+          },
+          ticket_infra: {
+            where: {
+              createAt: { ...paramsChild },
+            },
+            include: {
+              job: true,
+              teknisi_user_telegram: true,
+            },
+          },
+          ticket_us: {
             where: {
               createAt: { ...paramsChild },
             },

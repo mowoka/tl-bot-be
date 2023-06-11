@@ -10,3 +10,7 @@ export * from './tutup.odp';
 export * from './unspect';
 export * from './users';
 export * from './valins';
+export * from './bantek';
+export * from './kendala.sqm';
+export * from './infra';
+export * from './us';

@@ -1,4 +1,4 @@
-import { LaporLangsung, Proman, SQM, TiketRedundant, TiketReguler, TiketTeamLead, TutupOdp, Unspect, User, UserResult, Valins } from "../interface";
+import { Bantek, Infra, KendalaSQM, LaporLangsung, Proman, SQM, TiketReguler, TiketTeamLead, TutupOdp, US, Unspect, User, UserResult, Valins } from "../interface";
 
 export const count_kpi = (user: User): UserResult => {
 
@@ -9,7 +9,10 @@ export const count_kpi = (user: User): UserResult => {
     const kpi_proman = countProman(user.ticket_proman);
     const kpi_unspect = countUnspect(user.ticket_unspect);
     const kpi_valins = countValins(user.ticket_valins);
-    const kpi_tiket_redundant = countTiketRedundant(user.ticket_redundant);
+    const kpi_kendala_sqm = countKendalaSqm(user.ticket_kendala_sqm);
+    const kpi_bantek = countBantek(user.ticket_bantek);
+    const kpi_infra = countInfra(user.ticket_infra);
+    const kpi_us = countUS(user.ticket_us);
 
     // logic for count kpi team lead tiket
     const gamas_type_a = user.ticket_team_lead.filter(i => i.team_lead_job_id === 1);
@@ -26,7 +29,7 @@ export const count_kpi = (user: User): UserResult => {
     delete user.ticket_team_lead;
 
     // caount total kpi
-    const kpi = (kpi_lapor_langsung + kpi_tutup_odp + kpi_tiket_reguler + kpi_sqm + kpi_proman + kpi_unspect + kpi_valins + kpi_gamas_type_a + kpi_gamas_type_b + kpi_gamas_type_c + kpi_survey) - kpi_tiket_redundant
+    const kpi = (kpi_lapor_langsung + kpi_tutup_odp + kpi_tiket_reguler + kpi_sqm + kpi_proman + kpi_unspect + kpi_valins + kpi_gamas_type_a + kpi_gamas_type_b + kpi_gamas_type_c + kpi_survey)
 
     return {
         ...user,
@@ -37,7 +40,10 @@ export const count_kpi = (user: User): UserResult => {
         ticket_proman: { name: 'proman', score: kpi_proman },
         ticket_unspect: { name: 'unspect', score: kpi_unspect },
         ticket_valins: { name: 'valins', score: kpi_valins },
-        ticket_redundant: { name: 'ticket_redundant', score: kpi_tiket_redundant },
+        ticket_kendala_sqm: { name: 'kendala_sqm', score: kpi_kendala_sqm },
+        ticket_bantek: { name: 'bantek', score: kpi_bantek },
+        ticket_infra: { name: 'infra', score: kpi_infra },
+        ticket_us: { name: 'us', score: kpi_us },
         gamas_type_a: { name: 'gamas_type_a', score: kpi_gamas_type_a },
         gamas_type_b: { name: 'gamas_type_b', score: kpi_gamas_type_b },
         gamas_type_c: { name: 'gamas_type_c', score: kpi_gamas_type_c },
@@ -51,14 +57,6 @@ function countTiketTeamLead(data: TiketTeamLead[]): number {
     let result = 0;
     data.map((item) => {
         result += item.job.point
-    });
-    return result;
-}
-
-function countTiketRedundant(data: TiketRedundant[]): number {
-    let result = 0;
-    data.map((item) => {
-        result += item.minus_point
     });
     return result;
 }
@@ -108,6 +106,34 @@ function countUnspect(data: Unspect[]): number {
     let result = 0;
     data.map((item) => {
         result += item.job.point
+    });
+    return result;
+}
+function countKendalaSqm(data: KendalaSQM[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
+    });
+    return result;
+}
+function countBantek(data: Bantek[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
+    });
+    return result;
+}
+function countInfra(data: Infra[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
+    });
+    return result;
+}
+function countUS(data: US[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
     });
     return result;
 }

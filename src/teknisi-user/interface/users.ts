@@ -1,11 +1,14 @@
+import { Bantek } from "./bantek";
+import { Infra } from "./infra";
+import { KendalaSQM } from "./kendala.sqm";
 import { LaporLangsung } from "./lapor.langsung";
 import { Proman } from "./proman";
 import { SQM } from "./sqm";
-import { TiketRedundant } from "./tiket.redundant";
 import { TiketReguler } from "./tiket.reguler";
 import { TiketTeamLead } from "./tiket.team.lead";
 import { TutupOdp } from "./tutup.odp";
 import { Unspect } from "./unspect";
+import { US } from "./us";
 import { Valins } from "./valins";
 
 export interface User {
@@ -26,7 +29,10 @@ export interface User {
     ticket_proman: Proman[];
     ticket_unspect: Unspect[];
     ticket_valins: Valins[];
-    ticket_redundant: TiketRedundant[];
+    ticket_kendala_sqm: KendalaSQM[];
+    ticket_bantek: Bantek[];
+    ticket_infra: Infra[];
+    ticket_us: US[];
     ticket_team_lead: TiketTeamLead[];
 }
 
@@ -53,7 +59,10 @@ export interface UserResult {
     ticket_proman: KpiUser;
     ticket_unspect: KpiUser;
     ticket_valins: KpiUser;
-    ticket_redundant: KpiUser;
+    ticket_kendala_sqm: KpiUser;
+    ticket_bantek: KpiUser;
+    ticket_infra: KpiUser;
+    ticket_us: KpiUser;
     gamas_type_a: KpiUser;
     gamas_type_b: KpiUser;
     gamas_type_c: KpiUser;
