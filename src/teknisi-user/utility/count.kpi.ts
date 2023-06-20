@@ -48,7 +48,7 @@ export const count_kpi = (user: User): UserResult => {
         gamas_type_b: { name: 'gamas_type_b', score: kpi_gamas_type_b },
         gamas_type_c: { name: 'gamas_type_c', score: kpi_gamas_type_c },
         survey: { name: 'survey', score: kpi_survey },
-        kpi: kpi / 12,
+        kpi: kpi / 15,
     }
 }
 

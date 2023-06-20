@@ -28,6 +28,9 @@ import { TeamLeadUserModule } from './team-lead-user/team-lead-user.module';
 import { TiketInfraModule } from './tiket-infra/tiket-infra.module';
 import { TiketBantekModule } from './tiket-bantek/tiket-bantek.module';
 import { TiketUsModule } from './tiket-us/tiket-us.module';
+import { TiketGaulRegulerModule } from './tiket-gaul-reguler/tiket-gaul-reguler.module';
+import { TiketGaulSqmModule } from './tiket-gaul-sqm/tiket-gaul-sqm.module';
+import { TiketGaulUsModule } from './tiket-gaul-us/tiket-gaul-us.module';
 
 @Module({
   imports: [
@@ -58,6 +61,9 @@ import { TiketUsModule } from './tiket-us/tiket-us.module';
     TiketInfraModule,
     TiketBantekModule,
     TiketUsModule,
+    TiketGaulRegulerModule,
+    TiketGaulSqmModule,
+    TiketGaulUsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

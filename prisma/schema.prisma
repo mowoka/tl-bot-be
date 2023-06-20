@@ -130,6 +130,9 @@ model user_teknisi {
   ticket_infra          ticket_infra[]
   ticket_bantek         ticket_bantek[]
   ticket_us             ticket_us[]
+  ticket_gaul_reguler   ticket_gaul_reguler[]
+  ticket_gaul_us        ticket_gaul_us[]
+  ticket_gaul_sqm       ticket_gaul_sqm[]
 
   @@map("user_teknisi")
 }
@@ -169,6 +172,9 @@ model teknisi_job {
   ticket_infra         ticket_infra[]
   ticket_bantek        ticket_bantek[]
   ticket_us            ticket_us[]
+  ticket_gaul_reguler  ticket_gaul_reguler[]
+  ticket_gaul_us       ticket_gaul_us[]
+  ticket_gaul_sqm      ticket_gaul_sqm[]
 
   @@map("teknisi_job")
 }
@@ -427,4 +433,65 @@ model ticket_us {
   teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
 
   @@map("ticket_us")
+}
+
+model ticket_gaul_reguler {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number  String
+  speedy_number   String
+  customer_name   String
+  customer_number String
+  problem         String
+  description     String
+
+  teknisi_job_id String
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_gaul_regular")
+}
+
+model ticket_gaul_us {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  speedy_number String
+  odp           String
+  description   String
+  tanggal       String
+
+  teknisi_job_id String
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_gaul_us")
+}
+
+model ticket_gaul_sqm {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  insiden_number  String
+  speedy_number   String
+  customer_name   String
+  customer_number String
+  problem         String
+  description     String
+
+  teknisi_job_id String
+  job            teknisi_job @relation(fields: [teknisi_job_id], references: [id])
+
+  idTelegram            String
+  teknisi_user_telegram user_teknisi @relation(fields: [idTelegram], references: [idTelegram])
+
+  @@map("ticket_gaul_sqm")
 }
