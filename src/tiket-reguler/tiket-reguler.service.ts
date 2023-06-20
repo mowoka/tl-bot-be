@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RequestTicketDataProps, TicketRegularProps } from 'src/ticket/utitlity';
-import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
-import { TiketRedundantProps } from 'src/tiket-redundant/dto';
+import { RequestTicketDataProps, TicketRegularProps, TicketSQMProps } from 'src/ticket/utitlity';
+import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
+import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
 
 @Injectable()
 export class TiketRegulerService {
     constructor(
         private prisma: PrismaService,
-        private tiket_redundant_serv: TiketRedundantService,
+        private ticket_gaul_sqm: TiketGaulSqmService,
+        private ticket_gaul_reguler: TiketGaulRegulerService
     ) { }
 
     async submit_tiket_reguler(initDto: RequestTicketDataProps, dto: TicketRegularProps) {
@@ -16,86 +17,89 @@ export class TiketRegulerService {
         const { insiden_number, speedy_number, customer_name, customer_phone, problem, description } = dto;
         const dateNow = Date.now();
         try {
+            const [ticket_regulers, ticket_sqms] = await Promise.all([
+                // get ticket reguler
+                await this.prisma.ticket_regular.findMany({
+                    where: {
+                        speedy_number
+                    },
+                    orderBy: {
+                        createAt: 'desc'
+                    }
+                }),
+                // get ticket sqm
+                await this.prisma.ticket_sqm.findMany({
+                    where: {
+                        speedy_number
+                    },
+                    orderBy: {
+                        createAt: 'desc',
+                    }
+                }),
+            ]);
             // logic for check if sqm tiket available < 60 days
-            // check SQM tiket
-            const find_tiket_sqm = await this.prisma.ticket_sqm.findMany({
-                where: {
-                    speedy_number
-                },
-                orderBy: {
-                    createAt: 'desc',
-                }
-            })
-
-            if (find_tiket_sqm.length > 0) {
-                const prevTiket = find_tiket_sqm[0];
+            // check SQM tike
+            if (ticket_sqms.length > 0) {
+                const prevTiket = ticket_sqms[0];
                 const prevDate = new Date(prevTiket.createAt).getTime();
                 const countGapDate = dateNow - prevDate;
                 const day = 1000 * 60 * 60 * 24;
                 if ((countGapDate / day) < 60) {
-                    const sendData: TiketRedundantProps = {
+                    const sendData: TicketSQMProps = {
                         insiden_number: insiden_number,
                         speedy_number: speedy_number,
                         customer_name: customer_name,
                         customer_phone: customer_phone,
                         problem: problem,
                         description: description,
-                        job_id: job_id,
-                        idTelegram: prevTiket.idTelegram,
+                    }
+                    try {
+                        await this.ticket_gaul_sqm.submit_tiket_gaul_sqm(job_id, prevTiket.idTelegram, sendData);
+                    } catch (e) {
+                        console.log('error submit tiket gaul sqm', e);
+                        return {
+                            status: false,
+                            statusCode: 500,
+                            message: 'error submit tiket gaul sqm',
+                            data: e
+                        };
                     }
 
-                    const res = await this.tiket_redundant_serv.submit_tiket_redundant(sendData);
-                    if (res.statusCode === 200) {
-                        return {
-                            status: true,
-                            statusCode: 200,
-                            message: 'Create ticket reguler successfull',
-                        }
-                    }
                 }
 
             }
 
             // logic for check if tiket reguler available < 60 days
             // check Reguler tiket
-            const find_ticket_reguler = await this.prisma.ticket_regular.findMany({
-                where: {
-                    speedy_number
-                },
-                orderBy: {
-                    createAt: 'desc'
-                }
-            });
-
-
-            if (find_ticket_reguler.length > 0) {
-                const prevTiket = find_ticket_reguler[0];
+            if (ticket_regulers.length > 0) {
+                const prevTiket = ticket_regulers[0];
                 const prevDate = new Date(prevTiket.createAt).getTime();
                 const countGapDate = dateNow - prevDate;
                 const day = 1000 * 60 * 60 * 24;
                 if ((countGapDate / day) < 60) {
                     // logic for add input user akan d kurangin
-                    const sendData: TiketRedundantProps = {
+                    const sendData: TicketRegularProps = {
                         insiden_number: insiden_number,
                         speedy_number: speedy_number,
                         customer_name: customer_name,
                         customer_phone: customer_phone,
                         problem: problem,
                         description: description,
-                        job_id: prevTiket.idTelegram,
-                        idTelegram: idTelegram,
                     }
-                    // submit to tiket redundant
-                    const res = await this.tiket_redundant_serv.submit_tiket_redundant(sendData);
-                    if (res.statusCode === 200) {
+                    try {
+                        await this.ticket_gaul_reguler.submit_tiket_gaul_reguler(job_id, prevTiket.idTelegram, sendData);
+                    } catch (e) {
+                        console.log('error submit tiket gaul reguler', e);
                         return {
-                            status: true,
-                            statusCode: 200,
-                            message: 'Create ticket reguler successfull',
-                        }
+                            status: false,
+                            statusCode: 500,
+                            message: 'error submit tiket gaul reguler',
+                            data: e
+                        };
                     }
                 }
             }
+
             // logic jika tidak ada tiket terkait maka buat submit baru
             const tiket_reguler = await this.prisma.ticket_regular.create({
                 data: {
