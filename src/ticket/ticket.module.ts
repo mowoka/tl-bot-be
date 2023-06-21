@@ -17,6 +17,9 @@ import { TiketBantekService } from '@tiket-bantek/tiket-bantek.service';
 import { KendalaSqmService } from '@kendala-sqm/kendala-sqm.service';
 import { TiketInfraService } from '@tiket-infra/tiket-infra.service';
 import { TiketUsService } from '@tiket-us/tiket-us.service';
+import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
+import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
+import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
 
 @Module({
   imports: [
@@ -42,7 +45,10 @@ import { TiketUsService } from '@tiket-us/tiket-us.service';
     TiketInfraService,
     TiketUsService,
     TiketBantekService,
-    TeknisiUserService
+    TeknisiUserService,
+    TiketGaulRegulerService,
+    TiketGaulSqmService,
+    TiketGaulUsService
   ],
 })
 export class TicketModule { }

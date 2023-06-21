@@ -9,8 +9,8 @@ import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
 export class TiketRegulerService {
     constructor(
         private prisma: PrismaService,
-        private ticket_gaul_sqm: TiketGaulSqmService,
         private ticket_gaul_reguler: TiketGaulRegulerService,
+        private ticket_gaul_sqm: TiketGaulSqmService,
         private ticket_gaul_us: TiketGaulUsService,
     ) { }
 

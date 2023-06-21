@@ -16,7 +16,6 @@ import { SqmService } from 'src/sqm/sqm.service';
 import { PromanService } from 'src/proman/proman.service';
 import { UnspectService } from 'src/unspect/unspect.service';
 import { ValinsService } from 'src/valins/valins.service';
-import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
 import { excludeUserField } from '@auth/utilities';
 
@@ -32,7 +31,6 @@ export class TeknisiUserService {
     private tiket_proman_serv: PromanService,
     private tiket_unspect_serv: UnspectService,
     private tiket_valins_serv: ValinsService,
-    private tiket_redundant_serv: TiketRedundantService,
     private tiket_team_lead_serv: TiketTeamLeadService,
   ) { }
 
@@ -400,12 +398,6 @@ export class TeknisiUserService {
         return this.tiket_unspect_serv.get_unspect_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
       } else if (params.job_title === 'valins') {
         return this.tiket_valins_serv.get_valins_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
-      } else if (params.job_title === 'tiketredundant') {
-        return this.tiket_redundant_serv.get_tiket_redundant_history(
-          pagination.skip,
-          pagination.take,
-          teknisi_user.idTelegram,
-        );
       } else {
         return this.tiket_team_lead_serv.get_tiket_team_lead_history(
           pagination.skip,

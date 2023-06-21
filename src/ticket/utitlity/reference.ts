@@ -15,7 +15,6 @@ export const TICKET_ACTION_NAME =
     ];
 
 
-
 export const regex = new RegExp(/[a-z]*([a-z])[a-z]*\1+[a-z]*/);
 
 

@@ -9,8 +9,10 @@ import { SqmService } from 'src/sqm/sqm.service';
 import { PromanService } from 'src/proman/proman.service';
 import { UnspectService } from 'src/unspect/unspect.service';
 import { ValinsService } from 'src/valins/valins.service';
-import { TiketRedundantService } from 'src/tiket-redundant/tiket-redundant.service';
 import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
+import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
+import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
+import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
 
 @Module({
   controllers: [TeknisiUserController],
@@ -25,7 +27,9 @@ import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.servic
     UnspectService,
     ValinsService,
     TiketTeamLeadService,
-    TiketRedundantService,
+    TiketGaulRegulerService,
+    TiketGaulSqmService,
+    TiketGaulUsService
   ],
   exports: [TiketTeamLeadService]
 })

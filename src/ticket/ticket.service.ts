@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Action, Command, On, Start, Update, } from 'nestjs-telegraf';
 import { Context, Markup } from 'telegraf';
-import { REQUEST_TICKET_DATA, TICKET_ACTION_NAME, TICKET_BANTEK, TICKET_INFRA, TICKET_KENDALA_SQM, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, checkValidTicketData, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
+import { REQUEST_TICKET_DATA, TICKET_ACTION_NAME, TICKET_BANTEK, TICKET_INFRA, TICKET_KENDALA_SQM, TICKET_LAPOR_LANGUSNG_DATA, TICKET_PROMAN_DATA, TICKET_REGULER_DATA, TICKET_SQM_DATA, TICKET_TUTUP_ODP_DATA, TICKET_UNSPECT_DATA, TICKET_US, TICKET_VALINS_DATA, checkValidTicketData, getTeknisiJobs, placingMessageTicketData, resetTicketData, setRequestTicketData, validatorTicketData } from './utitlity';
 import { TeknisiJobService } from 'src/teknisi-job/teknisi-job.service';
 import { LaporLangsungService } from 'src/lapor-langsung/lapor-langsung.service';
 import { TutupOdpService } from 'src/tutup-odp/tutup-odp.service';
@@ -84,20 +84,21 @@ export class TicketService {
     const isUserTeknisiAvailable = await this.teknisi_user_serv.check_user_teknisi(idTelegram);
     if (!isUserTeknisiAvailable) return ctx.reply('Anda belum terdaftar di sistem, mohon contact admin sistem');
     if (!REQUEST_TICKET_DATA.job_name) {
-      const teknisi_job = await this.teknisi_service.get_teknisi_job();
+      const res = await this.teknisi_service.get_teknisi_job();
+      const teknisi_job = getTeknisiJobs(res.data);
       const tempKeyboardList: any = [];
       let tempRowKeyboard: any = [];
 
-      teknisi_job.data.forEach((i, index) => {
+      teknisi_job.forEach((i, index) => {
         tempRowKeyboard.push(Markup.button.callback(i.name, i.name));
 
-        if (tempRowKeyboard.length === 2 || index === teknisi_job.data.length - 1) {
+        if (tempRowKeyboard.length === 2 || index === teknisi_job.length - 1) {
           tempKeyboardList.push([...tempRowKeyboard]);
           tempRowKeyboard = [];
         }
       });
 
-      ctx.reply('Silahkan Pilih Tiket', {
+      ctx.reply('Silahkan pilih jenis tiket yang akan dilaporkan', {
         parse_mode: "HTML",
         ...Markup.inlineKeyboard(tempKeyboardList),
       })
