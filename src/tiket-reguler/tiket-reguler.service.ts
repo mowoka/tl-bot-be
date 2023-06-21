@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RequestTicketDataProps, TicketRegularProps, TicketSQMProps } from 'src/ticket/utitlity';
+import { RequestTicketDataProps, TicketRegularProps, TicketSQMProps, TicketUS } from 'src/ticket/utitlity';
 import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
 import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
+import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
 
 @Injectable()
 export class TiketRegulerService {
     constructor(
         private prisma: PrismaService,
         private ticket_gaul_sqm: TiketGaulSqmService,
-        private ticket_gaul_reguler: TiketGaulRegulerService
+        private ticket_gaul_reguler: TiketGaulRegulerService,
+        private ticket_gaul_us: TiketGaulUsService,
     ) { }
 
     async submit_tiket_reguler(initDto: RequestTicketDataProps, dto: TicketRegularProps) {
@@ -17,7 +19,7 @@ export class TiketRegulerService {
         const { insiden_number, speedy_number, customer_name, customer_phone, problem, description } = dto;
         const dateNow = Date.now();
         try {
-            const [ticket_regulers, ticket_sqms] = await Promise.all([
+            const [ticket_regulers, ticket_sqms, ticket_uss] = await Promise.all([
                 // get ticket reguler
                 await this.prisma.ticket_regular.findMany({
                     where: {
@@ -36,6 +38,15 @@ export class TiketRegulerService {
                         createAt: 'desc',
                     }
                 }),
+                // get ticket us
+                await this.prisma.ticket_us.findMany({
+                    where: {
+                        speedy_number,
+                    },
+                    orderBy: {
+                        createAt: 'desc'
+                    }
+                })
             ]);
             // logic for check if sqm tiket available < 60 days
             // check SQM tike
@@ -94,6 +105,35 @@ export class TiketRegulerService {
                             status: false,
                             statusCode: 500,
                             message: 'error submit tiket gaul reguler',
+                            data: e
+                        };
+                    }
+                }
+            }
+
+            // logic for check if tiket reguler available < 60 days
+            // check US tiket
+            if (ticket_uss.length > 0) {
+                const prevTiket = ticket_uss[0];
+                const prevDate = new Date(prevTiket.createAt).getTime();
+                const countGapDate = dateNow - prevDate;
+                const day = 1000 * 60 * 60 * 24;
+                if ((countGapDate / day) < 60) {
+                    // logic for add input user akan d kurangin
+                    const sendData: TicketUS = {
+                        speedy_number: speedy_number,
+                        description: description,
+                        odp: prevTiket.odp,
+                        date: prevTiket.tanggal,
+                    }
+                    try {
+                        await this.ticket_gaul_us.submit_tiket_gaul_us(job_id, prevTiket.idTelegram, sendData);
+                    } catch (e) {
+                        console.log('error submit tiket gaul us', e);
+                        return {
+                            status: false,
+                            statusCode: 500,
+                            message: 'error submit tiket gaul us',
                             data: e
                         };
                     }
