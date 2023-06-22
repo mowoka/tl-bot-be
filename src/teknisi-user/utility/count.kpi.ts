@@ -13,6 +13,9 @@ export const count_kpi = (user: User): UserResult => {
     const kpi_bantek = countBantek(user.ticket_bantek);
     const kpi_infra = countInfra(user.ticket_infra);
     const kpi_us = countUS(user.ticket_us);
+    const kpi_gaul_reguler = countGaulReguler(user.ticket_gaul_reguler);
+    const kpi_gaul_sqm = countGaulSqm(user.ticket_gaul_sqm);
+    const kpi_gaul_us = countGaulUS(user.ticket_gaul_us);
 
     // logic for count kpi team lead tiket
     const gamas_type_a = user.ticket_team_lead.filter(i => i.team_lead_job_id === 1);
@@ -29,7 +32,28 @@ export const count_kpi = (user: User): UserResult => {
     delete user.ticket_team_lead;
 
     // caount total kpi
-    const kpi = (kpi_lapor_langsung + kpi_tutup_odp + kpi_tiket_reguler + kpi_sqm + kpi_proman + kpi_unspect + kpi_valins + kpi_gamas_type_a + kpi_gamas_type_b + kpi_gamas_type_c + kpi_survey)
+    const kpi =
+        (
+            kpi_lapor_langsung +
+            kpi_tutup_odp +
+            kpi_tiket_reguler +
+            kpi_sqm +
+            kpi_proman +
+            kpi_unspect +
+            kpi_valins +
+            kpi_gamas_type_a +
+            kpi_gamas_type_b +
+            kpi_gamas_type_c +
+            kpi_kendala_sqm +
+            kpi_bantek +
+            kpi_infra +
+            kpi_us +
+            kpi_survey
+        ) - (
+            kpi_gaul_reguler +
+            kpi_gaul_sqm +
+            kpi_gaul_us
+        )
 
     return {
         ...user,
@@ -44,11 +68,14 @@ export const count_kpi = (user: User): UserResult => {
         ticket_bantek: { name: 'bantek', score: kpi_bantek },
         ticket_infra: { name: 'infra', score: kpi_infra },
         ticket_us: { name: 'us', score: kpi_us },
+        ticket_gaul_reguler: { name: 'gaul_reguler', score: kpi_gaul_reguler },
+        ticket_gaul_sqm: { name: 'gaul_sqm', score: kpi_gaul_sqm },
+        ticket_gaul_us: { name: 'gaul_us', score: kpi_gaul_us },
         gamas_type_a: { name: 'gamas_type_a', score: kpi_gamas_type_a },
         gamas_type_b: { name: 'gamas_type_b', score: kpi_gamas_type_b },
         gamas_type_c: { name: 'gamas_type_c', score: kpi_gamas_type_c },
         survey: { name: 'survey', score: kpi_survey },
-        kpi: kpi / 15,
+        kpi: kpi / 18,
     }
 }
 
@@ -131,6 +158,27 @@ function countInfra(data: Infra[]): number {
     return result;
 }
 function countUS(data: US[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
+    });
+    return result;
+}
+function countGaulReguler(data: TiketReguler[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
+    });
+    return result;
+}
+function countGaulSqm(data: SQM[]): number {
+    let result = 0;
+    data.map((item) => {
+        result += item.job.point;
+    });
+    return result;
+}
+function countGaulUS(data: US[]): number {
     let result = 0;
     data.map((item) => {
         result += item.job.point;

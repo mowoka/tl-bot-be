@@ -270,6 +270,33 @@ export class TeknisiUserService {
               teknisi: true,
             },
           },
+          ticket_gaul_reguler: {
+            where: {
+              createAt: { ...paramsChild },
+            },
+            include: {
+              job: true,
+              teknisi_user_telegram: true,
+            },
+          },
+          ticket_gaul_sqm: {
+            where: {
+              createAt: { ...paramsChild },
+            },
+            include: {
+              job: true,
+              teknisi_user_telegram: true,
+            },
+          },
+          ticket_gaul_us: {
+            where: {
+              createAt: { ...paramsChild },
+            },
+            include: {
+              job: true,
+              teknisi_user_telegram: true,
+            },
+          },
         },
       });
 

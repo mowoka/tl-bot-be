@@ -34,6 +34,9 @@ export interface User {
     ticket_infra: Infra[];
     ticket_us: US[];
     ticket_team_lead: TiketTeamLead[];
+    ticket_gaul_reguler: TiketReguler[];
+    ticket_gaul_sqm: SQM[];
+    ticket_gaul_us: US[];
 }
 
 export interface KpiUser {
@@ -63,6 +66,9 @@ export interface UserResult {
     ticket_bantek: KpiUser;
     ticket_infra: KpiUser;
     ticket_us: KpiUser;
+    ticket_gaul_reguler: KpiUser;
+    ticket_gaul_sqm: KpiUser;
+    ticket_gaul_us: KpiUser;
     gamas_type_a: KpiUser;
     gamas_type_b: KpiUser;
     gamas_type_c: KpiUser;
