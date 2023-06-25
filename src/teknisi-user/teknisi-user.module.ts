@@ -13,6 +13,10 @@ import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.servic
 import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
 import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
 import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
+import { KendalaSqmService } from '@kendala-sqm/kendala-sqm.service';
+import { TiketInfraService } from '@tiket-infra/tiket-infra.service';
+import { TiketUsService } from '@tiket-us/tiket-us.service';
+import { TiketBantekService } from '@tiket-bantek/tiket-bantek.service';
 
 @Module({
   controllers: [TeknisiUserController],
@@ -26,6 +30,10 @@ import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
     PromanService,
     UnspectService,
     ValinsService,
+    KendalaSqmService,
+    TiketInfraService,
+    TiketUsService,
+    TiketBantekService,
     TiketTeamLeadService,
     TiketGaulRegulerService,
     TiketGaulSqmService,

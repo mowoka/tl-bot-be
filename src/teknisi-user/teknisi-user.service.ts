@@ -18,6 +18,13 @@ import { UnspectService } from 'src/unspect/unspect.service';
 import { ValinsService } from 'src/valins/valins.service';
 import { TiketTeamLeadService } from 'src/tiket-team-lead/tiket-team-lead.service';
 import { excludeUserField } from '@auth/utilities';
+import { KendalaSqmService } from '@kendala-sqm/kendala-sqm.service';
+import { TiketInfraService } from '@tiket-infra/tiket-infra.service';
+import { TiketBantekService } from '@tiket-bantek/tiket-bantek.service';
+import { TiketUsService } from '@tiket-us/tiket-us.service';
+import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
+import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
+import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
 
 
 @Injectable()
@@ -31,6 +38,13 @@ export class TeknisiUserService {
     private tiket_proman_serv: PromanService,
     private tiket_unspect_serv: UnspectService,
     private tiket_valins_serv: ValinsService,
+    private tiket_kendala_sqm: KendalaSqmService,
+    private tiket_infra: TiketInfraService,
+    private tiket_bantek: TiketBantekService,
+    private tiket_us: TiketUsService,
+    private tiket_gaul_reguler: TiketGaulRegulerService,
+    private tiket_gaul_sqm: TiketGaulSqmService,
+    private tiket_gaul_us: TiketGaulUsService,
     private tiket_team_lead_serv: TiketTeamLeadService,
   ) { }
 
@@ -403,6 +417,7 @@ export class TeknisiUserService {
       };
 
       const { pagination } = generateParamUserHistory(params);
+
       if (params.job_title === 'laporlangsung') {
         return this.lapor_langsung_serv.get_lapor_langsung_history(
           pagination.skip,
@@ -425,6 +440,20 @@ export class TeknisiUserService {
         return this.tiket_unspect_serv.get_unspect_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
       } else if (params.job_title === 'valins') {
         return this.tiket_valins_serv.get_valins_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketkendalasqm') {
+        return this.tiket_kendala_sqm.get_tiket_kendala_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketinfra') {
+        return this.tiket_infra.get_tiket_infra_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketbantek') {
+        return this.tiket_bantek.get_ticket_bantek_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketus') {
+        return this.tiket_us.get_ticket_us_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketgaulreguler') {
+        return this.tiket_gaul_reguler.get_ticket_gaul_reguler_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketgaulsqm') {
+        return this.tiket_gaul_sqm.get_ticket_gaul_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+      } else if (params.job_title === 'tiketgaulus') {
+        return this.tiket_gaul_us.get_ticket_gaul_us_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
       } else {
         return this.tiket_team_lead_serv.get_tiket_team_lead_history(
           pagination.skip,
