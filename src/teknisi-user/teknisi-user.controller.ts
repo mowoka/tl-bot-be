@@ -61,6 +61,7 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'regional_id', required: false })
     @ApiQuery({ name: 'sector_id', required: false })
     @ApiQuery({ name: 'witel_id', required: false })
+    @ApiQuery({ name: 'teknisi_lead_id', required: false })
     @ApiQuery({ name: 'startDate', required: true })
     @ApiQuery({ name: 'endDate', required: true })
     @ApiQuery({ name: 'page', required: false })
@@ -69,6 +70,7 @@ export class TeknisiUserController {
         @Query('regional_id') regional_id?: string,
         @Query('sector_id') sector_id?: string,
         @Query('witel_id') witel_id?: string,
+        @Query('teknisi_lead_id') teknisi_lead_id?: string,
         @Query('startDate') startDate?: string,
         @Query('endDate') endDate?: string,
         @Query('page') page?: string,
@@ -78,6 +80,7 @@ export class TeknisiUserController {
             regional_id: parseInt(regional_id) ?? 0,
             sector_id: parseInt(sector_id) ?? 0,
             witel_id: parseInt(witel_id) ?? 0,
+            user_id: parseInt(teknisi_lead_id) ?? 0,
             page: page ?? '1',
             createAt: {
                 gte: new Date(startDate) ?? new Date(),

@@ -80,6 +80,14 @@ export const count_kpi = (user: User): UserResult => {
 }
 
 
+export function countMeanKpi(data: UserResult[]): number {
+    const total = data.reduce((acc, user) => {
+        return acc + user.kpi;
+    }, 0);
+
+    return total / data.length;
+}
+
 function countTiketTeamLead(data: TiketTeamLead[]): number {
     let result = 0;
     data.map((item) => {

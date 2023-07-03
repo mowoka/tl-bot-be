@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { User } from './interface';
-import { count_kpi, excludePartnerField, excludeRegionalField, excludeSectorField, excludeWitelField } from './utility';
+import { countMeanKpi, count_kpi, excludePartnerField, excludeRegionalField, excludeSectorField, excludeWitelField } from './utility';
 import {
   generateParamUserHistory,
   generateParamsUserTeknisi,
@@ -164,6 +164,7 @@ export class TeknisiUserService {
     if (!params.regional_id) delete paramsParent.regional_id;
     if (!params.sector_id) delete paramsParent.sector_id;
     if (!params.witel_id) delete paramsParent.witel_id;
+    if (!params.user_id) delete paramsParent.user_id;
     delete paramsParent.createAt;
     delete params.page;
 
@@ -324,6 +325,8 @@ export class TeknisiUserService {
           return count_kpi(user);
         });
 
+        const meanKpi = countMeanKpi(result);
+
         const paginationValue = Math.ceil(count_teknisi_user_report / 10);
 
         const metadata = {
@@ -338,6 +341,9 @@ export class TeknisiUserService {
           message: 'get teknisi user report successfull',
           data: {
             data: result,
+            strategic: {
+              meanKpi: meanKpi
+            },
             metadata,
           },
         };
