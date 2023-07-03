@@ -5,7 +5,7 @@ import { TeknisiUserService } from './teknisi-user.service';
 import { DeleteTeknisiUserDto, TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { BadRequestResponse, ErrorServerResponse } from '@core/types';
-import { MasterFilterResponseType, TeknisiUserResponseType } from './types';
+import { DeleteTeknisiUserResponse, MasterFilterResponseType, TeknisiUserResponseType } from './types';
 import { TeknisiUsersResponseType } from './types/teknisi.users.response';
 
 @ApiTags('Teknisi User')
@@ -106,6 +106,9 @@ export class TeknisiUserController {
 
     @UseGuards(AdminRolesGuard)
     @Delete()
+    @ApiResponse({ status: 200, description: 'Delete Teknisi User Successfull', type: DeleteTeknisiUserResponse })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
+    @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
     delete_user_teknisi(@Body('') dto: DeleteTeknisiUserDto) {
         return this.teknisi_user_service.delete_user_teknisi(dto.teknisi_user_id);
     }

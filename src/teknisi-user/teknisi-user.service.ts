@@ -510,7 +510,7 @@ export class TeknisiUserService {
 
       return {
         status: true,
-        statusCode: 201,
+        statusCode: 200,
         message: 'User teknisi delete successfull',
       };
 
