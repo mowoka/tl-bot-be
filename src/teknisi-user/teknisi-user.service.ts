@@ -160,15 +160,12 @@ export class TeknisiUserService {
     const { pagination } = generateParamsUserTeknisiReport(params.page);
     const paramsParent = params;
     const paramsChild = { ...params.createAt };
-    console.log({ sector_id: params.sector_id, type: typeof params.sector_id });
     if (!params.partner_id) delete paramsParent.partner_id;
     if (!params.regional_id) delete paramsParent.regional_id;
     if (!params.sector_id) delete paramsParent.sector_id;
     if (!params.witel_id) delete paramsParent.witel_id;
     delete paramsParent.createAt;
     delete params.page;
-
-    console.log({ paramsParent });
 
     try {
       const teknisi_users_report = await this.prisma.user_teknisi.findMany({
