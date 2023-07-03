@@ -487,4 +487,41 @@ export class TeknisiUserService {
       return false;
     }
   }
+
+  async delete_user_teknisi(user_teknisi_id: number) {
+    try {
+      const user_teknisi = await this.prisma.user_teknisi.findUnique({
+        where: {
+          id: user_teknisi_id,
+        },
+      });
+
+      if (!user_teknisi) return {
+        status: false,
+        statusCode: 400,
+        message: 'User teknisi not found',
+      };
+
+      await this.prisma.user_teknisi.delete({
+        where: {
+          id: user_teknisi_id,
+        },
+      });
+
+      return {
+        status: true,
+        statusCode: 201,
+        message: 'User teknisi delete successfull',
+      };
+
+    } catch (e) {
+      console.log(e);
+      return {
+        status: false,
+        statusCode: 500,
+        message: 'Internal Server Error',
+        data: e
+      };
+    }
+  }
 }

@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/auth/guards';
+import { AdminRolesGuard, JwtGuard } from 'src/auth/guards';
 import { TeknisiUserService } from './teknisi-user.service';
-import { TeknisiUser } from './dto';
+import { DeleteTeknisiUserDto, TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { BadRequestResponse, ErrorServerResponse } from '@core/types';
 import { MasterFilterResponseType, TeknisiUserResponseType } from './types';
@@ -102,5 +102,11 @@ export class TeknisiUserController {
             page: page ?? '1',
         };
         return this.teknisi_user_service.get_user_teknisi_history(params);
+    }
+
+    @UseGuards(AdminRolesGuard)
+    @Delete()
+    delete_user_teknisi(@Body('') dto: DeleteTeknisiUserDto) {
+        return this.teknisi_user_service.delete_user_teknisi(dto.teknisi_user_id);
     }
 }
