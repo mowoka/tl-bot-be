@@ -65,19 +65,19 @@ export class TeknisiUserController {
     @ApiQuery({ name: 'endDate', required: true })
     @ApiQuery({ name: 'page', required: false })
     get_teknisi_user_report(
-        @Query('partner_id') partner_id?: number,
-        @Query('regional_id') regional_id?: number,
-        @Query('sector_id') sector_id?: number,
-        @Query('witel_id') witel_id?: number,
+        @Query('partner_id') partner_id?: string,
+        @Query('regional_id') regional_id?: string,
+        @Query('sector_id') sector_id?: string,
+        @Query('witel_id') witel_id?: string,
         @Query('startDate') startDate?: string,
         @Query('endDate') endDate?: string,
         @Query('page') page?: string,
     ) {
         const params: TeknisiUserReportParams = {
-            partner_id: partner_id ?? 0,
-            regional_id: regional_id ?? 0,
-            sector_id: sector_id ?? 0,
-            witel_id: witel_id ?? 0,
+            partner_id: parseInt(partner_id) ?? 0,
+            regional_id: parseInt(regional_id) ?? 0,
+            sector_id: parseInt(sector_id) ?? 0,
+            witel_id: parseInt(witel_id) ?? 0,
             page: page ?? '1',
             createAt: {
                 gte: new Date(startDate) ?? new Date(),
