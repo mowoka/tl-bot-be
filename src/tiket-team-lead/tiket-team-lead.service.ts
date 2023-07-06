@@ -46,11 +46,11 @@ export class TiketTeamLeadService {
 
                 let tempHistory;
 
-                if (job_name === 'gamas_type_a') {
+                if (job_name === 'gamastipea') {
                     tempHistory = history.filter((h) => h.team_lead_job_id == 1)
-                } else if (job_name === 'gamas_type_b') {
+                } else if (job_name === 'gamastipeb') {
                     tempHistory = history.filter((h) => h.team_lead_job_id == 2)
-                } else if (job_name === 'gamas_type_c') {
+                } else if (job_name === 'gamastipec') {
                     tempHistory = history.filter((h) => h.team_lead_job_id == 3)
                 } else {
                     tempHistory = history.filter((h) => h.team_lead_job_id == 4)
