@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
-import { User } from './interface';
+import { TeknisiHistoryParams, User } from './interface';
 import { countMeanKpi, count_kpi, excludePartnerField, excludeRegionalField, excludeSectorField, excludeWitelField } from './utility';
 import {
   generateParamUserHistory,
@@ -423,48 +423,51 @@ export class TeknisiUserService {
         message: 'Teknisi user not found',
       };
 
+
       const { pagination } = generateParamUserHistory(params);
+      const teknisiHistoryData: TeknisiHistoryParams = {
+        skip: pagination.skip,
+        take: pagination.take,
+        idTelegram: teknisi_user.idTelegram,
+        gte: params.createAt.gte,
+        lt: params.createAt.lt,
+      }
 
       if (params.job_title === 'laporlangsung') {
         return this.lapor_langsung_serv.get_lapor_langsung_history(
-          pagination.skip,
-          pagination.take,
-          teknisi_user.idTelegram,
+          teknisiHistoryData,
         );
       } else if (params.job_title === 'tutupodp') {
-        return this.tutup_odp_serv.get_tutup_odp_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tutup_odp_serv.get_tutup_odp_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketreguler') {
         return this.tiket_reguler_serv.get_tiket_reguler_history(
-          pagination.skip,
-          pagination.take,
-          teknisi_user.idTelegram,
+          teknisiHistoryData,
         );
       } else if (params.job_title === 'tiketsqm') {
-        return this.tiket_sqm_serv.get_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_sqm_serv.get_sqm_history(teknisiHistoryData);
       } else if (params.job_title === 'proman') {
-        return this.tiket_proman_serv.get_proman_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_proman_serv.get_proman_history(teknisiHistoryData);
       } else if (params.job_title === 'unspect') {
-        return this.tiket_unspect_serv.get_unspect_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_unspect_serv.get_unspect_history(teknisiHistoryData);
       } else if (params.job_title === 'valins') {
-        return this.tiket_valins_serv.get_valins_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_valins_serv.get_valins_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketkendalasqm') {
-        return this.tiket_kendala_sqm.get_tiket_kendala_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_kendala_sqm.get_tiket_kendala_sqm_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketinfra') {
-        return this.tiket_infra.get_tiket_infra_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_infra.get_tiket_infra_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketbantek') {
-        return this.tiket_bantek.get_ticket_bantek_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_bantek.get_ticket_bantek_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketus') {
-        return this.tiket_us.get_ticket_us_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_us.get_ticket_us_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketgaulreguler') {
-        return this.tiket_gaul_reguler.get_ticket_gaul_reguler_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_gaul_reguler.get_ticket_gaul_reguler_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketgaulsqm') {
-        return this.tiket_gaul_sqm.get_ticket_gaul_sqm_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_gaul_sqm.get_ticket_gaul_sqm_history(teknisiHistoryData);
       } else if (params.job_title === 'tiketgaulus') {
-        return this.tiket_gaul_us.get_ticket_gaul_us_history(pagination.skip, pagination.take, teknisi_user.idTelegram);
+        return this.tiket_gaul_us.get_ticket_gaul_us_history(teknisiHistoryData);
       } else {
         return this.tiket_team_lead_serv.get_tiket_team_lead_history(
-          pagination.skip,
-          pagination.take,
+          teknisiHistoryData,
           params.job_title,
           teknisi_user.id,
         );

@@ -93,16 +93,24 @@ export class TeknisiUserController {
     @Get('history')
     @ApiQuery({ name: 'user_id', required: true })
     @ApiQuery({ name: 'job_title', required: true })
+    @ApiQuery({ name: 'startDate', required: true })
+    @ApiQuery({ name: 'endDate', required: true })
     @ApiQuery({ name: 'page', required: false })
     get_teknisi_user_history(
         @Query('user_id') user_id: string,
         @Query('job_title') job_title: string,
+        @Query('startDate') startDate?: string,
+        @Query('endDate') endDate?: string,
         @Query('page') page?: string,
     ) {
         const params: TeknisiUserHistoryParams = {
             user_id: user_id ? parseInt(user_id) : 0,
             job_title: job_title,
             page: page ?? '1',
+            createAt: {
+                gte: new Date(startDate) ?? new Date(),
+                lt: new Date(endDate) ?? new Date(),
+            },
         };
         return this.teknisi_user_service.get_user_teknisi_history(params);
     }

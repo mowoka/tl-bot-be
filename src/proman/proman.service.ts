@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { TeknisiHistoryParams } from '@teknisi-user/interface';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PromanProps, RequestTicketDataProps } from 'src/ticket/utitlity';
 
@@ -39,18 +40,31 @@ export class PromanService {
         }
     }
 
-    async get_proman_history(skip: number, take: number, idTelegram: string) {
+    async get_proman_history(data: TeknisiHistoryParams) {
+        const { skip, take, idTelegram, gte, lt } = data;
         try {
             const history = await this.prisma.ticket_proman.findMany({
                 skip,
                 take,
                 where: {
-                    idTelegram: idTelegram
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
                 }
             })
 
             const count_history = await this.prisma.ticket_proman.count({
-                where: { idTelegram: idTelegram }
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
+                }
             })
 
 

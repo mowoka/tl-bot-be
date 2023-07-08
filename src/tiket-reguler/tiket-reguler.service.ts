@@ -4,6 +4,7 @@ import { RequestTicketDataProps, TicketRegularProps, TicketSQMProps, TicketUS } 
 import { TiketGaulSqmService } from '@tiket-gaul-sqm/tiket-gaul-sqm.service';
 import { TiketGaulRegulerService } from '@tiket-gaul-reguler/tiket-gaul-reguler.service';
 import { TiketGaulUsService } from '@tiket-gaul-us/tiket-gaul-us.service';
+import { TeknisiHistoryParams } from '@teknisi-user/interface';
 
 @Injectable()
 export class TiketRegulerService {
@@ -172,18 +173,31 @@ export class TiketRegulerService {
         }
     }
 
-    async get_tiket_reguler_history(skip: number, take: number, idTelegram: string) {
+    async get_tiket_reguler_history(data: TeknisiHistoryParams) {
+        const { skip, take, idTelegram, gte, lt } = data;
         try {
             const history = await this.prisma.ticket_regular.findMany({
                 skip,
                 take,
                 where: {
-                    idTelegram: idTelegram
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
                 }
             })
 
             const count_history = await this.prisma.ticket_regular.count({
-                where: { idTelegram: idTelegram }
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
+                }
             })
 
             const pagination = Math.ceil(count_history / 10);

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@prisma/prisma.service';
+import { TeknisiHistoryParams } from '@teknisi-user/interface';
 import { TicketUS } from '@ticket/utitlity';
 
 @Injectable()
@@ -37,18 +38,31 @@ export class TiketGaulUsService {
         }
     }
 
-    async get_ticket_gaul_us_history(skip: number, take: number, idTelegram: string) {
+    async get_ticket_gaul_us_history(data: TeknisiHistoryParams) {
+        const { skip, take, idTelegram, gte, lt } = data;
         try {
             const history = await this.prisma.ticket_gaul_us.findMany({
                 skip,
                 take,
                 where: {
-                    idTelegram: idTelegram
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
                 }
             });
 
             const count_history = await this.prisma.ticket_gaul_us.count({
-                where: { idTelegram: idTelegram }
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
+                }
             })
 
             const pagination = Math.ceil(count_history / 10);

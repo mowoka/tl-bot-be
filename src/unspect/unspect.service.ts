@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { TeknisiHistoryParams } from '@teknisi-user/interface';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RequestTicketDataProps, UnspectProps } from 'src/ticket/utitlity';
 
@@ -37,18 +38,31 @@ export class UnspectService {
         }
     }
 
-    async get_unspect_history(skip: number, take: number, idTelegram: string) {
+    async get_unspect_history(data: TeknisiHistoryParams) {
+        const { skip, take, idTelegram, gte, lt } = data;
         try {
             const history = await this.prisma.ticket_unspect.findMany({
                 skip,
                 take,
                 where: {
-                    idTelegram: idTelegram
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
                 }
             })
 
             const count_history = await this.prisma.ticket_unspect.count({
-                where: { idTelegram: idTelegram }
+                skip,
+                take,
+                where: {
+                    idTelegram: idTelegram,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
+                }
             })
 
             const pagination = Math.ceil(count_history / 10);

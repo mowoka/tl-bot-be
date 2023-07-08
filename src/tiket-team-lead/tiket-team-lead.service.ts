@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TiketTeamLeadDto } from './dto';
+import { TeknisiHistoryParams } from '@teknisi-user/interface';
 
 @Injectable()
 export class TiketTeamLeadService {
@@ -32,13 +33,18 @@ export class TiketTeamLeadService {
         }
     }
 
-    async get_tiket_team_lead_history(skip: number, take: number, job_name: string, userId: number) {
+    async get_tiket_team_lead_history(data: TeknisiHistoryParams, job_name: string, userId: number) {
+        const { skip, take, gte, lt } = data;
         try {
             const history = await this.prisma.ticket_team_lead.findMany({
                 skip,
                 take,
                 where: {
-                    teknisi_user_id: userId
+                    teknisi_user_id: userId,
+                    createAt: {
+                        gte,
+                        lt,
+                    },
                 }
             })
 

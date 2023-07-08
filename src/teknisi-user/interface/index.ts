@@ -14,3 +14,4 @@ export * from './bantek';
 export * from './kendala.sqm';
 export * from './infra';
 export * from './us';
+export * from './teknisi.history.params';

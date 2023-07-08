@@ -14,4 +14,10 @@ export class TeknisiUserHistoryParams {
 
     @ApiProperty()
     page: string
+
+    @ApiProperty()
+    createAt: {
+        gte: Date,
+        lt: Date,
+    }
 }
