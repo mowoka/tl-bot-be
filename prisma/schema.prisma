@@ -101,6 +101,7 @@ model user_teknisi {
   nik        String @unique
   name       String
   idTelegram String @unique
+  isActive   Int    @default(0)
 
   partner_id Int
   partner    partner @relation(fields: [partner_id], references: [id])

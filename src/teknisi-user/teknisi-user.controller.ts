@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AdminRolesGuard, JwtGuard } from 'src/auth/guards';
 import { TeknisiUserService } from './teknisi-user.service';
 import { DeleteTeknisiUserDto, TeknisiUser } from './dto';
 import { TeknisiUserHistoryParams, TeknisiUserParams, TeknisiUserReportParams } from './params';
 import { BadRequestResponse, ErrorServerResponse } from '@core/types';
-import { DeleteTeknisiUserResponse, MasterFilterResponseType, TeknisiUserResponseType } from './types';
+import { DeleteTeknisiUserResponse, MasterFilterResponseType, TeknisiUserResponseType, UpdateTeknisiUserResponse } from './types';
 import { TeknisiUsersResponseType } from './types/teknisi.users.response';
 
 @ApiTags('Teknisi User')
@@ -122,5 +122,13 @@ export class TeknisiUserController {
     @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
     delete_user_teknisi(@Body('') dto: DeleteTeknisiUserDto) {
         return this.teknisi_user_service.delete_user_teknisi(dto.teknisi_user_id);
+    }
+
+    @Patch()
+    @ApiResponse({ status: 200, description: 'Update Teknisi User Successfull', type: UpdateTeknisiUserResponse })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: BadRequestResponse, })
+    @ApiResponse({ status: 500, description: 'Internal Server Error', type: ErrorServerResponse, })
+    update_user_teknisi(@Body('') dto: TeknisiUser) {
+        return this.teknisi_user_service.update_user_teknisi(dto);
     }
 }

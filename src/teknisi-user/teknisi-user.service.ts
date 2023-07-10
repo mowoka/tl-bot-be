@@ -175,7 +175,7 @@ export class TeknisiUserService {
         orderBy: {
           createAt: 'desc',
         },
-        where: { ...paramsParent },
+        where: { ...paramsParent, isActive: 1 },
         include: {
           ticket_lapor_langsung: {
             where: {
@@ -388,7 +388,7 @@ export class TeknisiUserService {
           sector_id: dto.sector_id,
           witel_id: dto.witel_id,
           regional_id: dto.regional_id,
-          user_id: dto.user_id
+          user_id: dto.user_id,
         },
       });
 
@@ -530,6 +530,54 @@ export class TeknisiUserService {
         statusCode: 500,
         message: 'Internal Server Error',
         data: e
+      };
+    }
+  }
+
+  async update_user_teknisi(dto: TeknisiUser) {
+    try {
+      const find_teknisi_user_by_nik = await this.prisma.user_teknisi.findUnique({
+        where: {
+          nik: dto.nik,
+        },
+      });
+
+      if (!find_teknisi_user_by_nik) return {
+        statusCode: 400,
+        message: 'Teknisi user not found',
+        status: false,
+      };
+
+      const teknisi_user = await this.prisma.user_teknisi.update({
+        where: {
+          nik: dto.nik,
+        },
+        data: {
+          nik: dto.nik,
+          name: dto.name,
+          idTelegram: dto.idTelegram,
+          partner_id: dto.partner_id,
+          sector_id: dto.sector_id,
+          witel_id: dto.witel_id,
+          regional_id: dto.regional_id,
+          user_id: dto.user_id,
+          isActive: dto.isActive,
+        },
+      });
+
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Update teknisi user create successfull',
+        data: teknisi_user,
+      };
+
+    } catch (e) {
+      return {
+        status: false,
+        statusCode: 500,
+        message: 'Internal Server Errror',
+        data: e,
       };
     }
   }

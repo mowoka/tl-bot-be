@@ -14,7 +14,7 @@ export class TeknisiUser {
 
     @IsString()
     @IsNotEmpty()
-    @ApiProperty({ example: '083821148288' })
+    @ApiProperty({ example: '1499836287' })
     idTelegram: string
 
     @IsNumber()
@@ -36,6 +36,11 @@ export class TeknisiUser {
     @IsNotEmpty()
     @ApiProperty({ example: 1 })
     regional_id: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiProperty({ example: 1 })
+    isActive: number
 
     @IsNumber()
     @IsNotEmpty()
